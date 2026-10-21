@@ -2,830 +2,461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recall — Learn smarter</title>
-<style>
-:root {
-  --bg:#07101e; --panel:#0d1a2d; --panel2:#12233b;
-  --border:#243751; --text:#f0f5ff; --muted:#91a4bf;
-  --blue:#70b4ff; --purple:#9b8cff; --mint:#64ddc2;
-  --red:#ff8585; --radius:16px;
-}
-* {box-sizing:border-box}
-body {margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.5}
-button,input,select,textarea {font:inherit}
-button {cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {outline:2px solid var(--blue);outline-offset:3px}
-a {color:var(--blue)}
-.hidden {display:none!important}
-.muted {color:var(--muted)}
-.small {font-size:.86rem}
-.wrap {width:min(1150px,calc(100% - 32px));margin:auto}
-.btn {border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:10px 15px;border-radius:10px;font-weight:650;transition:.15s}
-.btn:hover {border-color:var(--blue);transform:translateY(-1px)}
-.btn.primary {background:var(--blue);color:#07101e;border-color:var(--blue)}
-.btn.purple {background:var(--purple);color:#07101e;border-color:var(--purple)}
-.btn.danger {color:var(--red)}
-.btn:disabled {opacity:.45;cursor:not-allowed;transform:none}
-header {position:sticky;top:0;z-index:10;background:#07101eeb;backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.topbar {min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand {display:flex;align-items:center;gap:10px;font-size:1.3rem;font-weight:850;letter-spacing:-.7px}
-.logo {width:37px;height:37px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;color:#07101e;font-weight:950;font-size:23px}
-.top-actions {display:flex;gap:9px;align-items:center}
-nav {display:flex;gap:7px;overflow-x:auto;padding:0 0 12px}
-nav button {flex-shrink:0;border:0;background:transparent;color:var(--muted);padding:9px 12px;border-radius:9px}
-nav button.active,nav button:hover {background:var(--panel2);color:var(--text)}
-main {padding:28px 0 70px}
-.page-title {display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
-h1,h2,h3,p {margin-top:0}
-h1 {font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-1.2px;margin-bottom:6px}
-h2 {font-size:1.25rem;letter-spacing:-.4px}
-h3 {font-size:1rem}
-p {color:var(--muted)}
-.grid {display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
-.card {background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;min-width:0}
-.span-12 {grid-column:span 12}.span-8 {grid-column:span 8}.span-6 {grid-column:span 6}.span-4 {grid-column:span 4}
-.stat {font-size:2rem;font-weight:850;letter-spacing:-1px;margin:7px 0}
-.stat-label {font-size:.9rem;color:var(--muted)}
-.hero {padding:clamp(26px,6vw,64px);border:1px solid var(--border);border-radius:25px;background:radial-gradient(ellipse at 85% 5%,#294477 0,transparent 43%),linear-gradient(135deg,#10213a,#0b1424);margin-bottom:22px;overflow:hidden}
-.hero h1 {font-size:clamp(2.5rem,7vw,5rem);line-height:1.03;max-width:720px}
-.hero p {max-width:570px;font-size:1.05rem}
-.accent {color:var(--blue)}
-.hero-actions {display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
-.progress {height:8px;background:#1d2e45;border-radius:99px;overflow:hidden}
-.progress > div {height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--mint));border-radius:99px;transition:width .2s}
-.list {display:flex;flex-direction:column;gap:10px}
-.list-item {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid var(--border);border-radius:12px;background:#0a1627}
-.item-main {min-width:0}
-.item-main strong {display:block;overflow-wrap:anywhere}
-.item-main .muted {font-size:.84rem}
-.item-actions {display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap}
-.pill {display:inline-block;border:1px solid var(--border);border-radius:99px;padding:3px 9px;font-size:.77rem;color:var(--muted)}
-.pill.blue {color:var(--blue);border-color:#355b83}
-.pill.mint {color:var(--mint);border-color:#28645a}
-.pill.purple {color:var(--purple);border-color:#554a8c}
-form {display:grid;gap:12px}
-label {display:grid;gap:6px;color:var(--muted);font-size:.88rem}
-input,select,textarea {width:100%;background:#081424;border:1px solid var(--border);border-radius:10px;padding:11px 12px;color:var(--text);min-width:0}
-textarea {resize:vertical;min-height:85px}
-.form-row {display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.empty {text-align:center;padding:30px 12px;color:var(--muted);border:1px dashed var(--border);border-radius:12px}
-.subject-color {width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px}
-.tree {display:grid;gap:15px}
-.tree-subject {padding:16px;border:1px solid var(--border);border-radius:15px;background:var(--panel)}
-.tree-nodes {display:flex;flex-wrap:wrap;gap:12px;margin-top:13px}
-.skill-node {position:relative;flex:1 1 210px;max-width:100%;padding:15px;border:1px solid var(--border);border-radius:12px;background:#0a1627}
-.skill-node.done {border-color:#347d70;background:#0b211f}
-.skill-node.locked {opacity:.68}
-.skill-node .node-title {font-weight:750;overflow-wrap:anywhere}
-.node-status {font-size:.8rem;color:var(--muted);margin-top:5px}
-.node-prereq {font-size:.78rem;color:var(--muted);margin-top:8px}
-.flashcard {min-height:260px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px;padding:30px;cursor:pointer;background:radial-gradient(ellipse at top right,#203e62,transparent 65%),var(--panel);border:1px solid var(--border);border-radius:20px}
-.flashcard .face-label {font-size:.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--blue)}
-.flashcard .face-text {font-size:clamp(1.3rem,4vw,2rem);font-weight:750;overflow-wrap:anywhere}
-.flashcard .hint {font-size:.83rem;color:var(--muted)}
-.quiz-option {width:100%;text-align:left;padding:13px;border-radius:10px;background:#0a1627;color:var(--text);border:1px solid var(--border);margin:5px 0}
-.quiz-option:hover {border-color:var(--blue)}
-.quiz-option.correct {border-color:var(--mint);background:#10332d}
-.quiz-option.wrong {border-color:var(--red);background:#351c26}
-.quest {display:flex;gap:13px;align-items:flex-start}
-.quest-icon {width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--panel2);color:var(--blue);font-weight:800;flex-shrink:0}
-footer {padding:20px 0 35px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem}
-.notice {padding:12px 14px;border:1px solid #355b83;border-radius:10px;background:#10213a;color:#cce3ff;font-size:.88rem;margin-bottom:16px}
-#toast {position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#e7f5ff;color:#07101e;padding:11px 17px;border-radius:10px;font-weight:700;z-index:50;box-shadow:0 8px 30px #0006;max-width:calc(100% - 30px)}
-hr {border:0;border-top:1px solid var(--border);margin:18px 0}
-@media(max-width:750px) {
- .span-8,.span-6,.span-4 {grid-column:span 12}
- .topbar {min-height:62px}
- .form-row {grid-template-columns:1fr}
- .card {padding:16px}
- .hero {padding:27px}
- .stat {font-size:1.7rem}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Recall — Learn. Remember. Level up.</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #11182b;
+      --panel-2: #151e34;
+      --panel-3: #1b2740;
+      --line: #26334d;
+      --text: #f2f5fb;
+      --muted: #9aa8c0;
+      --accent: #8b9cff;
+      --accent-2: #65dfc0;
+      --gold: #f2c879;
+      --danger: #ff7e91;
+      --radius: 18px;
+      --shadow: 0 18px 50px rgba(0,0,0,.18);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: radial-gradient(ellipse at top left, #17213c 0, var(--bg) 44%);
+      color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .app { display: grid; grid-template-columns: 245px minmax(0, 1fr); min-height: 100vh; }
+    .sidebar {
+      border-right: 1px solid var(--line); padding: 25px 16px; background: rgba(10,15,29,.78);
+      display: flex; flex-direction: column; gap: 28px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px; }
+    .brand-mark { width: 38px; height: 38px; object-fit: contain; display:block; flex: 0 0 38px; }
+    .brand-name { font-size: 20px; font-weight: 750; letter-spacing: -.7px; }
+    .brand-sub { color: var(--muted); font-size: 11px; margin-top: 1px; letter-spacing: .4px; }
+    .nav-label { padding: 0 12px; color: #71809a; text-transform: uppercase; letter-spacing: 1.5px; font-size: 10px; font-weight: 800; margin-bottom: 8px; }
+    .nav { display:flex; flex-direction:column; gap:5px; }
+    .nav-btn { display:flex; align-items:center; gap:12px; width:100%; border:0; background:transparent; color:var(--muted); padding:12px 13px; border-radius:12px; text-align:left; transition:.18s; }
+    .nav-btn:hover { background:var(--panel-2); color:var(--text); }
+    .nav-btn.active { background:#242e4b; color:#fff; box-shadow: inset 3px 0 var(--accent); }
+    .nav-icon { width:20px; text-align:center; font-size:16px; }
+    .side-bottom { margin-top:auto; }
+    .mini-card { background:linear-gradient(145deg,#192441,#121a2e); border:1px solid var(--line); padding:15px; border-radius:15px; }
+    .mini-card strong { display:block; font-size:13px; margin-bottom:5px; }
+    .mini-card p { margin:0 0 12px; color:var(--muted); font-size:12px; line-height:1.5; }
+    .main { min-width:0; padding: 27px clamp(18px,3vw,42px) 50px; max-width: 1600px; width:100%; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:30px; }
+    .eyebrow { color:var(--muted); font-size:12px; letter-spacing:.3px; margin-bottom:6px; }
+    h1 { font-size:clamp(25px,3vw,34px); letter-spacing:-1.1px; margin:0; line-height:1.15; }
+    .top-actions { display:flex; align-items:center; gap:10px; }
+    .search { width:min(240px,25vw); position:relative; }
+    .search input { width:100%; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:11px 13px 11px 36px; color:var(--text); }
+    .search span { position:absolute; left:12px; top:9px; color:var(--muted); }
+    .avatar { width:40px; height:40px; border-radius:13px; background:#273454; color:#dbe1ff; display:grid; place-items:center; font-weight:800; border:1px solid #3a486b; }
+    .page { display:none; }
+    .page.active { display:block; animation:fade .22s ease; }
+    @keyframes fade { from {opacity:.45; transform:translateY(4px)} to {opacity:1;transform:none} }
+    .grid { display:grid; gap:17px; }
+    .stats-grid { grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:20px; }
+    .card { background:linear-gradient(145deg,rgba(20,29,50,.98),rgba(16,23,41,.98)); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); min-width:0; }
+    .stat-top { display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--muted); font-size:12px; }
+    .stat-icon { width:32px; height:32px; display:grid; place-items:center; background:#222e4b; border-radius:10px; font-size:16px; }
+    .stat-value { font-size:29px; font-weight:780; letter-spacing:-1px; margin:13px 0 4px; }
+    .stat-foot { font-size:11px; color:var(--muted); }
+    .accent-text { color:var(--accent-2); }
+    .dashboard-grid { grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr); align-items:start; }
+    .section-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+    .section-head h2 { margin:0; font-size:16px; letter-spacing:-.3px; }
+    .section-head p { margin:5px 0 0; font-size:12px; color:var(--muted); }
+    .text-btn { background:none; border:0; color:var(--accent); font-weight:700; font-size:12px; padding:6px; }
+    .text-btn:hover { color:#c2caff; }
+    .btn { border:1px solid transparent; background:var(--accent); color:#11172b; font-weight:750; padding:10px 14px; border-radius:11px; transition:.18s; }
+    .btn:hover { filter:brightness(1.08); transform:translateY(-1px); }
+    .btn.secondary { background:var(--panel-3); color:var(--text); border-color:#33415e; }
+    .btn.ghost { background:transparent; color:var(--muted); border-color:var(--line); }
+    .btn.danger { background:#442433; color:#ffb5c0; border-color:#623145; }
+    .btn.small { font-size:12px; padding:8px 10px; }
+    .btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+    .quest-list, .activity-list { display:flex; flex-direction:column; gap:10px; }
+    .quest { display:flex; gap:12px; align-items:center; background:#141e33; border:1px solid #25334d; border-radius:13px; padding:13px; }
+    .quest-check { flex:0 0 22px; height:22px; border:1.5px solid #52617f; border-radius:7px; display:grid; place-items:center; color:#0c1722; font-size:13px; }
+    .quest.done .quest-check { background:var(--accent-2); border-color:var(--accent-2); }
+    .quest.done .quest-title { text-decoration:line-through; color:#8e9bb2; }
+    .quest-body { flex:1; min-width:0; }
+    .quest-title { font-size:13px; font-weight:700; }
+    .quest-desc { color:var(--muted); font-size:11px; margin-top:4px; }
+    .xp-pill { color:var(--gold); font-size:11px; font-weight:800; white-space:nowrap; }
+    .progress-track { height:7px; background:#28334c; border-radius:99px; overflow:hidden; }
+    .progress-fill { height:100%; width:0; border-radius:99px; background:linear-gradient(90deg,#7d8cff,#67e0c0); transition:width .3s; }
+    .level-panel { background:linear-gradient(120deg,#222d4c,#17233b); border:1px solid #34415f; border-radius:16px; padding:18px; margin-bottom:17px; }
+    .level-row { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
+    .level-badge { width:47px; height:47px; border-radius:15px; display:grid; place-items:center; background:linear-gradient(145deg,#b9c2ff,#7787ff); color:#11182b; font-weight:900; font-size:19px; }
+    .level-title { font-weight:800; font-size:15px; }
+    .level-sub { color:var(--muted); font-size:11px; margin-top:4px; }
+    .level-xp { font-size:12px; font-weight:700; color:#c8d0ff; }
+    .subject-list { display:flex; flex-direction:column; gap:11px; }
+    .subject-row { display:flex; align-items:center; gap:12px; }
+    .subject-dot { width:39px; height:39px; border-radius:12px; display:grid; place-items:center; font-size:18px; flex-shrink:0; }
+    .subject-info { flex:1; min-width:0; }
+    .subject-name { font-size:13px; font-weight:750; }
+    .subject-meta { font-size:11px; color:var(--muted); margin-top:4px; }
+    .subject-percent { color:var(--muted); font-size:11px; }
+    .subject-progress { margin-top:7px; }
+    .activity-item { display:flex; gap:11px; align-items:flex-start; padding:11px 0; border-bottom:1px solid #243047; }
+    .activity-item:last-child { border-bottom:0; }
+    .activity-icon { width:33px; height:33px; display:grid; place-items:center; border-radius:10px; background:#222d47; }
+    .activity-text { flex:1; font-size:12px; line-height:1.45; }
+    .activity-time { color:var(--muted); font-size:10px; margin-top:3px; }
+    .page-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+    .page-toolbar h2 { font-size:20px; margin:0; letter-spacing:-.5px; }
+    .page-toolbar p { color:var(--muted); font-size:12px; margin:5px 0 0; }
+    .subject-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .subject-card { cursor:pointer; transition:.18s; }
+    .subject-card:hover { transform:translateY(-3px); border-color:#47567a; }
+    .subject-card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+    .subject-big-icon { width:47px; height:47px; display:grid; place-items:center; border-radius:14px; font-size:22px; }
+    .subject-card h3 { margin:0 0 6px; font-size:16px; }
+    .subject-card p { margin:0 0 17px; color:var(--muted); font-size:12px; }
+    .subject-card-foot { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:11px; margin-bottom:9px; }
+    .flash-layout { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr); gap:18px; align-items:start; }
+    .flashcard { min-height:280px; perspective:1000px; cursor:pointer; }
+    .flash-inner { position:relative; min-height:280px; transform-style:preserve-3d; transition:transform .45s; }
+    .flashcard.flipped .flash-inner { transform:rotateY(180deg); }
+    .flash-face { position:absolute; inset:0; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px; border-radius:20px; border:1px solid #3a466a; background:radial-gradient(circle at top right,#2a365a,#141d33 65%); }
+    .flash-face.back { transform:rotateY(180deg); background:radial-gradient(circle at top left,#1d514d,#142a35 72%); }
+    .flash-label { color:var(--accent); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; font-weight:850; margin-bottom:20px; }
+    .flash-face.back .flash-label { color:var(--accent-2); }
+    .flash-question { font-size:clamp(19px,2vw,27px); line-height:1.35; font-weight:750; max-width:580px; }
+    .flash-hint { color:var(--muted); font-size:11px; margin-top:25px; }
+    .flash-controls { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:15px; flex-wrap:wrap; }
+    .flash-count { color:var(--muted); font-size:12px; min-width:60px; text-align:center; }
+    .empty { text-align:center; padding:38px 20px; color:var(--muted); }
+    .empty .empty-icon { font-size:30px; margin-bottom:12px; }
+    .empty h3 { color:var(--text); margin:0 0 7px; font-size:16px; }
+    .empty p { font-size:12px; line-height:1.6; max-width:360px; margin:0 auto 16px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+    .field { display:flex; flex-direction:column; gap:7px; min-width:0; }
+    .field.full { grid-column:1/-1; }
+    .field label { color:#c1cbe0; font-size:12px; font-weight:700; }
+    .field input, .field textarea, .field select { width:100%; background:#0e1526; color:var(--text); border:1px solid #2c3955; border-radius:10px; padding:11px 12px; }
+    .field textarea { resize:vertical; min-height:90px; }
+    .field input::placeholder, .field textarea::placeholder { color:#66748e; }
+    .form-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; }
+    .modal-backdrop { position:fixed; inset:0; background:rgba(3,6,14,.76); z-index:20; display:none; align-items:center; justify-content:center; padding:18px; }
+    .modal-backdrop.open { display:flex; }
+    .modal { width:min(560px,100%); max-height:90vh; overflow:auto; background:#111a2d; border:1px solid #34415d; border-radius:20px; padding:22px; box-shadow:0 30px 100px #0008; }
+    .modal-head { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; }
+    .modal-head h2 { margin:0; font-size:19px; }
+    .icon-btn { border:1px solid var(--line); background:#1b2740; color:var(--muted); width:34px; height:34px; border-radius:10px; }
+    .quiz-layout { display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:18px; align-items:start; }
+    .quiz-option { display:block; width:100%; text-align:left; background:#151f34; border:1px solid #2c3a57; color:var(--text); padding:14px; border-radius:12px; margin-top:9px; }
+    .quiz-option:hover:not(:disabled) { border-color:#8392ff; background:#202b47; }
+    .quiz-option.correct { border-color:#55d6b4; background:#143d3b; }
+    .quiz-option.incorrect { border-color:#ff7e91; background:#432331; }
+    .quiz-feedback { margin-top:14px; padding:12px; border-radius:10px; font-size:12px; line-height:1.5; display:none; }
+    .quiz-feedback.show { display:block; }
+    .quiz-feedback.good { background:#143d35; color:#a5f0dc; }
+    .quiz-feedback.bad { background:#432331; color:#ffc1cb; }
+    .quiz-top { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-bottom:16px; }
+    .quiz-question { font-size:20px; font-weight:750; line-height:1.4; margin-bottom:16px; }
+    .achievement-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .achievement { text-align:center; padding:20px 13px; }
+    .achievement-icon { font-size:28px; margin-bottom:11px; filter:grayscale(1); opacity:.5; }
+    .achievement.unlocked .achievement-icon { filter:none; opacity:1; }
+    .achievement h3 { margin:0 0 6px; font-size:13px; }
+    .achievement p { margin:0; color:var(--muted); font-size:11px; line-height:1.5; }
+    .achievement-status { display:inline-block; margin-top:12px; font-size:10px; color:var(--muted); padding:4px 8px; border-radius:99px; background:#202a40; }
+    .achievement.unlocked .achievement-status { color:#9cebd7; background:#183b3a; }
+    .test-list { display:flex; flex-direction:column; gap:10px; }
+    .test-item { display:flex; align-items:center; gap:13px; padding:14px; border:1px solid var(--line); border-radius:13px; background:#141e32; }
+    .test-date { width:48px; height:51px; border-radius:11px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#25314f; flex-shrink:0; }
+    .test-date strong { font-size:18px; }
+    .test-date span { font-size:9px; color:var(--muted); text-transform:uppercase; }
+    .test-main { flex:1; min-width:0; }
+    .test-main strong { font-size:13px; }
+    .test-main p { margin:4px 0 0; font-size:11px; color:var(--muted); }
+    .test-days { font-size:11px; color:var(--gold); font-weight:750; white-space:nowrap; }
+    .toast { position:fixed; bottom:22px; right:22px; z-index:40; background:#d8e0ff; color:#11172a; padding:13px 17px; border-radius:12px; font-size:13px; font-weight:750; box-shadow:0 12px 35px #0005; opacity:0; transform:translateY(12px); pointer-events:none; transition:.25s; }
+    .toast.show { opacity:1; transform:none; }
+    .muted { color:var(--muted); }
+    .tiny { font-size:11px; color:var(--muted); }
+    .row { display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+    .spacer { flex:1; }
+    .divider { height:1px; background:var(--line); margin:17px 0; }
+    .notice { padding:12px 14px; border-radius:12px; background:#202b43; border:1px solid #33415d; color:#c3cce0; font-size:11px; line-height:1.6; margin-top:14px; }
+    .footer-note { color:#66748e; font-size:10px; text-align:center; margin-top:25px; }
+    @media (max-width:1100px) {
+      .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .dashboard-grid { grid-template-columns:1fr; }
+      .subject-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .achievement-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width:760px) {
+      .app { grid-template-columns:1fr; }
+      .sidebar { padding:12px; border-right:0; border-bottom:1px solid var(--line); gap:12px; }
+      .brand { padding:0 5px; }
+      .sidebar .nav-label, .side-bottom { display:none; }
+      .nav { flex-direction:row; overflow-x:auto; padding-bottom:2px; }
+      .nav-btn { width:auto; flex-shrink:0; padding:10px 12px; font-size:12px; }
+      .nav-icon { width:auto; }
+      .main { padding:20px 14px 35px; }
+      .topbar { align-items:flex-start; margin-bottom:22px; }
+      .search { display:none; }
+      .dashboard-grid, .flash-layout, .quiz-layout { grid-template-columns:1fr; }
+      .subject-grid { grid-template-columns:1fr; }
+      .stats-grid { gap:10px; }
+      .card { padding:16px; border-radius:15px; }
+      .stat-value { font-size:25px; }
+      .form-grid { grid-template-columns:1fr; }
+      .field.full { grid-column:auto; }
+      .test-item { align-items:flex-start; }
+      .test-days { white-space:normal; text-align:right; }
+    }
+    @media (max-width:420px) {
+      .stats-grid { grid-template-columns:1fr 1fr; }
+      .stat-top { font-size:10px; }
+      .stat-icon { width:28px; height:28px; }
+      .stat-value { font-size:23px; }
+      .achievement-grid { grid-template-columns:1fr 1fr; }
+      .topbar h1 { font-size:25px; }
+      .avatar { width:35px; height:35px; }
+    }
+  </style>
 </head>
-<body>
 
-<section id="intro" class="wrap" style="padding-top:12vh;padding-bottom:60px">
-  <div class="hero">
-    <div class="brand" style="margin-bottom:40px"><div class="logo">R</div> Recall</div>
-    <span class="pill blue">YOUR PERSONAL LEARNING SYSTEM</span>
-    <h1 style="margin-top:22px">Learn it.<br><span class="accent">Connect it.</span><br>Recall it.</h1>
-    <p>Turn school subjects into a world of skills, flashcards, quests and progress. Build your own learning system, one concept at a time.</p>
-    <div class="hero-actions">
-      <button class="btn primary" onclick="enterRecall()">Start learning →</button>
-      <button class="btn" onclick="showIntroInfo()">How it works</button>
-    </div>
-    <div id="introInfo" class="hidden" style="margin-top:20px">
-      <div class="grid">
-        <div class="card span-4"><h3>01 · Build</h3><p>Create subjects and break them into individual skills.</p></div>
-        <div class="card span-4"><h3>02 · Practise</h3><p>Write your own flashcards and test yourself with quizzes.</p></div>
-        <div class="card span-4"><h3>03 · Progress</h3><p>Earn XP by studying and completing real activities.</p></div>
-      </div>
-    </div>
-  </div>
-  <p class="small" style="text-align:center">No account required. Your progress is saved in this browser.</p>
-</section>
-
-<div id="application" class="hidden">
-<header>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand"><div class="logo">R</div> Recall</div>
-      <div class="top-actions">
-        <span class="pill purple" id="headerLevel">Level 1</span>
-        <span class="pill blue" id="headerXP">0 XP</span>
-      </div>
-    </div>
-    <nav id="nav">
-      <button class="active" data-page="dashboard">Dashboard</button>
-      <button data-page="subjects">Subjects</button>
-      <button data-page="tree">Skill trees</button>
-      <button data-page="flashcards">Flashcards</button>
-      <button data-page="quizzes">Quizzes</button>
-      <button data-page="quests">Quests</button>
-      <button data-page="progress">Progress</button>
-      <button data-page="settings">Data & backup</button>
-    </nav>
-  </div>
-</header>
-
-<main class="wrap">
-  <div id="page"></div>
-</main>
-<footer><div class="wrap">Recall · Build knowledge that lasts.</div></footer>
-</div>
-<div id="toast" class="hidden"></div>
-
-<script>
-"use strict";
-
-const STORAGE_KEY = "recall_learning_data_v1";
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => [...document.querySelectorAll(selector)];
-
-const makeId = () => "id_" + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
-const escapeHTML = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({
-  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-}[ch]));
-const safeNumber = value => Number.isFinite(Number(value)) ? Number(value) : 0;
-
-function defaultData() {
-  return {
-    version:1,
-    subjects:[],
-    skills:[],
-    cards:[],
-    xp:0,
-    stats:{studied:0,correct:0,wrong:0,quizzes:0,quizCorrect:0,quizQuestions:0},
-    questClaims:[],
-    session:{}
-  };
-}
-
-function loadData() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return defaultData();
-    const data = JSON.parse(saved);
-    const base = defaultData();
-    return {
-      ...base,...data,
-      subjects:Array.isArray(data.subjects)?data.subjects:[],
-      skills:Array.isArray(data.skills)?data.skills:[],
-      cards:Array.isArray(data.cards)?data.cards:[],
-      questClaims:Array.isArray(data.questClaims)?data.questClaims:[],
-      stats:{...base.stats,...(data.stats||{})},
-      session:{}
-    };
-  } catch (error) {
-    console.error("Could not load saved data:",error);
-    return defaultData();
-  }
-}
-
-let data = loadData();
-let currentPage = "dashboard";
-let currentSubjectFilter = "all";
-let currentStudy = [];
-let studyIndex = 0;
-let showingAnswer = false;
-let quiz = null;
-let toastTimer = null;
-
-function saveData() {
-  try {
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-    updateHeader();
-  } catch (error) {
-    notify("Could not save. Your browser storage may be full.");
-    console.error(error);
-  }
-}
-
-function notify(message) {
-  const el = $("#toast");
-  el.textContent = message;
-  el.classList.remove("hidden");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>el.classList.add("hidden"),2600);
-}
-
-function enterRecall() {
-  $("#intro").classList.add("hidden");
-  $("#application").classList.remove("hidden");
-  render();
-}
-
-function showIntroInfo() {
-  $("#introInfo").classList.toggle("hidden");
-}
-
-function levelFromXP(xp) {
-  return Math.floor(Math.max(0,xp)/100)+1;
-}
-
-function updateHeader() {
-  $("#headerLevel").textContent = "Level " + levelFromXP(data.xp);
-  $("#headerXP").textContent = data.xp + " XP";
-}
-
-function awardXP(amount,reason) {
-  data.xp += amount;
-  saveData();
-  if (reason) notify("+"+amount+" XP · "+reason);
-}
-
-function getSubject(id) {
-  return data.subjects.find(s=>s.id===id);
-}
-
-function getSkill(id) {
-  return data.skills.find(s=>s.id===id);
-}
-
-function getCard(id) {
-  return data.cards.find(c=>c.id===id);
-}
-
-function subjectName(id) {
-  return getSubject(id)?.name || "Unknown subject";
-}
-
-function skillName(id) {
-  return getSkill(id)?.name || "No skill";
-}
-
-function cardsForSubject(subjectId) {
-  return data.cards.filter(c=>subjectId==="all"||c.subjectId===subjectId);
-}
-
-function isSkillUnlocked(skill) {
-  return (skill.prerequisites||[]).every(id=>data.skills.some(s=>s.id===id && s.mastered));
-}
-
-function getQuests() {
-  const today = new Date().toISOString().slice(0,10);
-  return [
-    {id:"study5",title:"Warm-up",description:"Study 5 flashcards.",target:5,progress:Math.min(5,data.stats.studied),reward:20},
-    {id:"study20",title:"Repetition pays",description:"Study 20 flashcards in total.",target:20,progress:Math.min(20,data.stats.studied),reward:50},
-    {id:"createSubject",title:"Build your world",description:"Create your first subject.",target:1,progress:Math.min(1,data.subjects.length),reward:25},
-    {id:"createSkill",title:"Think in concepts",description:"Create 3 skills across your subjects.",target:3,progress:Math.min(3,data.skills.length),reward:35},
-    {id:"createCards",title:"Make your own deck",description:"Create 5 flashcards.",target:5,progress:Math.min(5,data.cards.length),reward:30},
-    {id:"quiz1",title:"Test your knowledge",description:"Complete a quiz with at least 3 questions.",target:1,progress:Math.min(1,data.stats.quizzes),reward:35},
-    {id:"correct10",title:"Accuracy matters",description:"Answer 10 quiz questions correctly.",target:10,progress:Math.min(10,data.stats.quizCorrect),reward:50},
-    {id:"masterSkill",title:"Unlock the next level",description:"Mark a skill as mastered after practising it.",target:1,progress:Math.min(1,data.skills.filter(s=>s.mastered).length),reward:25}
-  ];
-}
-
-function claimCompletedQuests() {
-  const completed = getQuests().filter(q=>q.progress>=q.target&&!data.questClaims.includes(q.id));
-  if (!completed.length) return;
-  for (const q of completed) {
-    data.questClaims.push(q.id);
-    data.xp += q.reward;
-  }
-  saveData();
-  setTimeout(()=>notify("Quest completed: +"+completed.reduce((sum,q)=>sum+q.reward,0)+" bonus XP"),100);
-}
-
-function render() {
-  updateHeader();
-  $$("#nav button").forEach(button=>button.classList.toggle("active",button.dataset.page===currentPage));
-  const views = {
-    dashboard:renderDashboard,
-    subjects:renderSubjects,
-    tree:renderTree,
-    flashcards:renderFlashcards,
-    quizzes:renderQuizzes,
-    quests:renderQuests,
-    progress:renderProgress,
-    settings:renderSettings
-  };
-  $("#page").innerHTML = (views[currentPage]||renderDashboard)();
-  bindPageEvents();
-}
-
-$("#nav").addEventListener("click",event=>{
-  const button = event.target.closest("button[data-page]");
-  if (!button) return;
-  currentPage = button.dataset.page;
-  quiz = null;
-  render();
-});
-
-function pageTitle(title,description,action="") {
-  return `<div class="page-title"><div><h1>${title}</h1><p>${description}</p></div>${action}</div>`;
-}
-
-function subjectOptions(selected="") {
-  return data.subjects.map(s=>`<option value="${s.id}" ${s.id===selected?"selected":""}>${escapeHTML(s.name)}</option>`).join("");
-}
-
-function skillOptions(subjectId,selected="",includeNone=true) {
-  const skills = data.skills.filter(s=>!subjectId||s.subjectId===subjectId);
-  return (includeNone?`<option value="">No specific skill</option>`:"")+
-    skills.map(s=>`<option value="${s.id}" ${s.id===selected?"selected":""}>${escapeHTML(subjectName(s.subjectId))} · ${escapeHTML(s.name)}</option>`).join("");
-}
-
-function renderDashboard() {
-  const mastered=data.skills.filter(s=>s.mastered).length;
-  const skillPercent=data.skills.length?Math.round(mastered/data.skills.length*100):0;
-  const dueQuests=getQuests().filter(q=>q.progress>=q.target&&!data.questClaims.includes(q.id));
-  const recentCards=data.cards.slice(-4).reverse();
-  return `
-    <section class="hero">
-      <span class="pill blue">YOUR LEARNING SPACE</span>
-      <h1 style="margin-top:15px">Make progress<br><span class="accent">visible.</span></h1>
-      <p>Every concept you learn is another step forward. Add your subjects, build connections between skills, and practise what matters.</p>
-      <div class="hero-actions">
-        <button class="btn primary" data-go="flashcards">Study flashcards</button>
-        <button class="btn" data-go="subjects">Manage subjects</button>
-        <button class="btn" data-go="tree">Open skill trees</button>
-      </div>
-    </section>
-    <div class="grid">
-      <div class="card span-4"><div class="stat-label">Total XP</div><div class="stat">${data.xp}</div><div class="progress"><div style="width:${data.xp%100}%"></div></div><p class="small" style="margin:8px 0 0">Level ${levelFromXP(data.xp)} · ${100-data.xp%100} XP to next level</p></div>
-      <div class="card span-4"><div class="stat-label">Flashcards studied</div><div class="stat">${data.stats.studied}</div><p class="small">Keep revisiting what you've learned.</p></div>
-      <div class="card span-4"><div class="stat-label">Skills mastered</div><div class="stat">${mastered}/${data.skills.length}</div><div class="progress"><div style="width:${skillPercent}%"></div></div></div>
-      <div class="card span-6"><h2>Your subjects</h2>
-        ${data.subjects.length?`<div class="list">${data.subjects.slice(0,5).map(s=>`<div class="list-item"><div class="item-main"><strong><span class="subject-color" style="background:${escapeHTML(s.color||"#70b4ff")}"></span>${escapeHTML(s.name)}</strong><span class="muted">${data.skills.filter(sk=>sk.subjectId===s.id).length} skills · ${data.cards.filter(c=>c.subjectId===s.id).length} flashcards</span></div><button class="btn" data-open-subject="${s.id}">Open</button></div>`).join("")}</div>`:`<div class="empty">No subjects yet. Create your first subject to begin.</div>`}
-        <button class="btn" style="margin-top:13px" data-go="subjects">View all subjects</button>
-      </div>
-      <div class="card span-6"><h2>Quest board</h2>
-        ${dueQuests.length?`<div class="notice">You have ${dueQuests.length} quest${dueQuests.length===1?"":"s"} ready to claim. Open Quests to collect your XP.</div>`:""}
-        <div class="list">${getQuests().filter(q=>!data.questClaims.includes(q.id)).slice(0,4).map(q=>`<div><div style="display:flex;justify-content:space-between;gap:10px"><strong>${escapeHTML(q.title)}</strong><span class="pill purple">+${q.reward} XP</span></div><p class="small" style="margin:3px 0 7px">${escapeHTML(q.description)}</p><div class="progress"><div style="width:${Math.min(100,q.progress/q.target*100)}%"></div></div></div>`).join("")}</div>
-        <button class="btn" style="margin-top:13px" data-go="quests">Open quests</button>
-      </div>
-      <div class="card span-12"><h2>Recently added flashcards</h2>
-        ${recentCards.length?`<div class="list">${recentCards.map(c=>`<div class="list-item"><div class="item-main"><strong>${escapeHTML(c.front)}</strong><span class="muted">${escapeHTML(subjectName(c.subjectId))} · ${escapeHTML(c.back.slice(0,80))}</span></div></div>`).join("")}</div>`:`<div class="empty">Your flashcards will appear here. Add your own questions and answers.</div>`}
-      </div>
-    </div>`;
-}
-
-function renderSubjects() {
-  return pageTitle("Subjects","Organise your learning into subjects.")+`
-    <div class="grid">
-      <div class="card span-4"><h2>Create a subject</h2>
-        <form id="subjectForm">
-          <label>Subject name<input name="name" placeholder="e.g. Mathematics" required maxlength="70"></label>
-          <label>Colour<select name="color"><option value="#70b4ff">Blue</option><option value="#9b8cff">Purple</option><option value="#64ddc2">Mint</option><option value="#ffbf69">Orange</option><option value="#ff8585">Red</option></select></label>
-          <button class="btn primary">Create subject</button>
-        </form>
-      </div>
-      <div class="card span-8"><h2>Your subjects (${data.subjects.length})</h2>
-        ${data.subjects.length?`<div class="list">${data.subjects.map(s=>`<div class="list-item"><div class="item-main"><strong><span class="subject-color" style="background:${escapeHTML(s.color)}"></span>${escapeHTML(s.name)}</strong><span class="muted">${data.skills.filter(sk=>sk.subjectId===s.id).length} skills · ${data.cards.filter(c=>c.subjectId===s.id).length} flashcards</span></div><div class="item-actions"><button class="btn" data-view-tree="${s.id}">Skill tree</button><button class="btn danger" data-delete-subject="${s.id}">Delete</button></div></div>`).join("")}</div>`:`<div class="empty">Your subjects will appear here.</div>`}
-      </div>
-    </div>`;
-}
-
-function renderTree() {
-  const subjectGroups=data.subjects.map(subject=>{
-    const skills=data.skills.filter(s=>s.subjectId===subject.id);
-    const nodes=skills.map(skill=>{
-      const unlocked=isSkillUnlocked(skill);
-      const prereq=(skill.prerequisites||[]).map(id=>getSkill(id)?.name).filter(Boolean);
-      return `<div class="skill-node ${skill.mastered?"done":unlocked?"":"locked"}">
-        <div class="node-title">${skill.mastered?"✓ ":unlocked?"◇ ":"🔒 "}${escapeHTML(skill.name)}</div>
-        <div class="node-status">${skill.mastered?"Mastered":unlocked?"Available":"Prerequisites incomplete"}</div>
-        ${skill.description?`<p class="small" style="margin:7px 0 0">${escapeHTML(skill.description)}</p>`:""}
-        ${prereq.length?`<div class="node-prereq">Requires: ${escapeHTML(prereq.join(", "))}</div>`:""}
-        <div class="item-actions" style="margin-top:12px">
-          ${!skill.mastered?`<button class="btn" data-master="${skill.id}" ${unlocked?"":"disabled"}>Mark mastered</button>`:`<span class="pill mint">Completed</span>`}
-          <button class="btn danger" data-delete-skill="${skill.id}">Delete</button>
-        </div>
-      </div>`;
-    }).join("");
-    return `<section class="tree-subject"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="margin:0"><span class="subject-color" style="background:${escapeHTML(subject.color)}"></span>${escapeHTML(subject.name)}</h2><span class="pill">${skills.filter(s=>s.mastered).length}/${skills.length} mastered</span></div>${skills.length?`<div class="tree-nodes">${nodes}</div>`:`<div class="empty" style="margin-top:12px">No skills yet. Add concepts below to build this skill tree.</div>`}</section>`;
-  }).join("");
-  return pageTitle("Skill trees","Break every subject into concepts. Add prerequisites to show which skills unlock others.")+`
-    <div class="grid">
-      <div class="card span-4"><h2>Add a skill</h2>
-        ${data.subjects.length?`<form id="skillForm">
-          <label>Subject<select name="subjectId" id="skillSubject" required>${subjectOptions()}</select></label>
-          <label>Skill name<input name="name" placeholder="e.g. Pythagoras' theorem" maxlength="90" required></label>
-          <label>Description (optional)<textarea name="description" placeholder="What should you know or be able to do?"></textarea></label>
-          <label>Prerequisite skills<select name="prerequisites" id="skillPrereqs" multiple size="5"></select><span class="small">Use Ctrl (Windows) or Cmd (Mac) to select multiple. Leave blank if this is a starting skill.</span></label>
-          <button class="btn primary">Add skill</button>
-        </form>`:`<div class="empty">Create a subject first.</div>`}
-        <hr><p class="small">A skill unlocks when every prerequisite has been marked as mastered. This lets you create learning paths in any subject.</p>
-      </div>
-      <div class="span-8"><div class="tree">${subjectGroups||`<div class="empty">Create a subject to start building your skill tree.</div>`}</div></div>
-    </div>`;
-}
-
-function refreshPrereqOptions() {
-  const subjectId=$("#skillSubject")?.value;
-  const select=$("#skillPrereqs");
-  if(!select)return;
-  select.innerHTML=data.skills.filter(s=>s.subjectId===subjectId).map(s=>`<option value="${s.id}" ${s.mastered?"":" "}>${escapeHTML(s.name)}${s.mastered?" ✓":""}</option>`).join("");
-}
-
-function renderFlashcards() {
-  if(currentStudy.length) return renderStudySession();
-  return pageTitle("Flashcards","Write your own questions and answers, then practise active recall.")+`
-    <div class="grid">
-      <div class="card span-4"><h2>Create a flashcard</h2>
-        ${data.subjects.length?`<form id="cardForm">
-          <label>Subject<select name="subjectId" id="cardSubject" required>${subjectOptions()}</select></label>
-          <label>Related skill (optional)<select name="skillId" id="cardSkill"><option value="">No specific skill</option>${skillOptions(data.subjects[0]?.id)}</select></label>
-          <label>Question / front<input name="front" placeholder="e.g. What is a² + b² = c²?" maxlength="500" required></label>
-          <label>Answer / back<textarea name="back" placeholder="Write the answer in your own words." maxlength="3000" required></textarea></label>
-          <button class="btn primary">Add flashcard</button>
-        </form>`:`<div class="empty">Create a subject before adding flashcards.</div>`}
-      </div>
-      <div class="card span-8"><h2>Study your cards</h2>
-        ${data.cards.length?`
-          <label>Filter by subject<select id="studyFilter"><option value="all">All subjects</option>${subjectOptions(currentSubjectFilter==="all"?"":currentSubjectFilter)}</select></label>
-          <div class="grid" style="margin-top:14px">
-            <div class="card span-4"><div class="stat">${cardsForSubject(currentSubjectFilter).length}</div><div class="stat-label">Cards in this deck</div></div>
-            <div class="card span-8"><p>Study cards one at a time. Try to answer before revealing the back.</p><button class="btn primary" id="startStudy">Start studying</button></div>
-          </div>
-          <hr>
-          <div class="list">${cardsForSubject(currentSubjectFilter).map(c=>`<div class="list-item"><div class="item-main"><strong>${escapeHTML(c.front)}</strong><span class="muted">${escapeHTML(subjectName(c.subjectId))} · ${escapeHTML(c.back.slice(0,90))}</span></div><div class="item-actions"><button class="btn danger" data-delete-card="${c.id}">Delete</button></div></div>`).join("")}</div>
-        `:`<div class="empty">No flashcards yet. Create some questions and answers to start practising.</div>`}
-      </div>
-    </div>`;
-}
-
-function renderStudySession() {
-  const card=currentStudy[studyIndex];
-  if(!card)return `<div class="card"><h2>Session complete</h2><p>You've reached the end of this deck.</p><button class="btn primary" id="finishStudy">Finish session</button></div>`;
-  return pageTitle("Study session",`Card ${studyIndex+1} of ${currentStudy.length} · ${escapeHTML(subjectName(card.subjectId))}`)+`
-    <div style="max-width:750px;margin:0 auto">
-      <div class="flashcard" id="flipCard" role="button" tabindex="0" aria-label="Reveal flashcard answer">
-        <div class="face-label">${showingAnswer?"Answer":"Question"}</div>
-        <div class="face-text">${escapeHTML(showingAnswer?card.back:card.front)}</div>
-        <div class="hint">${showingAnswer?"Did you remember it?":"Click or press Enter to reveal the answer."}</div>
-      </div>
-      ${showingAnswer?`<div class="grid" style="margin-top:14px">
-        <div class="span-6"><button class="btn" style="width:100%" id="studyAgain">Practise again</button></div>
-        <div class="span-6"><button class="btn primary" style="width:100%" id="studyKnown">I knew it →</button></div>
-      </div>`:`<button class="btn primary" style="width:100%;margin-top:14px" id="revealAnswer">Reveal answer</button>`}
-      <button class="btn" style="width:100%;margin-top:10px" id="exitStudy">End session</button>
-    </div>`;
-}
-
-function renderQuizzes() {
-  if(quiz) return renderActiveQuiz();
-  return pageTitle("Quizzes","Test yourself using the flashcards you've written.")+`
-    <div class="grid">
-      <div class="card span-6"><h2>Start a quiz</h2>
-        ${data.cards.length>=2?`<form id="quizForm">
-          <label>Subject<select name="subjectId"><option value="all">All subjects</option>${subjectOptions()}</select></label>
-          <label>Number of questions<select name="count"><option value="5">5 questions</option><option value="10">10 questions</option><option value="15">15 questions</option><option value="all">All available cards</option></select></label>
-          <p class="small">Questions use your own flashcards. Each question asks for the answer to a card's front.</p>
-          <button class="btn primary">Start quiz</button>
-        </form>`:`<div class="empty">Add at least 2 flashcards to start a quiz. Four or more cards make better multiple-choice questions.</div>`}
-      </div>
-      <div class="card span-6"><h2>Your results</h2>
-        <div class="grid">
-          <div class="card span-6"><div class="stat">${data.stats.quizzes}</div><div class="stat-label">Quizzes completed</div></div>
-          <div class="card span-6"><div class="stat">${data.stats.quizQuestions?Math.round(data.stats.quizCorrect/data.stats.quizQuestions*100):0}%</div><div class="stat-label">Correct answers</div></div>
-        </div>
-      </div>
-    </div>`;
-}
-
-function renderActiveQuiz() {
-  if(quiz.finished) {
-    const pct=quiz.total?Math.round(quiz.score/quiz.total*100):0;
-    return `<div class="card" style="max-width:760px;margin:auto;text-align:center;padding:35px">
-      <span class="pill mint">QUIZ COMPLETE</span><h1 style="margin-top:15px">${pct}%</h1>
-      <p>You answered ${quiz.score} out of ${quiz.total} questions correctly.</p>
-      <div class="progress" style="margin:20px 0"><div style="width:${pct}%"></div></div>
-      <p class="small">+${quiz.xpEarned} XP earned from correct answers.</p>
-      <button class="btn primary" id="finishQuiz">Back to quizzes</button>
-    </div>`;
-  }
-  const q=quiz.questions[quiz.index];
-  return pageTitle("Quiz",`Question ${quiz.index+1} of ${quiz.questions.length}`)+`
-    <div class="card" style="max-width:760px;margin:auto">
-      <div class="progress" style="margin-bottom:20px"><div style="width:${quiz.index/quiz.questions.length*100}%"></div></div>
-      <span class="pill blue">${escapeHTML(subjectName(q.subjectId))}</span>
-      <h2 style="font-size:1.6rem;margin-top:18px">${escapeHTML(q.front)}</h2>
-      <p>Choose the correct answer.</p>
-      <div id="quizOptions">${q.options.map((option,i)=>`<button class="quiz-option" data-option="${i}">${escapeHTML(option.text)}</button>`).join("")}</div>
-      <div id="quizFeedback" class="hidden notice" style="margin-top:14px"></div>
-      <button class="btn primary hidden" id="nextQuestion" style="margin-top:12px">${quiz.index===quiz.questions.length-1?"See results":"Next question →"}</button>
-    </div>`;
-}
-
-function renderQuests() {
-  const quests=getQuests();
-  const claimed=data.questClaims;
-  return pageTitle("Quest board","Complete learning activities to earn bonus XP.")+`
-    <div class="grid">
-      <div class="card span-4"><div class="stat">${claimed.length}/${quests.length}</div><div class="stat-label">Quests claimed</div></div>
-      <div class="card span-4"><div class="stat">${quests.filter(q=>q.progress>=q.target&&!claimed.includes(q.id)).reduce((n,q)=>n+q.reward,0)}</div><div class="stat-label">XP ready to claim</div></div>
-      <div class="card span-4"><div class="stat">${quests.filter(q=>q.progress>=q.target).length}</div><div class="stat-label">Quests completed</div></div>
-      <div class="card span-12"><div class="list">
-        ${quests.map(q=>{
-          const done=claimed.includes(q.id);
-          const ready=q.progress>=q.target&&!done;
-          return `<div class="list-item quest">
-            <div class="quest-icon">${done?"✓":ready?"★":"◇"}</div>
-            <div class="item-main" style="flex:1">
-              <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><strong>${escapeHTML(q.title)}</strong><span class="pill purple">+${q.reward} XP</span></div>
-              <p class="small" style="margin:4px 0 9px">${escapeHTML(q.description)}</p>
-              <div class="progress"><div style="width:${Math.min(100,q.progress/q.target*100)}%"></div></div>
-              <span class="small muted">${q.progress}/${q.target} · ${done?"Claimed":ready?"Complete!":"In progress"}</span>
-            </div>
-            <div class="item-actions">${ready?`<button class="btn primary" data-claim="${q.id}">Claim XP</button>`:done?`<span class="pill mint">Claimed</span>`:""}</div>
-          </div>`;
-        }).join("")}
-      </div></div>
-    </div>`;
-}
-
-function renderProgress() {
-  const mastered=data.skills.filter(s=>s.mastered).length;
-  const accuracy=data.stats.quizQuestions?Math.round(data.stats.quizCorrect/data.stats.quizQuestions*100):0;
-  return pageTitle("Your progress","Track the work you've put into learning.")+`
-    <div class="grid">
-      <div class="card span-4"><div class="stat">${data.xp}</div><div class="stat-label">Total XP</div><p class="small">Level ${levelFromXP(data.xp)}</p><div class="progress"><div style="width:${data.xp%100}%"></div></div><p class="small">${data.xp%100}/100 XP towards the next level</p></div>
-      <div class="card span-4"><div class="stat">${data.stats.studied}</div><div class="stat-label">Cards studied</div></div>
-      <div class="card span-4"><div class="stat">${accuracy}%</div><div class="stat-label">Quiz accuracy</div></div>
-      <div class="card span-6"><h2>Skill mastery</h2><div class="stat">${mastered}/${data.skills.length}</div><div class="progress"><div style="width:${data.skills.length?mastered/data.skills.length*100:0}%"></div></div><p class="small">${data.skills.length?Math.round(mastered/data.skills.length*100):0}% of your skills marked as mastered</p></div>
-      <div class="card span-6"><h2>Quiz performance</h2><div class="grid"><div class="span-6"><div class="stat">${data.stats.quizCorrect}</div><div class="stat-label">Correct</div></div><div class="span-6"><div class="stat">${data.stats.wrong}</div><div class="stat-label">Incorrect</div></div></div></div>
-      <div class="card span-12"><h2>Subject overview</h2>
-        ${data.subjects.length?`<div class="list">${data.subjects.map(s=>{
-          const skills=data.skills.filter(sk=>sk.subjectId===s.id);
-          const cards=data.cards.filter(c=>c.subjectId===s.id);
-          const done=skills.filter(sk=>sk.mastered).length;
-          return `<div><div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:7px"><strong><span class="subject-color" style="background:${escapeHTML(s.color)}"></span>${escapeHTML(s.name)}</strong><span class="small muted">${done}/${skills.length} skills · ${cards.length} cards</span></div><div class="progress"><div style="width:${skills.length?done/skills.length*100:0}%;background:${escapeHTML(s.color)}"></div></div></div>`;
-        }).join("")}</div>`:`<div class="empty">Create a subject to start tracking your progress.</div>`}
-      </div>
-    </div>`;
-}
-
-function renderSettings() {
-  return pageTitle("Data & backup","Your learning data is stored in this browser. Export a backup before changing devices.")+`
-    <div class="grid">
-      <div class="card span-6"><h2>Export your progress</h2><p>Download your subjects, skills, flashcards, XP and progress as a JSON backup file.</p><button class="btn primary" id="exportData">Export backup</button></div>
-      <div class="card span-6"><h2>Import a backup</h2><p>Restore a previously exported Recall JSON file. This replaces the current data.</p><label>Select backup file<input type="file" id="importFile" accept=".json,application/json"></label></div>
-      <div class="card span-12"><h2>Where is my progress saved?</h2><p>Recall automatically saves to your browser using local storage. It stays on this device and browser; it does not sync to other devices or browsers. Clearing browser data may erase your progress, so export backups regularly.</p><hr><h2>Reset all data</h2><p>This permanently deletes your saved Recall data from this browser. Export a backup first if you want to keep it.</p><button class="btn danger" id="resetData">Reset all data</button></div>
-    </div>`;
-}
-
-function bindPageEvents() {
-  $$("[data-go]").forEach(button=>button.addEventListener("click",()=>{currentPage=button.dataset.go;currentStudy=[];quiz=null;render();}));
-  $$("[data-open-subject]").forEach(button=>button.addEventListener("click",()=>{currentPage="tree";render();}));
-  $$("[data-view-tree]").forEach(button=>button.addEventListener("click",()=>{currentPage="tree";render();}));
-
-  $("#subjectForm")?.addEventListener("submit",event=>{
-    event.preventDefault();
-    const form=new FormData(event.currentTarget);
-    const name=String(form.get("name")||"").trim();
-    if(!name)return;
-    if(data.subjects.some(s=>s.name.toLowerCase()===name.toLowerCase())){notify("That subject already exists.");return;}
-    data.subjects.push({id:makeId(),name,color:String(form.get("color")||"#70b4ff"),createdAt:Date.now()});
-    saveData();claimCompletedQuests();render();notify("Subject created.");
-  });
-
-  $("#skillSubject")?.addEventListener("change",refreshPrereqOptions);
-  $("#skillForm")?.addEventListener("submit",event=>{
-    event.preventDefault();
-    const form=new FormData(event.currentTarget);
-    const subjectId=String(form.get("subjectId")||"");
-    const name=String(form.get("name")||"").trim();
-    if(!getSubject(subjectId)||!name)return;
-    const prerequisites=$$("#skillPrereqs option:checked").map(option=>option.value);
-    if(prerequisites.some(id=>getSkill(id)?.subjectId!==subjectId)){notify("Prerequisites must belong to the same subject.");return;}
-    data.skills.push({id:makeId(),subjectId,name,description:String(form.get("description")||"").trim(),prerequisites,mastered:false,createdAt:Date.now()});
-    saveData();claimCompletedQuests();render();notify("Skill added to your tree.");
-  });
-
-  $$("[data-master]").forEach(button=>button.addEventListener("click",()=>{
-    const skill=getSkill(button.dataset.master);
-    if(!skill||!isSkillUnlocked(skill)||skill.mastered)return;
-    skill.mastered=true;
-    awardXP(15,"Skill mastered");
-    claimCompletedQuests();
-    render();
-  }));
-
-  $$("[data-delete-skill]").forEach(button=>button.addEventListener("click",()=>{
-    const skill=getSkill(button.dataset.deleteSkill);
-    if(!skill)return;
-    if(!confirm(`Delete "${skill.name}"? Prerequisite links to this skill will also be removed.`))return;
-    data.skills=data.skills.filter(s=>s.id!==skill.id);
-    data.skills.forEach(s=>s.prerequisites=(s.prerequisites||[]).filter(id=>id!==skill.id));
-    data.cards.forEach(c=>{if(c.skillId===skill.id)c.skillId="";});
-    saveData();render();notify("Skill deleted.");
-  }));
-
-  $$("[data-delete-subject]").forEach(button=>button.addEventListener("click",()=>{
-    const subject=getSubject(button.dataset.deleteSubject);
-    if(!subject)return;
-    if(!confirm(`Delete "${subject.name}" and its skills and flashcards?`))return;
-    const skillIds=data.skills.filter(s=>s.subjectId===subject.id).map(s=>s.id);
-    data.subjects=data.subjects.filter(s=>s.id!==subject.id);
-    data.skills=data.skills.filter(s=>s.subjectId!==subject.id);
-    data.skills.forEach(s=>s.prerequisites=(s.prerequisites||[]).filter(id=>!skillIds.includes(id)));
-    data.cards=data.cards.filter(c=>c.subjectId!==subject.id);
-    currentStudy=[];currentSubjectFilter="all";
-    saveData();render();notify("Subject deleted.");
-  }));
-
-  $("#cardSubject")?.addEventListener("change",()=>{
-    const select=$("#cardSkill");
-    if(select)select.innerHTML=skillOptions($("#cardSubject").value);
-  });
-  $("#cardForm")?.addEventListener("submit",event=>{
-    event.preventDefault();
-    const form=new FormData(event.currentTarget);
-    const subjectId=String(form.get("subjectId")||"");
-    const front=String(form.get("front")||"").trim();
-    const back=String(form.get("back")||"").trim();
-    if(!getSubject(subjectId)||!front||!back)return;
-    data.cards.push({id:makeId(),subjectId,skillId:String(form.get("skillId")||""),front,back,createdAt:Date.now()});
-    awardXP(3,"Flashcard created");
-    claimCompletedQuests();render();
-  });
-
-  $("#studyFilter")?.addEventListener("change",event=>{currentSubjectFilter=event.target.value;render();});
-  $("#startStudy")?.addEventListener("click",()=>{
-    currentStudy=cardsForSubject(currentSubjectFilter).slice().sort(()=>Math.random()-.5);
-    studyIndex=0;showingAnswer=false;render();
-  });
-  $("#flipCard")?.addEventListener("click",()=>{showingAnswer=!showingAnswer;render();});
-  $("#flipCard")?.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();showingAnswer=!showingAnswer;render();}});
-  $("#revealAnswer")?.addEventListener("click",()=>{showingAnswer=true;render();});
-  $("#studyAgain")?.addEventListener("click",()=>advanceStudy(false));
-  $("#studyKnown")?.addEventListener("click",()=>advanceStudy(true));
-  $("#finishStudy")?.addEventListener("click",()=>{currentStudy=[];studyIndex=0;render();});
-  $("#exitStudy")?.addEventListener("click",()=>{currentStudy=[];studyIndex=0;render();});
-
-  $$("[data-delete-card]").forEach(button=>button.addEventListener("click",()=>{
-    const card=getCard(button.dataset.deleteCard);
-    if(!card)return;
-    if(!confirm("Delete this flashcard?"))return;
-    data.cards=data.cards.filter(c=>c.id!==card.id);
-    saveData();render();notify("Flashcard deleted.");
-  }));
-
-  $("#quizForm")?.addEventListener("submit",event=>{
-    event.preventDefault();
-    const form=new FormData(event.currentTarget);
-    const subjectId=String(form.get("subjectId")||"all");
-    let pool=cardsForSubject(subjectId).slice().sort(()=>Math.random()-.5);
-    const count=form.get("count")==="all"?pool.length:Number(form.get("count"));
-    pool=pool.slice(0,count);
-    if(pool.length<2){notify("Add at least 2 cards to this deck.");return;}
-    quiz={questions:pool.map(card=>{
-      const distractors=data.cards.filter(c=>c.id!==card.id&&c.back.trim()!==card.back.trim()).sort(()=>Math.random()-.5).slice(0,3);
-      const answers=[{text:card.back,correct:true},...distractors.map(c=>({text:c.back,correct:false}))].sort(()=>Math.random()-.5);
-      return {...card,options:answers};
-    }),index:0,score:0,total:pool.length,answered:false,finished:false,xpEarned:0};
-    render();
-  });
-
-  $$("#quizOptions button").forEach(button=>button.addEventListener("click",()=>{
-    if(!quiz||quiz.answered)return;
-    quiz.answered=true;
-    const q=quiz.questions[quiz.index];
-    const option=q.options[Number(button.dataset.option)];
-    const correct=q.options.findIndex(o=>o.correct);
-    $$("#quizOptions button").forEach((el,index)=>{
-      el.disabled=true;
-      if(index===correct)el.classList.add("correct");
-      else if(index===Number(button.dataset.option))el.classList.add("wrong");
-    });
-    const feedback=$("#quizFeedback");
-    feedback.classList.remove("hidden");
-    if(option.correct){
-      quiz.score++;quiz.xpEarned+=5;
-      data.stats.quizCorrect++;data.stats.correct++;
-      feedback.textContent="Correct. +5 XP";
-    } else {
-      data.stats.wrong++;
-      feedback.textContent="Not quite. Correct answer: "+q.back;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Recall — Learn. Remember. Level up.</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #11182b;
+      --panel-2: #151e34;
+      --panel-3: #1b2740;
+      --line: #26334d;
+      --text: #f2f5fb;
+      --muted: #9aa8c0;
+      --accent: #8b9cff;
+      --accent-2: #65dfc0;
+      --gold: #f2c879;
+      --danger: #ff7e91;
+      --radius: 18px;
+      --shadow: 0 18px 50px rgba(0,0,0,.18);
     }
-    data.stats.quizQuestions++;
-    data.xp+=option.correct?5:0;
-    saveData();
-    $("#nextQuestion").classList.remove("hidden");
-  }));
-
-  $("#nextQuestion")?.addEventListener("click",()=>{
-    if(quiz.index<quiz.questions.length-1){quiz.index++;quiz.answered=false;render();}
-    else {
-      quiz.finished=true;
-      data.stats.quizzes++;
-      saveData();claimCompletedQuests();render();
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: radial-gradient(ellipse at top left, #17213c 0, var(--bg) 44%);
+      color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
     }
-  });
-  $("#finishQuiz")?.addEventListener("click",()=>{quiz=null;currentPage="quizzes";render();});
-
-  $$("[data-claim]").forEach(button=>button.addEventListener("click",()=>{
-    const quest=getQuests().find(q=>q.id===button.dataset.claim);
-    if(!quest||quest.progress<quest.target||data.questClaims.includes(quest.id))return;
-    data.questClaims.push(quest.id);
-    awardXP(quest.reward,"Quest reward");
-    render();
-  }));
-
-  $("#exportData")?.addEventListener("click",exportData);
-  $("#importFile")?.addEventListener("change",importData);
-  $("#resetData")?.addEventListener("click",()=>{
-    if(!confirm("This will permanently delete all Recall data saved in this browser. Continue?"))return;
-    if(!confirm("Are you sure? Export a backup first if you want to keep your progress."))return;
-    localStorage.removeItem(STORAGE_KEY);
-    data=defaultData();currentStudy=[];quiz=null;currentSubjectFilter="all";
-    render();notify("All Recall data has been reset.");
-  });
-}
-
-function advanceStudy(known) {
-  if(!currentStudy[studyIndex])return;
-  data.stats.studied++;
-  awardXP(known?5:2,known?"Card recalled":"Card practised");
-  claimCompletedQuests();
-  studyIndex++;
-  showingAnswer=false;
-  render();
-}
-
-function exportData() {
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;
-  a.download="recall-backup-"+new Date().toISOString().slice(0,10)+".json";
-  document.body.appendChild(a);a.click();a.remove();
-  URL.revokeObjectURL(url);
-  notify("Backup exported.");
-}
-
-function importData(event) {
-  const file=event.target.files?.[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=()=>{
-    try {
-      const imported=JSON.parse(String(reader.result));
-      if(!imported||!Array.isArray(imported.subjects)||!Array.isArray(imported.skills)||!Array.isArray(imported.cards)||!imported.stats)throw new Error("This doesn't look like a Recall backup.");
-      if(!confirm("Import this backup? It will replace your current Recall data."))return;
-      const base=defaultData();
-      data={
-        ...base,...imported,
-        subjects:imported.subjects,
-        skills:imported.skills,
-        cards:imported.cards,
-        questClaims:Array.isArray(imported.questClaims)?imported.questClaims:[],
-        stats:{...base.stats,...imported.stats},
-        session:{}
-      };
-      saveData();currentStudy=[];quiz=null;render();notify("Backup imported.");
-    } catch(error) {
-      alert("Could not import backup: "+error.message);
-    } finally {
-      event.target.value="";
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .app { display: grid; grid-template-columns: 245px minmax(0, 1fr); min-height: 100vh; }
+    .sidebar {
+      border-right: 1px solid var(--line); padding: 25px 16px; background: rgba(10,15,29,.78);
+      display: flex; flex-direction: column; gap: 28px;
     }
-  };
-  reader.readAsText(file);
-}
-
-// Keep quest progress and XP updates tied to actual activities.
-function claimCompletedQuestsSilently() {
-  const completed=getQuests().filter(q=>q.progress>=q.target&&!data.questClaims.includes(q.id));
-  if(!completed.length)return;
-  for(const q of completed){data.questClaims.push(q.id);data.xp+=q.reward;}
-  saveData();
-}
-
-// Ensure new activity can unlock quest rewards without a manual free-completion button.
-const originalAwardXP=awardXP;
-awardXP=function(amount,reason) {
-  data.xp+=amount;
-  saveData();
-  if(reason)notify("+"+amount+" XP · "+reason);
-  claimCompletedQuestsSilently();
-};
-
-updateHeader();
-</script>
-</body>
-</html>
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px; }
+    .brand-mark { width: 38px; height: 38px; object-fit: contain; display:block; flex: 0 0 38px; }
+    .brand-name { font-size: 20px; font-weight: 750; letter-spacing: -.7px; }
+    .brand-sub { color: var(--muted); font-size: 11px; margin-top: 1px; letter-spacing: .4px; }
+    .nav-label { padding: 0 12px; color: #71809a; text-transform: uppercase; letter-spacing: 1.5px; font-size: 10px; font-weight: 800; margin-bottom: 8px; }
+    .nav { display:flex; flex-direction:column; gap:5px; }
+    .nav-btn { display:flex; align-items:center; gap:12px; width:100%; border:0; background:transparent; color:var(--muted); padding:12px 13px; border-radius:12px; text-align:left; transition:.18s; }
+    .nav-btn:hover { background:var(--panel-2); color:var(--text); }
+    .nav-btn.active { background:#242e4b; color:#fff; box-shadow: inset 3px 0 var(--accent); }
+    .nav-icon { width:20px; text-align:center; font-size:16px; }
+    .side-bottom { margin-top:auto; }
+    .mini-card { background:linear-gradient(145deg,#192441,#121a2e); border:1px solid var(--line); padding:15px; border-radius:15px; }
+    .mini-card strong { display:block; font-size:13px; margin-bottom:5px; }
+    .mini-card p { margin:0 0 12px; color:var(--muted); font-size:12px; line-height:1.5; }
+    .main { min-width:0; padding: 27px clamp(18px,3vw,42px) 50px; max-width: 1600px; width:100%; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:30px; }
+    .eyebrow { color:var(--muted); font-size:12px; letter-spacing:.3px; margin-bottom:6px; }
+    h1 { font-size:clamp(25px,3vw,34px); letter-spacing:-1.1px; margin:0; line-height:1.15; }
+    .top-actions { display:flex; align-items:center; gap:10px; }
+    .search { width:min(240px,25vw); position:relative; }
+    .search input { width:100%; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:11px 13px 11px 36px; color:var(--text); }
+    .search span { position:absolute; left:12px; top:9px; color:var(--muted); }
+    .avatar { width:40px; height:40px; border-radius:13px; background:#273454; color:#dbe1ff; display:grid; place-items:center; font-weight:800; border:1px solid #3a486b; }
+    .page { display:none; }
+    .page.active { display:block; animation:fade .22s ease; }
+    @keyframes fade { from {opacity:.45; transform:translateY(4px)} to {opacity:1;transform:none} }
+    .grid { display:grid; gap:17px; }
+    .stats-grid { grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:20px; }
+    .card { background:linear-gradient(145deg,rgba(20,29,50,.98),rgba(16,23,41,.98)); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); min-width:0; }
+    .stat-top { display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--muted); font-size:12px; }
+    .stat-icon { width:32px; height:32px; display:grid; place-items:center; background:#222e4b; border-radius:10px; font-size:16px; }
+    .stat-value { font-size:29px; font-weight:780; letter-spacing:-1px; margin:13px 0 4px; }
+    .stat-foot { font-size:11px; color:var(--muted); }
+    .accent-text { color:var(--accent-2); }
+    .dashboard-grid { grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr); align-items:start; }
+    .section-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+    .section-head h2 { margin:0; font-size:16px; letter-spacing:-.3px; }
+    .section-head p { margin:5px 0 0; font-size:12px; color:var(--muted); }
+    .text-btn { background:none; border:0; color:var(--accent); font-weight:700; font-size:12px; padding:6px; }
+    .text-btn:hover { color:#c2caff; }
+    .btn { border:1px solid transparent; background:var(--accent); color:#11172b; font-weight:750; padding:10px 14px; border-radius:11px; transition:.18s; }
+    .btn:hover { filter:brightness(1.08); transform:translateY(-1px); }
+    .btn.secondary { background:var(--panel-3); color:var(--text); border-color:#33415e; }
+    .btn.ghost { background:transparent; color:var(--muted); border-color:var(--line); }
+    .btn.danger { background:#442433; color:#ffb5c0; border-color:#623145; }
+    .btn.small { font-size:12px; padding:8px 10px; }
+    .btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+    .quest-list, .activity-list { display:flex; flex-direction:column; gap:10px; }
+    .quest { display:flex; gap:12px; align-items:center; background:#141e33; border:1px solid #25334d; border-radius:13px; padding:13px; }
+    .quest-check { flex:0 0 22px; height:22px; border:1.5px solid #52617f; border-radius:7px; display:grid; place-items:center; color:#0c1722; font-size:13px; }
+    .quest.done .quest-check { background:var(--accent-2); border-color:var(--accent-2); }
+    .quest.done .quest-title { text-decoration:line-through; color:#8e9bb2; }
+    .quest-body { flex:1; min-width:0; }
+    .quest-title { font-size:13px; font-weight:700; }
+    .quest-desc { color:var(--muted); font-size:11px; margin-top:4px; }
+    .xp-pill { color:var(--gold); font-size:11px; font-weight:800; white-space:nowrap; }
+    .progress-track { height:7px; background:#28334c; border-radius:99px; overflow:hidden; }
+    .progress-fill { height:100%; width:0; border-radius:99px; background:linear-gradient(90deg,#7d8cff,#67e0c0); transition:width .3s; }
+    .level-panel { background:linear-gradient(120deg,#222d4c,#17233b); border:1px solid #34415f; border-radius:16px; padding:18px; margin-bottom:17px; }
+    .level-row { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
+    .level-badge { width:47px; height:47px; border-radius:15px; display:grid; place-items:center; background:linear-gradient(145deg,#b9c2ff,#7787ff); color:#11182b; font-weight:900; font-size:19px; }
+    .level-title { font-weight:800; font-size:15px; }
+    .level-sub { color:var(--muted); font-size:11px; margin-top:4px; }
+    .level-xp { font-size:12px; font-weight:700; color:#c8d0ff; }
+    .subject-list { display:flex; flex-direction:column; gap:11px; }
+    .subject-row { display:flex; align-items:center; gap:12px; }
+    .subject-dot { width:39px; height:39px; border-radius:12px; display:grid; place-items:center; font-size:18px; flex-shrink:0; }
+    .subject-info { flex:1; min-width:0; }
+    .subject-name { font-size:13px; font-weight:750; }
+    .subject-meta { font-size:11px; color:var(--muted); margin-top:4px; }
+    .subject-percent { color:var(--muted); font-size:11px; }
+    .subject-progress { margin-top:7px; }
+    .activity-item { display:flex; gap:11px; align-items:flex-start; padding:11px 0; border-bottom:1px solid #243047; }
+    .activity-item:last-child { border-bottom:0; }
+    .activity-icon { width:33px; height:33px; display:grid; place-items:center; border-radius:10px; background:#222d47; }
+    .activity-text { flex:1; font-size:12px; line-height:1.45; }
+    .activity-time { color:var(--muted); font-size:10px; margin-top:3px; }
+    .page-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+    .page-toolbar h2 { font-size:20px; margin:0; letter-spacing:-.5px; }
+    .page-toolbar p { color:var(--muted); font-size:12px; margin:5px 0 0; }
+    .subject-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .subject-card { cursor:pointer; transition:.18s; }
+    .subject-card:hover { transform:translateY(-3px); border-color:#47567a; }
+    .subject-card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+    .subject-big-icon { width:47px; height:47px; display:grid; place-items:center; border-radius:14px; font-size:22px; }
+    .subject-card h3 { margin:0 0 6px; font-size:16px; }
+    .subject-card p { margin:0 0 17px; color:var(--muted); font-size:12px; }
+    .subject-card-foot { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:11px; margin-bottom:9px; }
+    .flash-layout { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr); gap:18px; align-items:start; }
+    .flashcard { min-height:280px; perspective:1000px; cursor:pointer; }
+    .flash-inner { position:relative; min-height:280px; transform-style:preserve-3d; transition:transform .45s; }
+    .flashcard.flipped .flash-inner { transform:rotateY(180deg); }
+    .flash-face { position:absolute; inset:0; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px; border-radius:20px; border:1px solid #3a466a; background:radial-gradient(circle at top right,#2a365a,#141d33 65%); }
+    .flash-face.back { transform:rotateY(180deg); background:radial-gradient(circle at top left,#1d514d,#142a35 72%); }
+    .flash-label { color:var(--accent); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; font-weight:850; margin-bottom:20px; }
+    .flash-face.back .flash-label { color:var(--accent-2); }
+    .flash-question { font-size:clamp(19px,2vw,27px); line-height:1.35; font-weight:750; max-width:580px; }
+    .flash-hint { color:var(--muted); font-size:11px; margin-top:25px; }
+    .flash-controls { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:15px; flex-wrap:wrap; }
+    .flash-count { color:var(--muted); font-size:12px; min-width:60px; text-align:center; }
+    .empty { text-align:center; padding:38px 20px; color:var(--muted); }
+    .empty .empty-icon { font-size:30px; margin-bottom:12px; }
+    .empty h3 { color:var(--text); margin:0 0 7px; font-size:16px; }
+    .empty p { font-size:12px; line-height:1.6; max-width:360px; margin:0 auto 16px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+    .field { display:flex; flex-direction:column; gap:7px; min-width:0; }
+    .field.full { grid-column:1/-1; }
+    .field label { color:#c1cbe0; font-size:12px; font-weight:700; }
+    .field input, .field textarea, .field select { width:100%; background:#0e1526; color:var(--text); border:1px solid #2c3955; border-radius:10px; padding:11px 12px; }
+    .field textarea { resize:vertical; min-height:90px; }
+    .field input::placeholder, .field textarea::placeholder { color:#66748e; }
+    .form-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; }
+    .modal-backdrop { position:fixed; inset:0; background:rgba(3,6,14,.76); z-index:20; display:none; align-items:center; justify-content:center; padding:18px; }
+    .modal-backdrop.open { display:flex; }
+    .modal { width:min(560px,100%); max-height:90vh; overflow:auto; background:#111a2d; border:1px solid #34415d; border-radius:20px; padding:22px; box-shadow:0 30px 100px #0008; }
+    .modal-head { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; }
+    .modal-head h2 { margin:0; font-size:19px; }
+    .icon-btn { border:1px solid var(--line); background:#1b2740; color:var(--muted); width:34px; height:34px; border-radius:10px; }
+    .quiz-layout { display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:18px; align-items:start; }
+    .quiz-option { display:block; width:100%; text-align:left; background:#151f34; border:1px solid #2c3a57; color:var(--text); padding:14px; border-radius:12px; margin-top:9px; }
+    .quiz-option:hover:not(:disabled) { border-color:#8392ff; background:#202b47; }
+    .quiz-option.correct { border-color:#55d6b4; background:#143d3b; }
+    .quiz-option.incorrect { border-color:#ff7e91; background:#432331; }
+    .quiz-feedback { margin-top:14px; padding:12px; border-radius:10px; font-size:12px; line-height:1.5; display:none; }
+    .quiz-feedback.show { display:block; }
+    .quiz-feedback.good { background:#143d35; color:#a5f0dc; }
+    .quiz-feedback.bad { background:#432331; color:#ffc1cb; }
+    .quiz-top { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-bottom:16px; }
+    .quiz-question { font-size:20px; font-weight:750; line-height:1.4; margin-bottom:16px; }
+    .achievement-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .achievement { text-align:center; padding:20px 13px; }
+    .achievement-icon { font-size:28px; margin-bottom:11px; filter:grayscale(1); opacity:.5; }
+    .achievement.unlocked .achievement-icon { filter:none; opacity:1; }
+    .achievement h3 { margin:0 0 6px; font-size:13px; }
+    .achievement p { margin:0; color:var(--muted); font-size:11px; line-height:1.5; }
+    .achievement-status { display:inline-block; margin-top:12px; font-size:10px; color:var(--muted); padding:4px 8px; border-radius:99px; background:#202a40; }
+    .achievement.unlocked .achievement-status { color:#9cebd7; background:#183b3a; }
+    .test-list { display:flex; flex-direction:column; gap:10px; }
+    .test-item { display:flex; align-items:center; gap:13px; padding:14px; border:1px solid var(--line); border-radius:13px; background:#141e32; }
+    .test-date { width:48px; height:51px; border-radius:11px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#25314f; flex-shrink:0; }
+    .test-date strong { font-size:18px; }
+    .test-date span { font-size:9px; color:var(--muted); text-transform:uppercase; }
+    .test-main { flex:1; min-width:0; }
+    .test-main strong { font-size:13px; }
+    .test-main p { margin:4px 0 0; font-size:11px; color:var(--muted); }
+    .test-days { font-size:11px; color:var(--gold); font-weight:750; white-space:nowrap; }
+    .toast { position:fixed; bottom:22px; right:22px; z-index:40; background:#d8e0ff; color:#11172a; padding:13px 17px; border-radius:12px; font-size:13px; font-weight:750; box-shadow:0 12px 35px #0005; opacity:0; transform:translateY(12px); pointer-events:none; transition:.25s; }
+    .toast.show { opacity:1; transform:none; }
+    .muted { color:var(--muted); }
+    .tiny { font-size:11px; color:var(--muted); }
+    .row { display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+    .spacer { flex:1; }
+    .divider { height:1px; background:var(--line); margin:17px 0; }
+    .notice { padding:12px 14px; border-radius:12px; background:#202b43; border:1px solid #33415d; color:#c3cce0; font-size:11px; line-height:1.6; margin-top:14px; }
+    .footer-note { color:#66748e; font-size:10px; text-align:center; margin-top:25px; }
+    @media (max-width:1100px) {
+      .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .dashboard-grid { grid-template-columns:1fr; }
+      .subject-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .achievement-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width:760px) {
+      .app { grid-template-columns:1fr; }
+      .sidebar { padding:12px; border-right:0; border-bottom:1px solid var(--line); gap:12px; }
+      .brand { padding:0 5px; }
+      .sidebar .nav-label, .side-bottom { display:none; }
+      .nav { flex-direction:row; overflow-x:auto; padding-bottom:2px; }
+      .nav-btn { width:auto; flex-shrink:0; padding:10px 12px; font-size:12px; }
+      .nav-icon { width:auto; }
+      .main { padding:20px 14px 35px; }
+      .topbar { align-items:flex-start; margin-bottom:22px; }
+      .search { display:none; }
+      .dashboard-grid, .flash-layout, .quiz-layout { grid-template-columns:1fr; }
+      .subject-grid { grid-template-columns:1fr; }
+      .stats-grid { gap:10px; }
+      .card { padding:16px; border-radius:15px; }
+      .stat-value { font-size:25px; }
+      .form-grid { grid-template-columns:1fr; }
+      .field.full { grid-column:auto; }
+      .test-item { align-items:flex-start; }
+      .test-days { white-space:normal; text-align:right; }
+    }
+    @media (max-width:420px) {
+      .stats-grid { grid-template-columns:1fr 1fr; }
+      .stat-top { font-size:10px; }
+      .stat-icon { width:28px; height:28px; }
+      .stat-value { font-size:23px; }
+      .achievement-grid { grid-template-columns:1fr 1fr; }
+      .topbar h1 { font-size:25px; }
+      .avatar { width:35px; height:35px; }
+    }
+  </style>
+</head>
