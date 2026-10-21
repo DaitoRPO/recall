@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -229,234 +228,655 @@
     }
   </style>
 </head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <img class="brand-mark" src="data:image/png;base64,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" alt="Recall logo">
+      <div><div class="brand-name">recall</div><div class="brand-sub">LEARN. REMEMBER. LEVEL UP.</div></div>
+    </div>
+    <div>
+      <div class="nav-label">Workspace</div>
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">⌂</span>Dashboard</button>
+        <button class="nav-btn" data-page="subjects"><span class="nav-icon">▦</span>Subjects</button>
+        <button class="nav-btn" data-page="flashcards"><span class="nav-icon">▤</span>Flashcards</button>
+        <button class="nav-btn" data-page="quizzes"><span class="nav-icon">◎</span>Quizzes</button>
+        <button class="nav-btn" data-page="progress"><span class="nav-icon">↗</span>Progress</button>
+        <button class="nav-btn" data-page="tests"><span class="nav-icon">◷</span>Test dates</button>
+      </nav>
+    </div>
+    <div class="side-bottom">
+      <div class="mini-card">
+        <strong>Small steps. Real progress.</strong>
+        <p>Every card reviewed and every question answered builds your knowledge.</p>
+        <button class="btn secondary small" style="width:100%" data-action="quick-study">Start a study session</button>
+      </div>
+      <p class="tiny" style="padding:0 10px;margin-top:15px">Recall v1.0 · Your progress stays in this browser.</p>
+    </div>
+  </aside>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b1020" />
-  <title>Recall — Learn. Remember. Level up.</title>
-  <style>
-    :root {
-      --bg: #0b1020;
-      --panel: #11182b;
-      --panel-2: #151e34;
-      --panel-3: #1b2740;
-      --line: #26334d;
-      --text: #f2f5fb;
-      --muted: #9aa8c0;
-      --accent: #8b9cff;
-      --accent-2: #65dfc0;
-      --gold: #f2c879;
-      --danger: #ff7e91;
-      --radius: 18px;
-      --shadow: 0 18px 50px rgba(0,0,0,.18);
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow" id="today-label">YOUR LEARNING SPACE</div>
+        <h1 id="page-title">Welcome back.</h1>
+      </div>
+      <div class="top-actions">
+        <label class="search"><span>⌕</span><input id="global-search" type="search" placeholder="Search subjects..." aria-label="Search subjects"></label>
+        <button class="avatar" id="profile-button" title="Edit your name" aria-label="Edit your name">Y</button>
+      </div>
+    </header>
+
+    <section class="page active" id="page-dashboard">
+      <div class="grid stats-grid">
+        <article class="card">
+          <div class="stat-top"><span>Total experience</span><span class="stat-icon">✦</span></div>
+          <div class="stat-value" id="stat-xp">0 XP</div><div class="stat-foot"><span class="accent-text">Keep going</span> — every session counts</div>
+        </article>
+        <article class="card">
+          <div class="stat-top"><span>Current streak</span><span class="stat-icon">♨</span></div>
+          <div class="stat-value" id="stat-streak">0 days</div><div class="stat-foot" id="streak-foot">Start a session today</div>
+        </article>
+        <article class="card">
+          <div class="stat-top"><span>Cards reviewed</span><span class="stat-icon">▤</span></div>
+          <div class="stat-value" id="stat-cards">0</div><div class="stat-foot">Repetition builds recall</div>
+        </article>
+        <article class="card">
+          <div class="stat-top"><span>Quiz accuracy</span><span class="stat-icon">◎</span></div>
+          <div class="stat-value" id="stat-accuracy">—</div><div class="stat-foot" id="accuracy-foot">Answer a few questions</div>
+        </article>
+      </div>
+
+      <div class="grid dashboard-grid">
+        <div class="grid">
+          <article class="card">
+            <div class="section-head"><div><h2>Daily quests</h2><p>Small goals that build a strong study habit.</p></div><span class="xp-pill" id="quest-total">0 / 3 complete</span></div>
+            <div class="quest-list" id="quest-list"></div>
+          </article>
+          <article class="card">
+            <div class="section-head"><div><h2>Your subjects</h2><p>Pick up where you left off.</p></div><button class="text-btn" data-goto="subjects">View all →</button></div>
+            <div class="subject-list" id="dashboard-subjects"></div>
+          </article>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <div class="section-head"><div><h2>Your level</h2><p>Knowledge compounds over time.</p></div></div>
+            <div class="level-panel">
+              <div class="level-row">
+                <div class="row"><div class="level-badge" id="level-badge">1</div><div><div class="level-title" id="level-name">Curious Beginner</div><div class="level-sub">Your learning journey starts here.</div></div></div>
+                <div class="level-xp" id="level-xp">0 / 100 XP</div>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="level-progress"></div></div>
+            </div>
+            <div class="section-head"><div><h2>Upcoming tests</h2><p>Plan ahead, one topic at a time.</p></div><button class="text-btn" data-goto="tests">All tests →</button></div>
+            <div class="test-list" id="dashboard-tests"></div>
+          </article>
+          <article class="card">
+            <div class="section-head"><div><h2>Recent activity</h2><p>Your latest steps forward.</p></div></div>
+            <div class="activity-list" id="activity-list"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="page-subjects">
+      <div class="page-toolbar"><div><h2>Your subjects</h2><p>Keep every topic organised in one place.</p></div><button class="btn" data-action="add-subject">＋ Add subject</button></div>
+      <div class="grid subject-grid" id="subjects-grid"></div>
+      <div class="footer-note">Tip: choose a subject to study its flashcards or quiz questions.</div>
+    </section>
+
+    <section class="page" id="page-flashcards">
+      <div class="page-toolbar"><div><h2>Flashcards</h2><p>Active recall: try to answer before revealing the back.</p></div><div class="row"><select id="flash-subject-filter" aria-label="Filter flashcards by subject" class="btn secondary small"><option value="all">All subjects</option></select><button class="btn" data-action="add-card">＋ Create card</button></div></div>
+      <div class="flash-layout">
+        <div>
+          <div id="flash-study-area"></div>
+          <div class="flash-controls" id="flash-controls" hidden>
+            <button class="btn ghost" id="flash-prev">← Previous</button><span class="flash-count" id="flash-count">1 / 1</span><button class="btn secondary" id="flash-flip">Reveal answer</button><button class="btn" id="flash-next">Next →</button>
+          </div>
+          <div class="row" id="flash-rating" style="justify-content:center;margin-top:12px" hidden>
+            <button class="btn danger small" id="flash-again">Need practice</button><button class="btn secondary small" id="flash-good">Got it · +5 XP</button>
+          </div>
+        </div>
+        <aside class="card">
+          <div class="section-head"><div><h2>Study queue</h2><p>Your cards, ready to review.</p></div></div>
+          <div id="flash-queue"></div>
+          <div class="divider"></div>
+          <div class="row"><button class="btn secondary small" data-action="add-card">Create a flashcard</button><button class="btn ghost small" data-action="manage-cards">Manage cards</button></div>
+          <div class="notice">A useful method: answer from memory first, then check the answer. Mark difficult cards for more practice.</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="page-quizzes">
+      <div class="page-toolbar"><div><h2>Quizzes</h2><p>Test your understanding and earn experience.</p></div><div class="row"><select id="quiz-subject-filter" class="btn secondary small" aria-label="Filter quizzes by subject"><option value="all">All subjects</option></select><button class="btn" data-action="add-question">＋ Create question</button></div></div>
+      <div class="quiz-layout">
+        <div id="quiz-area"></div>
+        <aside class="card">
+          <div class="section-head"><div><h2>Quiz stats</h2><p>Your practice at a glance.</p></div></div>
+          <div class="stat-value" id="quiz-total">0</div><div class="stat-foot">Questions answered</div>
+          <div class="divider"></div>
+          <div class="stat-top"><span>Correct answers</span><strong id="quiz-correct" style="color:var(--accent-2)">0</strong></div>
+          <div class="progress-track" style="margin:10px 0 17px"><div class="progress-fill" id="quiz-progress"></div></div>
+          <div class="stat-top"><span>Accuracy</span><strong id="quiz-accuracy">—</strong></div>
+          <div class="notice">You earn XP for answering questions. Correct answers earn a little extra. Focus on learning, not just the score.</div>
+          <div class="divider"></div>
+          <button class="btn secondary" style="width:100%" data-action="add-question">Create your own question</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="page-progress">
+      <div class="page-toolbar"><div><h2>Your progress</h2><p>Consistency beats cramming. Keep building your knowledge.</p></div><button class="btn secondary" data-action="export-data">Export my data</button></div>
+      <div class="grid stats-grid">
+        <article class="card"><div class="stat-top">Total XP<span class="stat-icon">✦</span></div><div class="stat-value" id="progress-xp">0</div><div class="stat-foot">Earned through study</div></article>
+        <article class="card"><div class="stat-top">Quizzes completed<span class="stat-icon">◎</span></div><div class="stat-value" id="progress-quizzes">0</div><div class="stat-foot">Questions answered</div></article>
+        <article class="card"><div class="stat-top">Flashcards reviewed<span class="stat-icon">▤</span></div><div class="stat-value" id="progress-cards">0</div><div class="stat-foot">Practice adds up</div></article>
+        <article class="card"><div class="stat-top">Achievements<span class="stat-icon">◇</span></div><div class="stat-value" id="progress-achievements">0</div><div class="stat-foot">Milestones unlocked</div></article>
+      </div>
+      <article class="card" style="margin-bottom:18px"><div class="section-head"><div><h2>Subject mastery</h2><p>Based on the study activity you've recorded.</p></div></div><div class="subject-list" id="progress-subjects"></div></article>
+      <article class="card"><div class="section-head"><div><h2>Achievements</h2><p>Unlock milestones by showing up and practising.</p></div></div><div class="grid achievement-grid" id="achievement-grid"></div></article>
+      <div class="notice">Progress is stored locally on this device. Use “Export my data” to make a backup. Clearing browser data may erase your saved progress.</div>
+    </section>
+
+    <section class="page" id="page-tests">
+      <div class="page-toolbar"><div><h2>Test dates</h2><p>Know what's coming up so you can prepare calmly.</p></div><button class="btn" data-action="add-test">＋ Add test</button></div>
+      <div class="card"><div class="section-head"><div><h2>Upcoming assessments</h2><p>Your next deadlines.</p></div></div><div class="test-list" id="tests-list"></div></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-head"><h2 id="modal-title">Create</h2><button class="icon-btn" id="modal-close" aria-label="Close dialog">✕</button></div>
+    <div id="modal-content"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  "use strict";
+  const STORAGE_KEY = "recall-study-app-v1";
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+  const uid = () => Math.random().toString(36).slice(2, 10);
+  const todayKey = () => new Date().toISOString().slice(0, 10);
+  const escapeHTML = (value = "") => String(value).replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch]));
+  const iconColors = ["#273a57", "#373052", "#25463f", "#4a3a2d", "#3b3451", "#2b4650"];
+  const subjectIcons = ["∑", "⚗", "文", "⌘", "◈", "✦"];
+  const starterSubjects = [
+    {id:"math", name:"Mathematics", icon:"∑", color:"#8b9cff", description:"Numbers, patterns and problem-solving"},
+    {id:"science", name:"Science", icon:"⚗", color:"#65dfc0", description:"Discover how the world works"},
+    {id:"german", name:"German", icon:"文", color:"#f2c879", description:"Vocabulary, grammar and language"},
+  ];
+  const starterCards = [
+    {id:uid(), subjectId:"math", question:"What is the Pythagorean theorem?", answer:"In a right-angled triangle, a² + b² = c², where c is the hypotenuse.", createdAt:Date.now()},
+    {id:uid(), subjectId:"math", question:"How do you calculate the area of a triangle?", answer:"Area = (base × height) ÷ 2.", createdAt:Date.now()},
+    {id:uid(), subjectId:"science", question:"What is the function of mitochondria?", answer:"They release usable energy for the cell through cellular respiration.", createdAt:Date.now()},
+    {id:uid(), subjectId:"science", question:"What is the chemical symbol for oxygen?", answer:"O. Oxygen gas usually occurs as O₂.", createdAt:Date.now()},
+    {id:uid(), subjectId:"german", question:"What does “verbringen” mean?", answer:"To spend (time). For example: Zeit auf dem Handy verbringen — to spend time on your phone.", createdAt:Date.now()},
+    {id:uid(), subjectId:"german", question:"What does “sich Sorgen machen” mean?", answer:"To worry. Example: Ich mache mir Sorgen — I am worried.", createdAt:Date.now()},
+  ];
+  const starterQuestions = [
+    {id:uid(), subjectId:"math", question:"What is 7 × 8?", options:["54","56","64","48"], answer:1, explanation:"7 × 8 = 56.", createdAt:Date.now()},
+    {id:uid(), subjectId:"math", question:"What is the area of a rectangle that is 5 cm long and 3 cm wide?", options:["8 cm²","15 cm²","16 cm²","30 cm²"], answer:1, explanation:"Area = length × width = 5 × 3 = 15 cm².", createdAt:Date.now()},
+    {id:uid(), subjectId:"science", question:"Which gas do plants absorb from the atmosphere for photosynthesis?", options:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"], answer:2, explanation:"Plants use carbon dioxide, water and light to make sugars during photosynthesis.", createdAt:Date.now()},
+    {id:uid(), subjectId:"science", question:"Which particle has a negative electrical charge?", options:["Proton","Neutron","Electron","Nucleus"], answer:2, explanation:"Electrons carry a negative charge.", createdAt:Date.now()},
+    {id:uid(), subjectId:"german", question:"What does “erlauben” mean?", options:["To forget","To allow","To argue","To tidy"], answer:1, explanation:"“Erlauben” means to allow or permit.", createdAt:Date.now()},
+    {id:uid(), subjectId:"german", question:"Which word means “the argument” in German?", options:["die Erlaubnis","das Geheimnis","der Streit","die Bildschirmzeit"], answer:2, explanation:"“Der Streit” means an argument or quarrel.", createdAt:Date.now()},
+  ];
+  const initialState = () => ({
+    profile: {name:"Learner"},
+    xp: 0, streak: 0, lastActive: null, cardsReviewed: 0, questionsAnswered: 0, correctAnswers: 0,
+    subjects: starterSubjects.map(s=>({...s})), cards: starterCards, questions: starterQuestions,
+    tests: [], activity: [], completedQuests: {}, dailyStats: {}, cardStats: {}, questionStats: {},
+    createdAt: Date.now()
+  });
+  let state;
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    state = saved ? {...initialState(), ...JSON.parse(saved)} : initialState();
+    if (!Array.isArray(state.subjects) || !state.subjects.length) state.subjects = starterSubjects.map(s=>({...s}));
+    if (!Array.isArray(state.cards)) state.cards = [];
+    if (!Array.isArray(state.questions)) state.questions = [];
+    if (!Array.isArray(state.tests)) state.tests = [];
+    if (!Array.isArray(state.activity)) state.activity = [];
+    if (!state.profile) state.profile = {name:"Learner"};
+    if (!state.completedQuests) state.completedQuests = {};
+    if (!state.dailyStats) state.dailyStats = {};
+    if (!state.cardStats) state.cardStats = {};
+    if (!state.questionStats) state.questionStats = {};
+  } catch (error) {
+    state = initialState();
+  }
+  let currentPage = "dashboard";
+  let flashIndex = 0;
+  let flashFlipped = false;
+  let activeQuiz = null;
+  let toastTimeout;
+  const questDefinitions = [
+    {id:"review5", title:"Warm up your memory", desc:"Review 5 flashcards", xp:15, goal:5, metric:"cardsReviewed"},
+    {id:"answer3", title:"Test your knowledge", desc:"Answer 3 quiz questions", xp:20, goal:3, metric:"questionsAnswered"},
+    {id:"study1", title:"Show up for yourself", desc:"Complete a study activity", xp:10, goal:1, metric:"sessions"}
+  ];
+  const achievements = [
+    {id:"first-card", icon:"▤", name:"First Recall", desc:"Review your first flashcard.", test:s=>s.cardsReviewed>=1},
+    {id:"ten-cards", icon:"✦", name:"Memory Builder", desc:"Review 10 flashcards.", test:s=>s.cardsReviewed>=10},
+    {id:"first-quiz", icon:"◎", name:"Check Your Knowledge", desc:"Answer your first quiz question.", test:s=>s.questionsAnswered>=1},
+    {id:"perfect-five", icon:"◇", name:"On a Roll", desc:"Get 5 quiz answers correct.", test:s=>s.correctAnswers>=5},
+    {id:"hundred-xp", icon:"↗", name:"Rising Level", desc:"Earn 100 XP.", test:s=>s.xp>=100},
+    {id:"streak-three", icon:"♨", name:"Consistent", desc:"Build a 3-day streak.", test:s=>s.streak>=3},
+    {id:"ten-questions", icon:"⌁", name:"Curious Mind", desc:"Answer 10 quiz questions.", test:s=>s.questionsAnswered>=10},
+    {id:"three-subjects", icon:"▦", name:"Well Rounded", desc:"Add at least 3 subjects.", test:s=>s.subjects.length>=3},
+    {id:"first-test", icon:"◷", name:"Prepared", desc:"Add your first test date.", test:s=>s.tests.length>=1},
+  ];
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch (error) { showToast("Could not save. Your browser storage may be full."); }
+  }
+  function showToast(message) {
+    const el = $("#toast"); el.textContent = message; el.classList.add("show");
+    clearTimeout(toastTimeout); toastTimeout = setTimeout(()=>el.classList.remove("show"), 2400);
+  }
+  function subjectById(id) { return state.subjects.find(s=>s.id===id); }
+  function subjectName(id) { return subjectById(id)?.name || "Unassigned"; }
+  function levelInfo(xp = state.xp) {
+    const level = Math.floor(Math.max(0, xp) / 100) + 1;
+    const within = Math.max(0, xp) % 100;
+    const names = ["Curious Beginner","Knowledge Seeker","Focused Learner","Pattern Finder","Problem Solver","Scholar","Expert in Training","Mastermind"];
+    return {level, within, name:names[Math.min(level-1,names.length-1)]};
+  }
+  function recordActivity(icon, text) {
+    state.activity.unshift({id:uid(), icon, text, at:Date.now()});
+    state.activity = state.activity.slice(0, 12);
+  }
+  function updateStreak() {
+    const today = todayKey();
+    if (state.lastActive === today) return;
+    if (state.lastActive) {
+      const prev = new Date(state.lastActive + "T00:00:00");
+      const now = new Date(today + "T00:00:00");
+      const diff = Math.round((now-prev)/86400000);
+      state.streak = diff === 1 ? state.streak + 1 : 1;
+    } else state.streak = 1;
+    state.lastActive = today;
+  }
+  function earnXP(amount, reason) {
+    const before = levelInfo().level;
+    state.xp += amount;
+    updateStreak();
+    state.dailyStats[todayKey()] ||= {cardsReviewed:0,questionsAnswered:0,sessions:0};
+    state.dailyStats[todayKey()].sessions = (state.dailyStats[todayKey()].sessions || 0) + 1;
+    if (reason) recordActivity("✦", `${reason} · +${amount} XP`);
+    const after = levelInfo().level;
+    if (after > before) showToast(`Level up! You reached level ${after}.`);
+    save(); renderAll();
+  }
+  function currentQuestProgress(q) {
+    const today = state.dailyStats[todayKey()] || {};
+    return Math.min(q.goal, today[q.metric] || 0);
+  }
+  function questComplete(q) {
+    return !!(state.completedQuests[todayKey()] || {})[q.id];
+  }
+  function checkQuests() {
+    state.completedQuests[todayKey()] ||= {};
+    questDefinitions.forEach(q=>{
+      if (!questComplete(q) && currentQuestProgress(q) >= q.goal) {
+        state.completedQuests[todayKey()][q.id] = true;
+        state.xp += q.xp;
+        recordActivity("✓", `Completed quest: ${q.title} · +${q.xp} XP`);
+        showToast(`Quest complete: ${q.title} (+${q.xp} XP)`);
+      }
+    });
+  }
+  function unlockCount() { return achievements.filter(a=>a.test(state)).length; }
+  function masteryForSubject(id) {
+    const cards = state.cards.filter(c=>c.subjectId===id);
+    const qs = state.questions.filter(q=>q.subjectId===id);
+    const cardTotal = cards.reduce((n,c)=>n+((state.cardStats[c.id]?.known||0)),0);
+    const cardPossible = cards.length * 3;
+    const qTotal = qs.reduce((n,q)=>n+((state.questionStats[q.id]?.correct||0)),0);
+    const qPossible = qs.length * 3;
+    const total = cardPossible + qPossible;
+    return total ? Math.min(100, Math.round((cardTotal+qTotal)/total*100)) : 0;
+  }
+  function renderStats() {
+    $("#stat-xp").textContent = `${state.xp} XP`;
+    $("#stat-streak").textContent = `${state.streak} ${state.streak===1?"day":"days"}`;
+    $("#streak-foot").textContent = state.lastActive === todayKey() ? "You've shown up today" : "Start a session today";
+    $("#stat-cards").textContent = state.cardsReviewed;
+    const accuracy = state.questionsAnswered ? Math.round(state.correctAnswers/state.questionsAnswered*100) : null;
+    $("#stat-accuracy").textContent = accuracy === null ? "—" : `${accuracy}%`;
+    $("#accuracy-foot").textContent = state.questionsAnswered ? `${state.correctAnswers} correct answers` : "Answer a few questions";
+    const li = levelInfo();
+    $("#level-badge").textContent = li.level; $("#level-name").textContent = li.name;
+    $("#level-xp").textContent = `${li.within} / 100 XP`;
+    $("#level-progress").style.width = `${li.within}%`;
+    $("#progress-xp").textContent = state.xp;
+    $("#progress-quizzes").textContent = state.questionsAnswered;
+    $("#progress-cards").textContent = state.cardsReviewed;
+    $("#progress-achievements").textContent = unlockCount();
+    $("#quiz-total").textContent = state.questionsAnswered;
+    $("#quiz-correct").textContent = state.correctAnswers;
+    $("#quiz-accuracy").textContent = accuracy === null ? "—" : `${accuracy}%`;
+    $("#quiz-progress").style.width = `${accuracy || 0}%`;
+  }
+  function renderQuests() {
+    const list = $("#quest-list");
+    list.innerHTML = questDefinitions.map(q=>{
+      const done = questComplete(q), progress = currentQuestProgress(q);
+      return `<div class="quest ${done?"done":""}"><div class="quest-check">${done?"✓":""}</div><div class="quest-body"><div class="quest-title">${escapeHTML(q.title)}</div><div class="quest-desc">${escapeHTML(q.desc)} · ${progress}/${q.goal}</div><div class="progress-track" style="margin-top:8px"><div class="progress-fill" style="width:${progress/q.goal*100}%"></div></div></div><div class="xp-pill">+${q.xp} XP</div></div>`;
+    }).join("");
+    const completed = questDefinitions.filter(questComplete).length;
+    $("#quest-total").textContent = `${completed} / ${questDefinitions.length} complete`;
+  }
+  function subjectMarkup(s, cardClass = "") {
+    const cards = state.cards.filter(c=>c.subjectId===s.id).length;
+    const qs = state.questions.filter(q=>q.subjectId===s.id).length;
+    const mastery = masteryForSubject(s.id);
+    return `<article class="card subject-card ${cardClass}" data-subject-open="${escapeHTML(s.id)}"><div class="subject-card-top"><div class="subject-big-icon" style="background:${escapeHTML(s.color||"#273a57")}25;color:${escapeHTML(s.color||"#8b9cff")}">${escapeHTML(s.icon||"◈")}</div><button class="text-btn" data-subject-menu="${escapeHTML(s.id)}" aria-label="Edit ${escapeHTML(s.name)}">•••</button></div><h3>${escapeHTML(s.name)}</h3><p>${escapeHTML(s.description||"Your study materials and practice.")}</p><div class="subject-card-foot"><span>${cards} flashcards · ${qs} questions</span><span>${mastery}%</span></div><div class="progress-track"><div class="progress-fill" style="width:${mastery}%"></div></div></article>`;
+  }
+  function renderSubjects() {
+    $("#subjects-grid").innerHTML = state.subjects.length ? state.subjects.map(s=>subjectMarkup(s)).join("") : `<div class="card empty"><div class="empty-icon">▦</div><h3>No subjects yet</h3><p>Add a subject to organise your study materials.</p><button class="btn" data-action="add-subject">Add subject</button></div>`;
+    $("#dashboard-subjects").innerHTML = state.subjects.length ? state.subjects.slice(0,5).map(s=>{
+      const cards = state.cards.filter(c=>c.subjectId===s.id).length, qs=state.questions.filter(q=>q.subjectId===s.id).length, mastery=masteryForSubject(s.id);
+      return `<div class="subject-row"><div class="subject-dot" style="background:${escapeHTML(s.color||"#273a57")}25;color:${escapeHTML(s.color||"#8b9cff")}">${escapeHTML(s.icon||"◈")}</div><div class="subject-info"><div class="row"><span class="subject-name">${escapeHTML(s.name)}</span><span class="spacer"></span><span class="subject-percent">${mastery}%</span></div><div class="subject-meta">${cards} cards · ${qs} questions</div><div class="progress-track subject-progress"><div class="progress-fill" style="width:${mastery}%"></div></div></div></div>`;
+    }).join("") : `<div class="empty"><p>Add a subject to start organising your revision.</p><button class="btn" data-action="add-subject">Add subject</button></div>`;
+    const options = `<option value="all">All subjects</option>`+state.subjects.map(s=>`<option value="${escapeHTML(s.id)}">${escapeHTML(s.name)}</option>`).join("");
+    const f = $("#flash-subject-filter"), q = $("#quiz-subject-filter");
+    const fVal=f.value, qVal=q.value; f.innerHTML=options; q.innerHTML=options;
+    if ([...f.options].some(o=>o.value===fVal)) f.value=fVal;
+    if ([...q.options].some(o=>o.value===qVal)) q.value=qVal;
+  }
+  function filteredCards() {
+    const filter=$("#flash-subject-filter").value;
+    return state.cards.filter(c=>filter==="all"||c.subjectId===filter);
+  }
+  function renderFlashcards() {
+    const cards = filteredCards();
+    if (flashIndex >= cards.length) flashIndex = Math.max(0,cards.length-1);
+    const area=$("#flash-study-area");
+    if (!cards.length) {
+      area.innerHTML=`<div class="card empty"><div class="empty-icon">▤</div><h3>Your study queue is empty</h3><p>Create your first flashcard or choose a different subject filter to begin practising.</p><button class="btn" data-action="add-card">Create flashcard</button></div>`;
+      $("#flash-controls").hidden=true; $("#flash-rating").hidden=true;
+    } else {
+      const c=cards[flashIndex];
+      area.innerHTML=`<div class="flashcard ${flashFlipped?"flipped":""}" id="active-flashcard" role="button" tabindex="0" aria-label="Flashcard. Click to reveal answer"><div class="flash-inner"><div class="flash-face front"><div class="flash-label">${escapeHTML(subjectName(c.subjectId))} · QUESTION</div><div class="flash-question">${escapeHTML(c.question)}</div><div class="flash-hint">Click or press Enter to reveal the answer</div></div><div class="flash-face back"><div class="flash-label">ANSWER</div><div class="flash-question">${escapeHTML(c.answer)}</div><div class="flash-hint">Mark how well you knew it below</div></div></div></div>`;
+      $("#flash-controls").hidden=false; $("#flash-rating").hidden=!flashFlipped;
+      $("#flash-count").textContent=`${flashIndex+1} / ${cards.length}`;
+      $("#flash-prev").disabled=flashIndex===0; $("#flash-next").disabled=flashIndex===cards.length-1;
+      $("#flash-flip").textContent=flashFlipped?"Show question":"Reveal answer";
     }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; background: radial-gradient(ellipse at top left, #17213c 0, var(--bg) 44%);
-      color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      min-height: 100vh;
+    const due = cards.length;
+    $("#flash-queue").innerHTML=`<div class="row" style="margin-bottom:12px"><div class="stat-value" style="font-size:26px;margin:0">${due}</div><div><div style="font-size:12px;font-weight:750">Cards in this queue</div><div class="tiny">Filtered by your selection</div></div></div><div class="progress-track"><div class="progress-fill" style="width:${due?Math.min(100,state.cardsReviewed/(state.cardsReviewed+due)*100):100}%"></div></div><p class="tiny" style="margin-top:10px">${state.cardsReviewed} cards reviewed overall</p>`;
+  }
+  function getFilteredQuestions() {
+    const filter=$("#quiz-subject-filter").value;
+    return state.questions.filter(q=>filter==="all"||q.subjectId===filter);
+  }
+  function renderQuiz() {
+    const area=$("#quiz-area");
+    const questions=getFilteredQuestions();
+    if (!activeQuiz || !questions.some(q=>q.id===activeQuiz.questionId)) {
+      activeQuiz = questions.length ? {questionId:questions[0].id, answered:false, selected:null, order:questions.map(q=>q.id)} : null;
     }
-    button, input, textarea, select { font: inherit; }
-    button { cursor: pointer; }
-    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .app { display: grid; grid-template-columns: 245px minmax(0, 1fr); min-height: 100vh; }
-    .sidebar {
-      border-right: 1px solid var(--line); padding: 25px 16px; background: rgba(10,15,29,.78);
-      display: flex; flex-direction: column; gap: 28px;
+    if (!questions.length) {
+      area.innerHTML=`<div class="card empty"><div class="empty-icon">◎</div><h3>No quiz questions yet</h3><p>Add your own multiple-choice question to start practising.</p><button class="btn" data-action="add-question">Create question</button></div>`;
+      return;
     }
-    .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px; }
-    .brand-mark { width: 38px; height: 38px; object-fit: contain; display:block; flex: 0 0 38px; }
-    .brand-name { font-size: 20px; font-weight: 750; letter-spacing: -.7px; }
-    .brand-sub { color: var(--muted); font-size: 11px; margin-top: 1px; letter-spacing: .4px; }
-    .nav-label { padding: 0 12px; color: #71809a; text-transform: uppercase; letter-spacing: 1.5px; font-size: 10px; font-weight: 800; margin-bottom: 8px; }
-    .nav { display:flex; flex-direction:column; gap:5px; }
-    .nav-btn { display:flex; align-items:center; gap:12px; width:100%; border:0; background:transparent; color:var(--muted); padding:12px 13px; border-radius:12px; text-align:left; transition:.18s; }
-    .nav-btn:hover { background:var(--panel-2); color:var(--text); }
-    .nav-btn.active { background:#242e4b; color:#fff; box-shadow: inset 3px 0 var(--accent); }
-    .nav-icon { width:20px; text-align:center; font-size:16px; }
-    .side-bottom { margin-top:auto; }
-    .mini-card { background:linear-gradient(145deg,#192441,#121a2e); border:1px solid var(--line); padding:15px; border-radius:15px; }
-    .mini-card strong { display:block; font-size:13px; margin-bottom:5px; }
-    .mini-card p { margin:0 0 12px; color:var(--muted); font-size:12px; line-height:1.5; }
-    .main { min-width:0; padding: 27px clamp(18px,3vw,42px) 50px; max-width: 1600px; width:100%; margin:0 auto; }
-    .topbar { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:30px; }
-    .eyebrow { color:var(--muted); font-size:12px; letter-spacing:.3px; margin-bottom:6px; }
-    h1 { font-size:clamp(25px,3vw,34px); letter-spacing:-1.1px; margin:0; line-height:1.15; }
-    .top-actions { display:flex; align-items:center; gap:10px; }
-    .search { width:min(240px,25vw); position:relative; }
-    .search input { width:100%; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:11px 13px 11px 36px; color:var(--text); }
-    .search span { position:absolute; left:12px; top:9px; color:var(--muted); }
-    .avatar { width:40px; height:40px; border-radius:13px; background:#273454; color:#dbe1ff; display:grid; place-items:center; font-weight:800; border:1px solid #3a486b; }
-    .page { display:none; }
-    .page.active { display:block; animation:fade .22s ease; }
-    @keyframes fade { from {opacity:.45; transform:translateY(4px)} to {opacity:1;transform:none} }
-    .grid { display:grid; gap:17px; }
-    .stats-grid { grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:20px; }
-    .card { background:linear-gradient(145deg,rgba(20,29,50,.98),rgba(16,23,41,.98)); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); min-width:0; }
-    .stat-top { display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--muted); font-size:12px; }
-    .stat-icon { width:32px; height:32px; display:grid; place-items:center; background:#222e4b; border-radius:10px; font-size:16px; }
-    .stat-value { font-size:29px; font-weight:780; letter-spacing:-1px; margin:13px 0 4px; }
-    .stat-foot { font-size:11px; color:var(--muted); }
-    .accent-text { color:var(--accent-2); }
-    .dashboard-grid { grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr); align-items:start; }
-    .section-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
-    .section-head h2 { margin:0; font-size:16px; letter-spacing:-.3px; }
-    .section-head p { margin:5px 0 0; font-size:12px; color:var(--muted); }
-    .text-btn { background:none; border:0; color:var(--accent); font-weight:700; font-size:12px; padding:6px; }
-    .text-btn:hover { color:#c2caff; }
-    .btn { border:1px solid transparent; background:var(--accent); color:#11172b; font-weight:750; padding:10px 14px; border-radius:11px; transition:.18s; }
-    .btn:hover { filter:brightness(1.08); transform:translateY(-1px); }
-    .btn.secondary { background:var(--panel-3); color:var(--text); border-color:#33415e; }
-    .btn.ghost { background:transparent; color:var(--muted); border-color:var(--line); }
-    .btn.danger { background:#442433; color:#ffb5c0; border-color:#623145; }
-    .btn.small { font-size:12px; padding:8px 10px; }
-    .btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
-    .quest-list, .activity-list { display:flex; flex-direction:column; gap:10px; }
-    .quest { display:flex; gap:12px; align-items:center; background:#141e33; border:1px solid #25334d; border-radius:13px; padding:13px; }
-    .quest-check { flex:0 0 22px; height:22px; border:1.5px solid #52617f; border-radius:7px; display:grid; place-items:center; color:#0c1722; font-size:13px; }
-    .quest.done .quest-check { background:var(--accent-2); border-color:var(--accent-2); }
-    .quest.done .quest-title { text-decoration:line-through; color:#8e9bb2; }
-    .quest-body { flex:1; min-width:0; }
-    .quest-title { font-size:13px; font-weight:700; }
-    .quest-desc { color:var(--muted); font-size:11px; margin-top:4px; }
-    .xp-pill { color:var(--gold); font-size:11px; font-weight:800; white-space:nowrap; }
-    .progress-track { height:7px; background:#28334c; border-radius:99px; overflow:hidden; }
-    .progress-fill { height:100%; width:0; border-radius:99px; background:linear-gradient(90deg,#7d8cff,#67e0c0); transition:width .3s; }
-    .level-panel { background:linear-gradient(120deg,#222d4c,#17233b); border:1px solid #34415f; border-radius:16px; padding:18px; margin-bottom:17px; }
-    .level-row { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
-    .level-badge { width:47px; height:47px; border-radius:15px; display:grid; place-items:center; background:linear-gradient(145deg,#b9c2ff,#7787ff); color:#11182b; font-weight:900; font-size:19px; }
-    .level-title { font-weight:800; font-size:15px; }
-    .level-sub { color:var(--muted); font-size:11px; margin-top:4px; }
-    .level-xp { font-size:12px; font-weight:700; color:#c8d0ff; }
-    .subject-list { display:flex; flex-direction:column; gap:11px; }
-    .subject-row { display:flex; align-items:center; gap:12px; }
-    .subject-dot { width:39px; height:39px; border-radius:12px; display:grid; place-items:center; font-size:18px; flex-shrink:0; }
-    .subject-info { flex:1; min-width:0; }
-    .subject-name { font-size:13px; font-weight:750; }
-    .subject-meta { font-size:11px; color:var(--muted); margin-top:4px; }
-    .subject-percent { color:var(--muted); font-size:11px; }
-    .subject-progress { margin-top:7px; }
-    .activity-item { display:flex; gap:11px; align-items:flex-start; padding:11px 0; border-bottom:1px solid #243047; }
-    .activity-item:last-child { border-bottom:0; }
-    .activity-icon { width:33px; height:33px; display:grid; place-items:center; border-radius:10px; background:#222d47; }
-    .activity-text { flex:1; font-size:12px; line-height:1.45; }
-    .activity-time { color:var(--muted); font-size:10px; margin-top:3px; }
-    .page-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
-    .page-toolbar h2 { font-size:20px; margin:0; letter-spacing:-.5px; }
-    .page-toolbar p { color:var(--muted); font-size:12px; margin:5px 0 0; }
-    .subject-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
-    .subject-card { cursor:pointer; transition:.18s; }
-    .subject-card:hover { transform:translateY(-3px); border-color:#47567a; }
-    .subject-card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
-    .subject-big-icon { width:47px; height:47px; display:grid; place-items:center; border-radius:14px; font-size:22px; }
-    .subject-card h3 { margin:0 0 6px; font-size:16px; }
-    .subject-card p { margin:0 0 17px; color:var(--muted); font-size:12px; }
-    .subject-card-foot { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:11px; margin-bottom:9px; }
-    .flash-layout { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr); gap:18px; align-items:start; }
-    .flashcard { min-height:280px; perspective:1000px; cursor:pointer; }
-    .flash-inner { position:relative; min-height:280px; transform-style:preserve-3d; transition:transform .45s; }
-    .flashcard.flipped .flash-inner { transform:rotateY(180deg); }
-    .flash-face { position:absolute; inset:0; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px; border-radius:20px; border:1px solid #3a466a; background:radial-gradient(circle at top right,#2a365a,#141d33 65%); }
-    .flash-face.back { transform:rotateY(180deg); background:radial-gradient(circle at top left,#1d514d,#142a35 72%); }
-    .flash-label { color:var(--accent); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; font-weight:850; margin-bottom:20px; }
-    .flash-face.back .flash-label { color:var(--accent-2); }
-    .flash-question { font-size:clamp(19px,2vw,27px); line-height:1.35; font-weight:750; max-width:580px; }
-    .flash-hint { color:var(--muted); font-size:11px; margin-top:25px; }
-    .flash-controls { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:15px; flex-wrap:wrap; }
-    .flash-count { color:var(--muted); font-size:12px; min-width:60px; text-align:center; }
-    .empty { text-align:center; padding:38px 20px; color:var(--muted); }
-    .empty .empty-icon { font-size:30px; margin-bottom:12px; }
-    .empty h3 { color:var(--text); margin:0 0 7px; font-size:16px; }
-    .empty p { font-size:12px; line-height:1.6; max-width:360px; margin:0 auto 16px; }
-    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
-    .field { display:flex; flex-direction:column; gap:7px; min-width:0; }
-    .field.full { grid-column:1/-1; }
-    .field label { color:#c1cbe0; font-size:12px; font-weight:700; }
-    .field input, .field textarea, .field select { width:100%; background:#0e1526; color:var(--text); border:1px solid #2c3955; border-radius:10px; padding:11px 12px; }
-    .field textarea { resize:vertical; min-height:90px; }
-    .field input::placeholder, .field textarea::placeholder { color:#66748e; }
-    .form-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; }
-    .modal-backdrop { position:fixed; inset:0; background:rgba(3,6,14,.76); z-index:20; display:none; align-items:center; justify-content:center; padding:18px; }
-    .modal-backdrop.open { display:flex; }
-    .modal { width:min(560px,100%); max-height:90vh; overflow:auto; background:#111a2d; border:1px solid #34415d; border-radius:20px; padding:22px; box-shadow:0 30px 100px #0008; }
-    .modal-head { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; }
-    .modal-head h2 { margin:0; font-size:19px; }
-    .icon-btn { border:1px solid var(--line); background:#1b2740; color:var(--muted); width:34px; height:34px; border-radius:10px; }
-    .quiz-layout { display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:18px; align-items:start; }
-    .quiz-option { display:block; width:100%; text-align:left; background:#151f34; border:1px solid #2c3a57; color:var(--text); padding:14px; border-radius:12px; margin-top:9px; }
-    .quiz-option:hover:not(:disabled) { border-color:#8392ff; background:#202b47; }
-    .quiz-option.correct { border-color:#55d6b4; background:#143d3b; }
-    .quiz-option.incorrect { border-color:#ff7e91; background:#432331; }
-    .quiz-feedback { margin-top:14px; padding:12px; border-radius:10px; font-size:12px; line-height:1.5; display:none; }
-    .quiz-feedback.show { display:block; }
-    .quiz-feedback.good { background:#143d35; color:#a5f0dc; }
-    .quiz-feedback.bad { background:#432331; color:#ffc1cb; }
-    .quiz-top { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-bottom:16px; }
-    .quiz-question { font-size:20px; font-weight:750; line-height:1.4; margin-bottom:16px; }
-    .achievement-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
-    .achievement { text-align:center; padding:20px 13px; }
-    .achievement-icon { font-size:28px; margin-bottom:11px; filter:grayscale(1); opacity:.5; }
-    .achievement.unlocked .achievement-icon { filter:none; opacity:1; }
-    .achievement h3 { margin:0 0 6px; font-size:13px; }
-    .achievement p { margin:0; color:var(--muted); font-size:11px; line-height:1.5; }
-    .achievement-status { display:inline-block; margin-top:12px; font-size:10px; color:var(--muted); padding:4px 8px; border-radius:99px; background:#202a40; }
-    .achievement.unlocked .achievement-status { color:#9cebd7; background:#183b3a; }
-    .test-list { display:flex; flex-direction:column; gap:10px; }
-    .test-item { display:flex; align-items:center; gap:13px; padding:14px; border:1px solid var(--line); border-radius:13px; background:#141e32; }
-    .test-date { width:48px; height:51px; border-radius:11px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#25314f; flex-shrink:0; }
-    .test-date strong { font-size:18px; }
-    .test-date span { font-size:9px; color:var(--muted); text-transform:uppercase; }
-    .test-main { flex:1; min-width:0; }
-    .test-main strong { font-size:13px; }
-    .test-main p { margin:4px 0 0; font-size:11px; color:var(--muted); }
-    .test-days { font-size:11px; color:var(--gold); font-weight:750; white-space:nowrap; }
-    .toast { position:fixed; bottom:22px; right:22px; z-index:40; background:#d8e0ff; color:#11172a; padding:13px 17px; border-radius:12px; font-size:13px; font-weight:750; box-shadow:0 12px 35px #0005; opacity:0; transform:translateY(12px); pointer-events:none; transition:.25s; }
-    .toast.show { opacity:1; transform:none; }
-    .muted { color:var(--muted); }
-    .tiny { font-size:11px; color:var(--muted); }
-    .row { display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
-    .spacer { flex:1; }
-    .divider { height:1px; background:var(--line); margin:17px 0; }
-    .notice { padding:12px 14px; border-radius:12px; background:#202b43; border:1px solid #33415d; color:#c3cce0; font-size:11px; line-height:1.6; margin-top:14px; }
-    .footer-note { color:#66748e; font-size:10px; text-align:center; margin-top:25px; }
-    @media (max-width:1100px) {
-      .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .dashboard-grid { grid-template-columns:1fr; }
-      .subject-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .achievement-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    let q=questions.find(item=>item.id===activeQuiz.questionId);
+    if (!q) { q=questions[0]; activeQuiz={questionId:q.id,answered:false,selected:null,order:questions.map(x=>x.id)}; }
+    const answered=activeQuiz.answered;
+    area.innerHTML=`<article class="card"><div class="quiz-top"><span>${escapeHTML(subjectName(q.subjectId))}</span><span>${questions.indexOf(q)+1} of ${questions.length}</span></div><div class="progress-track" style="margin-bottom:22px"><div class="progress-fill" style="width:${(questions.indexOf(q)+1)/questions.length*100}%"></div></div><div class="quiz-question">${escapeHTML(q.question)}</div><div id="quiz-options">${q.options.map((opt,i)=>{let cls="";if(answered&&i===q.answer)cls="correct";else if(answered&&i===activeQuiz.selected&&i!==q.answer)cls="incorrect";return `<button class="quiz-option ${cls}" data-answer="${i}" ${answered?"disabled":""}><span class="muted" style="display:inline-block;width:27px">${String.fromCharCode(65+i)}.</span>${escapeHTML(opt)}</button>`;}).join("")}</div><div class="quiz-feedback ${answered?"show":""} ${answered?(activeQuiz.selected===q.answer?"good":"bad"):""}" id="quiz-feedback">${answered?`${activeQuiz.selected===q.answer?"Correct.":"Not quite."} ${escapeHTML(q.explanation||"Review the answer and try to remember it next time.")}`:""}</div><div class="row" style="justify-content:space-between;margin-top:18px"><button class="btn ghost small" data-action="skip-question">Skip question</button>${answered?`<button class="btn" data-action="next-question">Next question →</button>`:`<span class="tiny">Choose an answer to continue.</span>`}</div></article>`;
+  }
+  function daysUntil(dateStr) {
+    const now=new Date(); now.setHours(0,0,0,0);
+    const target=new Date(dateStr+"T00:00:00");
+    return Math.ceil((target-now)/86400000);
+  }
+  function testMarkup(t) {
+    const date=new Date(t.date+"T00:00:00");
+    const days=daysUntil(t.date);
+    const dayLabel=days<0?"Passed":days===0?"Today":days===1?"Tomorrow":`${days} days left`;
+    return `<div class="test-item"><div class="test-date"><strong>${date.getDate()}</strong><span>${date.toLocaleString(undefined,{month:"short"})}</span></div><div class="test-main"><strong>${escapeHTML(t.name)}</strong><p>${escapeHTML(t.subjectId?subjectName(t.subjectId):"General")} ${t.notes?"· "+escapeHTML(t.notes):""}</p></div><div class="test-days">${dayLabel}</div><button class="icon-btn" data-delete-test="${escapeHTML(t.id)}" aria-label="Delete test">✕</button></div>`;
+  }
+  function renderTests() {
+    const tests=[...state.tests].sort((a,b)=>a.date.localeCompare(b.date));
+    const upcoming=tests.filter(t=>daysUntil(t.date)>=0);
+    $("#tests-list").innerHTML=tests.length?tests.map(testMarkup).join(""):`<div class="empty"><div class="empty-icon">◷</div><h3>No test dates yet</h3><p>Add an upcoming test so you can plan your revision ahead of time.</p><button class="btn" data-action="add-test">Add a test date</button></div>`;
+    $("#dashboard-tests").innerHTML=upcoming.length?upcoming.slice(0,3).map(testMarkup).join(""):`<div class="empty" style="padding:20px 10px"><p>No upcoming tests. Add one when you know the date.</p><button class="btn secondary small" data-action="add-test">Add test</button></div>`;
+  }
+  function renderActivity() {
+    $("#activity-list").innerHTML=state.activity.length?state.activity.slice(0,5).map(a=>`<div class="activity-item"><div class="activity-icon">${escapeHTML(a.icon)}</div><div class="activity-text">${escapeHTML(a.text)}<div class="activity-time">${new Date(a.at).toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}</div></div></div>`).join(""):`<div class="empty" style="padding:22px 10px"><p>Your study activity will appear here. Try a flashcard or quiz to get started.</p></div>`;
+  }
+  function renderAchievements() {
+    $("#achievement-grid").innerHTML=achievements.map(a=>{const unlocked=a.test(state);return `<article class="card achievement ${unlocked?"unlocked":""}"><div class="achievement-icon">${a.icon}</div><h3>${escapeHTML(a.name)}</h3><p>${escapeHTML(a.desc)}</p><span class="achievement-status">${unlocked?"Unlocked":"Locked"}</span></article>`;}).join("");
+  }
+  function renderProgressSubjects() {
+    $("#progress-subjects").innerHTML=state.subjects.length?state.subjects.map(s=>{const cards=state.cards.filter(c=>c.subjectId===s.id).length,qs=state.questions.filter(q=>q.subjectId===s.id).length,m=masteryForSubject(s.id);return `<div class="subject-row"><div class="subject-dot" style="background:${escapeHTML(s.color||"#273a57")}25;color:${escapeHTML(s.color||"#8b9cff")}">${escapeHTML(s.icon||"◈")}</div><div class="subject-info"><div class="row"><span class="subject-name">${escapeHTML(s.name)}</span><span class="spacer"></span><span class="subject-percent">${m}% mastery</span></div><div class="subject-meta">${cards} flashcards · ${qs} questions</div><div class="progress-track subject-progress"><div class="progress-fill" style="width:${m}%"></div></div></div></div>`;}).join(""):`<div class="empty"><p>Add a subject to begin tracking progress.</p></div>`;
+  }
+  function renderAll() {
+    renderStats(); renderQuests(); renderSubjects(); renderFlashcards(); renderQuiz(); renderTests(); renderActivity(); renderAchievements(); renderProgressSubjects();
+    $("#profile-button").textContent=(state.profile.name||"Learner").trim().charAt(0).toUpperCase()||"Y";
+    $("#today-label").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}).toUpperCase();
+    save();
+  }
+  const pageTitles={dashboard:"Welcome back.",subjects:"Your subjects.",flashcards:"Time to remember.",quizzes:"Test your knowledge.",progress:"Look how far you've come.",tests:"Stay one step ahead."};
+  function navigate(page) {
+    if (!pageTitles[page]) return;
+    currentPage=page;
+    $$(".page").forEach(el=>el.classList.toggle("active",el.id===`page-${page}`));
+    $$(".nav-btn").forEach(el=>el.classList.toggle("active",el.dataset.page===page));
+    $("#page-title").textContent=pageTitles[page];
+    window.scrollTo({top:0,behavior:"smooth"});
+    if (page==="flashcards") renderFlashcards();
+    if (page==="quizzes") renderQuiz();
+  }
+  function openModal(title, html) {
+    $("#modal-title").textContent=title; $("#modal-content").innerHTML=html;
+    $("#modal-backdrop").classList.add("open");
+    setTimeout(()=>$("#modal-content input, #modal-content textarea, #modal-content select")?.focus(),30);
+  }
+  function closeModal() { $("#modal-backdrop").classList.remove("open"); }
+  function subjectOptions(selected="") {
+    return state.subjects.map(s=>`<option value="${escapeHTML(s.id)}" ${s.id===selected?"selected":""}>${escapeHTML(s.name)}</option>`).join("");
+  }
+  function addSubjectModal() {
+    const palette=["#8b9cff","#65dfc0","#f2c879","#c59cff","#ff9a9e","#78c9ed"];
+    openModal("Create a subject",`<form id="subject-form"><div class="form-grid"><div class="field full"><label for="subject-name">Subject name</label><input id="subject-name" name="name" required maxlength="45" placeholder="e.g. History"></div><div class="field"><label for="subject-icon">Icon or symbol</label><input id="subject-icon" name="icon" maxlength="4" placeholder="◈" value="◈"></div><div class="field"><label for="subject-color">Accent colour</label><select id="subject-color" name="color">${palette.map(c=>`<option value="${c}">${c}</option>`).join("")}</select></div><div class="field full"><label for="subject-description">Short description</label><input id="subject-description" name="description" maxlength="100" placeholder="What are you learning?"></div></div><div class="form-actions"><button type="button" class="btn ghost" data-close-modal>Cancel</button><button class="btn" type="submit">Create subject</button></div></form>`);
+  }
+  function addCardModal(card=null) {
+    const editing=!!card;
+    openModal(editing?"Edit flashcard":"Create a flashcard",`<form id="card-form" data-edit-id="${card?escapeHTML(card.id):""}"><div class="form-grid"><div class="field full"><label for="card-subject">Subject</label><select id="card-subject" name="subjectId" required>${subjectOptions(card?.subjectId||state.subjects[0]?.id||"")}</select></div><div class="field full"><label for="card-question">Front · Question or prompt</label><textarea id="card-question" name="question" required maxlength="500" placeholder="What do you want to remember?">${escapeHTML(card?.question||"")}</textarea></div><div class="field full"><label for="card-answer">Back · Answer</label><textarea id="card-answer" name="answer" required maxlength="1200" placeholder="Write a clear answer...">${escapeHTML(card?.answer||"")}</textarea></div></div><div class="form-actions"><button type="button" class="btn ghost" data-close-modal>Cancel</button><button class="btn" type="submit">${editing?"Save changes":"Create card"}</button></div></form>`);
+  }
+  function addQuestionModal(question=null) {
+    const editing=!!question;
+    const opts=question?.options||["","","",""];
+    openModal(editing?"Edit quiz question":"Create a quiz question",`<form id="question-form" data-edit-id="${question?escapeHTML(question.id):""}"><div class="form-grid"><div class="field full"><label for="question-subject">Subject</label><select id="question-subject" name="subjectId" required>${subjectOptions(question?.subjectId||state.subjects[0]?.id||"")}</select></div><div class="field full"><label for="question-text">Question</label><textarea id="question-text" name="question" required maxlength="500" placeholder="Write your question...">${escapeHTML(question?.question||"")}</textarea></div>${opts.map((o,i)=>`<div class="field"><label for="option-${i}">Option ${String.fromCharCode(65+i)}</label><input id="option-${i}" name="option${i}" required maxlength="250" value="${escapeHTML(o)}" placeholder="Answer option"></div>`).join("")}<div class="field"><label for="correct-answer">Correct option</label><select id="correct-answer" name="answer">${opts.map((o,i)=>`<option value="${i}" ${(question?.answer??0)===i?"selected":""}>${String.fromCharCode(65+i)}</option>`).join("")}</select></div><div class="field"><label for="question-explanation">Explanation (optional)</label><input id="question-explanation" name="explanation" maxlength="500" value="${escapeHTML(question?.explanation||"")}" placeholder="Why is it correct?"></div></div><div class="form-actions"><button type="button" class="btn ghost" data-close-modal>Cancel</button><button class="btn" type="submit">${editing?"Save changes":"Create question"}</button></div></form>`);
+  }
+  function addTestModal() {
+    const minDate=todayKey();
+    openModal("Add a test date",`<form id="test-form"><div class="form-grid"><div class="field full"><label for="test-name">Test or assessment</label><input id="test-name" name="name" required maxlength="80" placeholder="e.g. Biology test"></div><div class="field"><label for="test-subject">Subject</label><select id="test-subject" name="subjectId"><option value="">General</option>${subjectOptions()}</select></div><div class="field"><label for="test-date">Date</label><input id="test-date" name="date" type="date" min="${minDate}" required></div><div class="field full"><label for="test-notes">Notes (optional)</label><input id="test-notes" name="notes" maxlength="120" placeholder="Topics to revise"></div></div><div class="form-actions"><button type="button" class="btn ghost" data-close-modal>Cancel</button><button class="btn" type="submit">Save test</button></div></form>`);
+  }
+  function manageCardsModal() {
+    const cards=state.cards;
+    openModal("Manage flashcards",cards.length?`<div style="display:flex;flex-direction:column;gap:9px">${cards.map(c=>`<div class="quest"><div class="quest-body"><div class="quest-title">${escapeHTML(c.question)}</div><div class="quest-desc">${escapeHTML(subjectName(c.subjectId))}</div></div><button class="btn ghost small" data-edit-card="${escapeHTML(c.id)}">Edit</button><button class="btn danger small" data-delete-card="${escapeHTML(c.id)}">Delete</button></div>`).join("")}</div><div class="form-actions"><button class="btn ghost" data-close-modal>Done</button><button class="btn" data-action="add-card">＋ Add card</button></div>`:`<div class="empty"><p>You haven't created any cards yet.</p><button class="btn" data-action="add-card">Create flashcard</button></div>`);
+  }
+  function updateDailyMetric(metric) {
+    state.dailyStats[todayKey()] ||= {cardsReviewed:0,questionsAnswered:0,sessions:0};
+    state.dailyStats[todayKey()][metric]=(state.dailyStats[todayKey()][metric]||0)+1;
+  }
+  function rateCard(known) {
+    const cards=filteredCards(); const card=cards[flashIndex]; if (!card) return;
+    state.cardsReviewed++; updateDailyMetric("cardsReviewed"); updateStreak();
+    state.cardStats[card.id] ||= {known:0,again:0,reviewed:0};
+    state.cardStats[card.id].reviewed++;
+    if (known) { state.cardStats[card.id].known++; earnXP(5,"Flashcard recalled"); }
+    else { state.cardStats[card.id].again++; recordActivity("▤","Marked a flashcard for more practice"); }
+    checkQuests(); save();
+    flashFlipped=false;
+    if (flashIndex < cards.length-1) flashIndex++; else flashIndex=0;
+    renderAll();
+    if (!known) showToast("Keep practising. Difficult cards help you learn.");
+  }
+  function answerQuestion(index) {
+    if (!activeQuiz || activeQuiz.answered) return;
+    const q=state.questions.find(item=>item.id===activeQuiz.questionId); if (!q) return;
+    activeQuiz.answered=true; activeQuiz.selected=index;
+    state.questionsAnswered++; updateDailyMetric("questionsAnswered"); updateStreak();
+    state.questionStats[q.id] ||= {correct:0,wrong:0};
+    const correct=index===q.answer;
+    if (correct) { state.correctAnswers++; state.questionStats[q.id].correct++; state.xp+=10; recordActivity("◎",`Answered correctly: ${q.question} · +10 XP`); }
+    else { state.questionStats[q.id].wrong++; state.xp+=3; recordActivity("◎",`Practised a quiz question · +3 XP`); }
+    updateDailyMetric("sessions");
+    checkQuests(); save(); renderAll();
+    renderQuiz();
+    showToast(correct?"Correct answer · +10 XP":"Answer recorded · +3 XP");
+  }
+  function nextQuestion() {
+    const questions=getFilteredQuestions(); if (!questions.length) return;
+    const current=questions.findIndex(q=>q.id===activeQuiz?.questionId);
+    const next=questions[(current+1)%questions.length];
+    activeQuiz={questionId:next.id,answered:false,selected:null,order:questions.map(q=>q.id)};
+    renderQuiz();
+  }
+  function exportData() {
+    const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob); const a=document.createElement("a");
+    a.href=url; a.download=`recall-backup-${todayKey()}.json`; a.click(); URL.revokeObjectURL(url);
+    showToast("Your backup has been prepared.");
+  }
+  function importNameModal() {
+    openModal("Your profile",`<form id="profile-form"><div class="field"><label for="profile-name">What should Recall call you?</label><input id="profile-name" name="name" required maxlength="35" value="${escapeHTML(state.profile.name||"Learner")}"></div><div class="form-actions"><button type="button" class="btn ghost" data-close-modal>Cancel</button><button type="submit" class="btn">Save name</button></div></form><div class="notice">This name is only stored in this browser. Recall does not have accounts in this version.</div>`);
+  }
+  function startQuickStudy() {
+    if (state.cards.length) navigate("flashcards");
+    else if (state.questions.length) navigate("quizzes");
+    else addCardModal();
+  }
+
+  document.addEventListener("click", e => {
+    const nav=e.target.closest("[data-page]"); if (nav) { navigate(nav.dataset.page); return; }
+    const goto=e.target.closest("[data-goto]"); if (goto) { navigate(goto.dataset.goto); return; }
+    const action=e.target.closest("[data-action]")?.dataset.action;
+    if (action) {
+      switch(action) {
+        case "add-subject": addSubjectModal(); break;
+        case "add-card": addCardModal(); break;
+        case "add-question": addQuestionModal(); break;
+        case "add-test": addTestModal(); break;
+        case "manage-cards": manageCardsModal(); break;
+        case "quick-study": startQuickStudy(); break;
+        case "export-data": exportData(); break;
+        case "skip-question": nextQuestion(); break;
+        case "next-question": nextQuestion(); break;
+      }
+      return;
     }
-    @media (max-width:760px) {
-      .app { grid-template-columns:1fr; }
-      .sidebar { padding:12px; border-right:0; border-bottom:1px solid var(--line); gap:12px; }
-      .brand { padding:0 5px; }
-      .sidebar .nav-label, .side-bottom { display:none; }
-      .nav { flex-direction:row; overflow-x:auto; padding-bottom:2px; }
-      .nav-btn { width:auto; flex-shrink:0; padding:10px 12px; font-size:12px; }
-      .nav-icon { width:auto; }
-      .main { padding:20px 14px 35px; }
-      .topbar { align-items:flex-start; margin-bottom:22px; }
-      .search { display:none; }
-      .dashboard-grid, .flash-layout, .quiz-layout { grid-template-columns:1fr; }
-      .subject-grid { grid-template-columns:1fr; }
-      .stats-grid { gap:10px; }
-      .card { padding:16px; border-radius:15px; }
-      .stat-value { font-size:25px; }
-      .form-grid { grid-template-columns:1fr; }
-      .field.full { grid-column:auto; }
-      .test-item { align-items:flex-start; }
-      .test-days { white-space:normal; text-align:right; }
+    if (e.target.closest("[data-close-modal]")) { closeModal(); return; }
+    const subjectMenu=e.target.closest("[data-subject-menu]");
+    if (subjectMenu) { e.stopPropagation(); const s=subjectById(subjectMenu.dataset.subjectMenu); if(s) editSubjectModal(s); return; }
+    const subjectOpen=e.target.closest("[data-subject-open]");
+    if (subjectOpen) {
+      const id=subjectOpen.dataset.subjectOpen;
+      $("#flash-subject-filter").value=id; $("#quiz-subject-filter").value=id;
+      navigate("flashcards"); flashIndex=0; flashFlipped=false; renderFlashcards(); return;
     }
-    @media (max-width:420px) {
-      .stats-grid { grid-template-columns:1fr 1fr; }
-      .stat-top { font-size:10px; }
-      .stat-icon { width:28px; height:28px; }
-      .stat-value { font-size:23px; }
-      .achievement-grid { grid-template-columns:1fr 1fr; }
-      .topbar h1 { font-size:25px; }
-      .avatar { width:35px; height:35px; }
+    const ans=e.target.closest("[data-answer]"); if (ans) { answerQuestion(Number(ans.dataset.answer)); return; }
+    const editCard=e.target.closest("[data-edit-card]"); if (editCard) { const c=state.cards.find(x=>x.id===editCard.dataset.editCard); if(c) addCardModal(c); return; }
+    const deleteCard=e.target.closest("[data-delete-card]"); if (deleteCard) {
+      if(confirm("Delete this flashcard?")) { state.cards=state.cards.filter(c=>c.id!==deleteCard.dataset.deleteCard); closeModal(); save(); renderAll(); showToast("Flashcard deleted."); } return;
     }
-  </style>
-</head>
+    const deleteTest=e.target.closest("[data-delete-test]"); if(deleteTest) {
+      if(confirm("Delete this test date?")) { state.tests=state.tests.filter(t=>t.id!==deleteTest.dataset.deleteTest); save(); renderAll(); showToast("Test date deleted."); } return;
+    }
+    const activeFlash=e.target.closest("#active-flashcard"); if(activeFlash) { flashFlipped=!flashFlipped; renderFlashcards(); return; }
+  });
+  function editSubjectModal(s) {
+    openModal("Edit subject",`<form id="subject-form" data-edit-id="${escapeHTML(s.id)}"><div class="form-grid"><div class="field full"><label for="subject-name">Subject name</label><input id="subject-name" name="name" required maxlength="45" value="${escapeHTML(s.name)}"></div><div class="field"><label for="subject-icon">Icon or symbol</label><input id="subject-icon" name="icon" maxlength="4" value="${escapeHTML(s.icon||"◈")}"></div><div class="field"><label for="subject-color">Accent colour</label><input id="subject-color" name="color" type="color" value="${escapeHTML(s.color||"#8b9cff")}" style="height:42px;padding:4px"></div><div class="field full"><label for="subject-description">Description</label><input id="subject-description" name="description" maxlength="100" value="${escapeHTML(s.description||"")}"></div></div><div class="form-actions"><button type="button" class="btn danger" id="delete-subject">Delete subject</button><button type="button" class="btn ghost" data-close-modal>Cancel</button><button type="submit" class="btn">Save changes</button></div></form>`);
+  }
+  $("#modal-close").addEventListener("click",closeModal);
+  $("#modal-backdrop").addEventListener("click",e=>{if(e.target===$("#modal-backdrop"))closeModal();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();if((e.key==="Enter"||e.key===" ")&&e.target.id==="active-flashcard"){e.preventDefault();flashFlipped=!flashFlipped;renderFlashcards();}});
+  $("#profile-button").addEventListener("click",importNameModal);
+  $("#flash-prev").addEventListener("click",()=>{if(flashIndex>0){flashIndex--;flashFlipped=false;renderFlashcards();}});
+  $("#flash-next").addEventListener("click",()=>{const cards=filteredCards();if(flashIndex<cards.length-1){flashIndex++;flashFlipped=false;renderFlashcards();}});
+  $("#flash-flip").addEventListener("click",()=>{flashFlipped=!flashFlipped;renderFlashcards();});
+  $("#flash-again").addEventListener("click",()=>rateCard(false));
+  $("#flash-good").addEventListener("click",()=>rateCard(true));
+  $("#flash-subject-filter").addEventListener("change",()=>{flashIndex=0;flashFlipped=false;renderFlashcards();});
+  $("#quiz-subject-filter").addEventListener("change",()=>{activeQuiz=null;renderQuiz();});
+  $("#global-search").addEventListener("input",e=>{
+    const term=e.target.value.trim().toLowerCase();
+    if(!term)return;
+    const found=state.subjects.find(s=>s.name.toLowerCase().includes(term));
+    if(found){navigate("subjects");$$("[data-subject-open]").forEach(el=>el.style.display=el.dataset.subjectOpen===found.id?"":"none");}
+    else if(currentPage==="subjects")$$("[data-subject-open]").forEach(el=>el.style.display=el.textContent.toLowerCase().includes(term)?"":"none");
+  });
+  document.addEventListener("submit",e=>{
+    const form=e.target; e.preventDefault();
+    if(form.id==="subject-form") {
+      const fd=new FormData(form), id=form.dataset.editId;
+      const data={name:String(fd.get("name")).trim(),icon:String(fd.get("icon")||"◈").trim(),color:String(fd.get("color")||"#8b9cff"),description:String(fd.get("description")||"").trim()};
+      if(!data.name)return;
+      if(id) {
+        const s=subjectById(id); if(s)Object.assign(s,data);
+        showToast("Subject updated.");
+      } else {
+        const newId=uid(); state.subjects.push({id:newId,...data});
+        recordActivity("▦",`Added subject: ${data.name}`); showToast("Subject created.");
+      }
+      save(); closeModal(); renderAll(); return;
+    }
+    if(form.id==="card-form") {
+      const fd=new FormData(form), id=form.dataset.editId;
+      const data={subjectId:String(fd.get("subjectId")),question:String(fd.get("question")).trim(),answer:String(fd.get("answer")).trim()};
+      if(!data.question||!data.answer)return;
+      if(id) {const c=state.cards.find(x=>x.id===id);if(c)Object.assign(c,data);showToast("Flashcard updated.");}
+      else {state.cards.push({id:uid(),...data,createdAt:Date.now()});recordActivity("▤",`Created a flashcard for ${subjectName(data.subjectId)}`);showToast("Flashcard created.");}
+      closeModal(); flashIndex=0; flashFlipped=false; save(); renderAll(); return;
+    }
+    if(form.id==="question-form") {
+      const fd=new FormData(form), id=form.dataset.editId;
+      const data={subjectId:String(fd.get("subjectId")),question:String(fd.get("question")).trim(),options:[0,1,2,3].map(i=>String(fd.get("option"+i)).trim()),answer:Number(fd.get("answer")),explanation:String(fd.get("explanation")||"").trim()};
+      if(!data.question||data.options.some(o=>!o))return;
+      if(id) {const q=state.questions.find(x=>x.id===id);if(q)Object.assign(q,data);showToast("Question updated.");}
+      else {state.questions.push({id:uid(),...data,createdAt:Date.now()});recordActivity("◎",`Created a quiz question for ${subjectName(data.subjectId)}`);showToast("Quiz question created.");}
+      closeModal(); activeQuiz=null; save(); renderAll(); return;
+    }
+    if(form.id==="test-form") {
+      const fd=new FormData(form), data={id:uid(),name:String(fd.get("name")).trim(),subjectId:String(fd.get("subjectId")||""),date:String(fd.get("date")),notes:String(fd.get("notes")||"").trim()};
+      if(!data.name||!data.date)return;
+      state.tests.push(data);recordActivity("◷",`Added test date: ${data.name}`);closeModal();save();renderAll();showToast("Test date saved.");return;
+    }
+    if(form.id==="profile-form") {
+      state.profile.name=String(new FormData(form).get("name")).trim()||"Learner";
+      closeModal();save();renderAll();showToast("Profile updated.");return;
+    }
+  });
+  document.addEventListener("click",e=>{
+    if(e.target.id==="delete-subject") {
+      const form=$("#subject-form"), id=form?.dataset.editId; if(!id)return;
+      if(confirm("Delete this subject? Its flashcards and questions will remain but become unassigned.")) {
+        state.subjects=state.subjects.filter(s=>s.id!==id);
+        state.cards.forEach(c=>{if(c.subjectId===id)c.subjectId="";});
+        state.questions.forEach(q=>{if(q.subjectId===id)q.subjectId="";});
+        state.tests.forEach(t=>{if(t.subjectId===id)t.subjectId="";});
+        closeModal();save();renderAll();showToast("Subject deleted.");
+      }
+    }
+  });
+  // Starter demo content is intentionally editable; it is not meant to replace your own class notes.
+  const now=new Date();
+  const welcomeTestDate=new Date(now); welcomeTestDate.setDate(now.getDate()+7);
+  if(!localStorage.getItem(STORAGE_KEY)) {
+    state.activity.push({id:uid(),icon:"✦",text:"Welcome to Recall. Your learning journey starts here.",at:Date.now()});
+    save();
+  }
+  renderAll();
+})();
+</script>
+</body>
+</html>
