@@ -4,761 +4,828 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recall — Learn. Improve. Level up.</title>
+<title>Recall — Learn smarter</title>
 <style>
 :root {
-  --bg:#07101e;
-  --panel:#0b172a;
-  --panel2:#101f36;
-  --line:#203451;
-  --text:#edf3ff;
-  --muted:#91a5c8;
-  --blue:#70b4ff;
-  --purple:#8275ff;
-  --mint:#64ddc2;
-  --gold:#ffc96b;
+  --bg:#07101e; --panel:#0d1a2d; --panel2:#12233b;
+  --border:#243751; --text:#f0f5ff; --muted:#91a4bf;
+  --blue:#70b4ff; --purple:#9b8cff; --mint:#64ddc2;
+  --red:#ff8585; --radius:16px;
 }
 * {box-sizing:border-box}
-body {
-  margin:0;
-  background:radial-gradient(ellipse at top,#17294b,transparent 45%),var(--bg);
-  color:var(--text);
-  font:14px/1.5 Inter,system-ui,sans-serif;
-}
-button,input {font:inherit}
-button {cursor:pointer;color:inherit}
-button:focus-visible,input:focus-visible {
-  outline:2px solid var(--blue);outline-offset:3px
-}
-header {
-  height:72px;display:flex;align-items:center;gap:22px;
-  padding:0 25px;background:#07101ef2;
-  border-bottom:1px solid var(--line);
-  position:sticky;top:0;z-index:5
-}
-.brand {display:flex;align-items:center;gap:10px;font-size:25px;font-weight:700;letter-spacing:-1px}
-.logo {width:39px;height:39px}
-.search {flex:1;position:relative;max-width:720px}
-.search input {
-  width:100%;padding:12px 15px 12px 40px;
-  background:var(--panel2);border:1px solid #29405f;
-  border-radius:10px;color:white
-}
-.search-icon {position:absolute;left:13px;top:9px;font-size:21px;color:var(--blue)}
-.search-results {
-  display:none;position:absolute;top:48px;left:0;right:0;
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:10px;padding:7px;z-index:10
-}
-.search-results button {
-  width:100%;display:block;text-align:left;background:none;
-  border:0;padding:11px;border-radius:7px
-}
-.search-results button:hover {background:#172b49}
-.search-results small {display:block;color:var(--muted)}
-.avatar {margin-left:auto;background:#203657;border:0;border-radius:50%;width:36px;height:36px;font-weight:bold}
-.layout {display:grid;grid-template-columns:195px 1fr;min-height:calc(100vh - 72px)}
-.sidebar {padding:20px 12px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:5px}
-.nav {
-  background:transparent;border:1px solid transparent;color:#afc0df;
-  text-align:left;padding:11px 12px;border-radius:9px;display:flex;gap:13px
-}
-.nav:hover,.nav.active {background:#142a50;border-color:#294b7b;color:var(--blue)}
-.nav .ico {width:22px;text-align:center;font-size:18px}
-.side-note {margin-top:auto;padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;color:var(--muted)}
-.side-note strong {font-size:24px;color:var(--blue)}
-.main {padding:22px;min-width:0}
-.page {display:none;max-width:1500px;margin:auto}
-.page.active {display:block}
-.columns {display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:15px}
-.primary,.right {display:flex;flex-direction:column;gap:15px;min-width:0}
-.panel {
-  background:linear-gradient(145deg,#0b192d,#081324);
-  border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0
-}
-.welcome {display:flex;justify-content:space-between;gap:15px;padding:23px}
-h1 {font-size:24px;letter-spacing:-.5px;margin:0 0 5px}
-h2 {font-size:15px;margin:0;font-weight:650}
-.sub,.muted {color:var(--muted)}
-.sub {margin:0 0 18px}
-.muted {font-size:12px}
-.stats {display:flex;flex-wrap:wrap;gap:9px}
-.stat {background:#0e1d33;border:1px solid var(--line);border-radius:10px;padding:10px;min-width:105px;flex:1}
-.stat strong,.stat small {display:block}
-.stat strong {font-size:12px}
-.stat small {color:var(--muted);font-size:10px}
-.big {font-size:22px}
-.leveltop {display:flex;align-items:center;gap:8px}
-.progressbar {height:6px;background:#20314d;border-radius:9px;overflow:hidden}
-.progressbar span {height:100%;display:block;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:9px}
-.level .progressbar {margin-top:8px}
-.mountain {width:125px;align-self:center;flex-shrink:0}
-.head {display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}
-.head h2 {display:flex;gap:9px;align-items:center}
-.hi {font-size:19px;color:var(--blue)}
-.link {border:0;background:none;color:var(--blue);font-size:12px}
-.twogrid {display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.quests {display:flex;flex-direction:column;gap:13px}
-.quest {display:flex;align-items:center;gap:10px;cursor:pointer}
-.quest input {accent-color:var(--mint);width:18px;height:18px}
-.quest .reward {margin-left:auto;color:var(--mint);font-size:12px;white-space:nowrap}
-.quest.done .qtext {text-decoration:line-through;color:var(--muted)}
-.tree {width:100%;height:150px}
-.legend {display:flex;justify-content:center;gap:12px;color:var(--muted);font-size:10px}
-.dot {display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
-.test {margin-bottom:14px}
-.testline {display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
-.testline span:last-child {color:var(--muted)}
-.activitylist {display:flex;flex-direction:column;gap:12px}
-.activity {display:flex;align-items:center;gap:8px;font-size:11px}
-.activityico {padding:4px 7px;border-radius:6px;background:#172d4e;color:var(--blue)}
-.points {color:var(--mint);margin-left:auto;white-space:nowrap}
-.subjects {display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) 55px;gap:9px}
-.subject {
-  background:#0e1d33;border:1px solid var(--line);border-radius:10px;
-  padding:11px;min-width:0;cursor:pointer;transition:.15s
-}
-.subject:hover,.studycard:hover,.topic:hover,.quick:hover {border-color:#5278ad;transform:translateY(-1px)}
-.subjecttop {display:flex;align-items:center;gap:8px;margin-bottom:9px}
-.subjectico {width:32px;height:32px;border-radius:50%;background:#143d6b;color:#8fcaff;display:grid;place-items:center;flex-shrink:0;font-size:17px}
-.subjectname {font-size:11px;overflow:hidden;text-overflow:ellipsis}
-.subject small {display:block;color:var(--muted);font-size:10px}
-.subject .progressbar {margin:10px 0 7px;height:5px}
-.subjectfoot {display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
-.add {background:transparent;border:1px dashed #344a6b;border-radius:10px;color:var(--muted);font-size:11px}
-.add span {display:block;font-size:25px}
-.continue {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.studycard {padding:12px;border:1px solid #344b79;border-radius:10px;background:linear-gradient(130deg,#162b54,#101b35);cursor:pointer;transition:.15s}
-.studycard:nth-child(2) {background:linear-gradient(130deg,#29245b,#171b3c)}
-.studycard:nth-child(3) {background:linear-gradient(130deg,#123a3b,#10262e)}
-.studyhead {display:flex;align-items:center;gap:9px}
-.studyhead strong,.studyhead small {display:block}
-.studyhead strong {font-size:12px}
-.studyhead small {font-size:10px;color:#b7c7e6}
-.cardbottom {display:flex;justify-content:space-between;margin-top:13px;color:#a6b9df;font-size:10px}
-.quicklist {display:flex;flex-direction:column;gap:8px}
-.quick {display:flex;align-items:center;gap:10px;text-align:left;width:100%;border:1px solid var(--line);background:#0e1d33;border-radius:10px;padding:10px;transition:.15s}
-.quickico {width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#143d6b;color:var(--blue);font-size:18px}
-.quick strong,.quick small {display:block}
-.quick strong {font-size:12px}
-.quick small {font-size:10px;color:var(--muted);margin-top:3px}
-.arrow {margin-left:auto;color:var(--blue);font-size:20px}
-.mastery {display:flex;align-items:center;gap:15px}
-.donut {width:105px;height:105px;border-radius:50%;background:conic-gradient(#58caff 0 35%,#8175ff 35% 68%,#203251 68%);display:grid;place-items:center;position:relative;flex-shrink:0}
-.donut:before {content:"";position:absolute;inset:9px;border-radius:50%;background:#091426}
-.donuttext {position:relative;text-align:center}
-.donuttext strong {font-size:20px;display:block}
-.donuttext small {font-size:9px;color:var(--muted)}
-.subjectstats {display:flex;flex-direction:column;gap:10px;flex:1}
-.subjectstat {display:flex;align-items:center;gap:7px;font-size:11px}
-.subjectstat i {width:8px;height:8px;border-radius:50%}
-.subjectstat span:nth-child(2) {flex:1}
-.subjectstat b {font-size:10px;font-weight:500}
-.intro {margin:5px 0 20px}
-.intro p {color:var(--muted);margin:0}
-.topicgrid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.topic {padding:16px;background:#0e1d33;border:1px solid var(--line);border-radius:12px;transition:.15s}
-.topic h3 {font-size:14px;margin:8px 0}
-.topic p {font-size:12px;color:var(--muted);min-height:35px}
-.primarybtn {background:#193b6c;border:1px solid #31538a;color:#e2edff;border-radius:8px;padding:9px 12px;font-size:12px}
-.primarybtn:hover {background:#244d84}
-.empty {padding:25px;text-align:center;color:var(--muted)}
-.flasharea {min-height:210px;display:grid;place-items:center;text-align:center;padding:20px}
-.flasharea h2 {font-size:22px;margin:12px 0}
-.answer {color:var(--mint)}
-.modalback {display:none;position:fixed;inset:0;background:#020611cc;z-index:30;align-items:center;justify-content:center;padding:18px}
-.modalback.open {display:flex}
-.modal {width:min(520px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid #2a4267;border-radius:16px;padding:23px}
-.modalhead,.modalfoot {display:flex;justify-content:space-between;align-items:center;gap:12px}
-.modalhead h2 {font-size:19px}
-.close {background:none;border:0;color:var(--muted);font-size:24px}
-.modal p {color:#a6b8d7}
-.answers {display:grid;gap:9px;margin:18px 0}
-.answerbtn {padding:12px;text-align:left;background:var(--panel2);border:1px solid #273b5b;border-radius:9px}
-.answerbtn.correct {border-color:var(--mint);background:#10352f}
-.answerbtn.wrong {border-color:#ff8797;background:#351c2a}
-.feedback {min-height:25px;color:var(--mint);font-size:12px}
-.setting-input {padding:11px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:white}
-.toast {position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#142743;border:1px solid #355781;border-radius:10px;padding:12px 18px;z-index:50;display:none}
-.toast.show {display:block}
-@media(max-width:1200px) {
-  .columns {grid-template-columns:minmax(0,1fr) 260px}
-  .subjects {grid-template-columns:repeat(2,minmax(0,1fr)) 50px}
-  .subject:nth-child(3),.subject:nth-child(4) {display:none}
-}
-@media(max-width:950px) {
-  .columns {grid-template-columns:1fr}
-  .right {display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
-  .layout {grid-template-columns:65px minmax(0,1fr)}
-  .sidebar {padding:15px 6px}
-  .nav {justify-content:center;padding:12px 4px}
-  .nav .label,.side-note {display:none}
-  .main {padding:15px}
-}
-@media(max-width:650px) {
-  header {height:62px;padding:0 10px;gap:10px}
-  .brand {font-size:20px;gap:6px}
-  .logo {width:31px;height:31px}
-  .layout {display:block}
-  .sidebar {
-    position:fixed;bottom:0;left:0;right:0;height:62px;z-index:20;
-    flex-direction:row;justify-content:space-around;padding:5px;
-    background:#07101ef7;border-top:1px solid var(--line);border-right:0
-  }
-  .nav {flex:1;display:flex;flex-direction:column;align-items:center;gap:0;padding:3px}
-  .nav .label {display:block;font-size:9px}
-  .nav .ico {font-size:17px}
-  .nav:nth-child(n+6) {display:none}
-  .main {padding:12px 10px 80px}
-  .welcome {padding:15px}
-  .welcome h1 {font-size:19px}
-  .mountain {display:none}
-  .stat {min-width:40%;padding:9px}
-  .twogrid,.right {grid-template-columns:1fr}
-  .continue {grid-template-columns:1fr}
-  .topicgrid {grid-template-columns:1fr}
-  .subjects {grid-template-columns:repeat(2,minmax(0,1fr)) 45px}
-  .subject:nth-child(3) {display:block}
-  .subject:nth-child(4) {display:none}
-  .panel {padding:14px}
-  .search input {font-size:11px;padding:10px 7px 10px 30px}
-  .search-icon {left:8px;top:7px}
-  .avatar {width:30px;height:30px}
+body {margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.5}
+button,input,select,textarea {font:inherit}
+button {cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {outline:2px solid var(--blue);outline-offset:3px}
+a {color:var(--blue)}
+.hidden {display:none!important}
+.muted {color:var(--muted)}
+.small {font-size:.86rem}
+.wrap {width:min(1150px,calc(100% - 32px));margin:auto}
+.btn {border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:10px 15px;border-radius:10px;font-weight:650;transition:.15s}
+.btn:hover {border-color:var(--blue);transform:translateY(-1px)}
+.btn.primary {background:var(--blue);color:#07101e;border-color:var(--blue)}
+.btn.purple {background:var(--purple);color:#07101e;border-color:var(--purple)}
+.btn.danger {color:var(--red)}
+.btn:disabled {opacity:.45;cursor:not-allowed;transform:none}
+header {position:sticky;top:0;z-index:10;background:#07101eeb;backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.topbar {min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand {display:flex;align-items:center;gap:10px;font-size:1.3rem;font-weight:850;letter-spacing:-.7px}
+.logo {width:37px;height:37px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;color:#07101e;font-weight:950;font-size:23px}
+.top-actions {display:flex;gap:9px;align-items:center}
+nav {display:flex;gap:7px;overflow-x:auto;padding:0 0 12px}
+nav button {flex-shrink:0;border:0;background:transparent;color:var(--muted);padding:9px 12px;border-radius:9px}
+nav button.active,nav button:hover {background:var(--panel2);color:var(--text)}
+main {padding:28px 0 70px}
+.page-title {display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+h1,h2,h3,p {margin-top:0}
+h1 {font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-1.2px;margin-bottom:6px}
+h2 {font-size:1.25rem;letter-spacing:-.4px}
+h3 {font-size:1rem}
+p {color:var(--muted)}
+.grid {display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.card {background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;min-width:0}
+.span-12 {grid-column:span 12}.span-8 {grid-column:span 8}.span-6 {grid-column:span 6}.span-4 {grid-column:span 4}
+.stat {font-size:2rem;font-weight:850;letter-spacing:-1px;margin:7px 0}
+.stat-label {font-size:.9rem;color:var(--muted)}
+.hero {padding:clamp(26px,6vw,64px);border:1px solid var(--border);border-radius:25px;background:radial-gradient(ellipse at 85% 5%,#294477 0,transparent 43%),linear-gradient(135deg,#10213a,#0b1424);margin-bottom:22px;overflow:hidden}
+.hero h1 {font-size:clamp(2.5rem,7vw,5rem);line-height:1.03;max-width:720px}
+.hero p {max-width:570px;font-size:1.05rem}
+.accent {color:var(--blue)}
+.hero-actions {display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.progress {height:8px;background:#1d2e45;border-radius:99px;overflow:hidden}
+.progress > div {height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--mint));border-radius:99px;transition:width .2s}
+.list {display:flex;flex-direction:column;gap:10px}
+.list-item {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid var(--border);border-radius:12px;background:#0a1627}
+.item-main {min-width:0}
+.item-main strong {display:block;overflow-wrap:anywhere}
+.item-main .muted {font-size:.84rem}
+.item-actions {display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap}
+.pill {display:inline-block;border:1px solid var(--border);border-radius:99px;padding:3px 9px;font-size:.77rem;color:var(--muted)}
+.pill.blue {color:var(--blue);border-color:#355b83}
+.pill.mint {color:var(--mint);border-color:#28645a}
+.pill.purple {color:var(--purple);border-color:#554a8c}
+form {display:grid;gap:12px}
+label {display:grid;gap:6px;color:var(--muted);font-size:.88rem}
+input,select,textarea {width:100%;background:#081424;border:1px solid var(--border);border-radius:10px;padding:11px 12px;color:var(--text);min-width:0}
+textarea {resize:vertical;min-height:85px}
+.form-row {display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.empty {text-align:center;padding:30px 12px;color:var(--muted);border:1px dashed var(--border);border-radius:12px}
+.subject-color {width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px}
+.tree {display:grid;gap:15px}
+.tree-subject {padding:16px;border:1px solid var(--border);border-radius:15px;background:var(--panel)}
+.tree-nodes {display:flex;flex-wrap:wrap;gap:12px;margin-top:13px}
+.skill-node {position:relative;flex:1 1 210px;max-width:100%;padding:15px;border:1px solid var(--border);border-radius:12px;background:#0a1627}
+.skill-node.done {border-color:#347d70;background:#0b211f}
+.skill-node.locked {opacity:.68}
+.skill-node .node-title {font-weight:750;overflow-wrap:anywhere}
+.node-status {font-size:.8rem;color:var(--muted);margin-top:5px}
+.node-prereq {font-size:.78rem;color:var(--muted);margin-top:8px}
+.flashcard {min-height:260px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px;padding:30px;cursor:pointer;background:radial-gradient(ellipse at top right,#203e62,transparent 65%),var(--panel);border:1px solid var(--border);border-radius:20px}
+.flashcard .face-label {font-size:.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--blue)}
+.flashcard .face-text {font-size:clamp(1.3rem,4vw,2rem);font-weight:750;overflow-wrap:anywhere}
+.flashcard .hint {font-size:.83rem;color:var(--muted)}
+.quiz-option {width:100%;text-align:left;padding:13px;border-radius:10px;background:#0a1627;color:var(--text);border:1px solid var(--border);margin:5px 0}
+.quiz-option:hover {border-color:var(--blue)}
+.quiz-option.correct {border-color:var(--mint);background:#10332d}
+.quiz-option.wrong {border-color:var(--red);background:#351c26}
+.quest {display:flex;gap:13px;align-items:flex-start}
+.quest-icon {width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--panel2);color:var(--blue);font-weight:800;flex-shrink:0}
+footer {padding:20px 0 35px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem}
+.notice {padding:12px 14px;border:1px solid #355b83;border-radius:10px;background:#10213a;color:#cce3ff;font-size:.88rem;margin-bottom:16px}
+#toast {position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#e7f5ff;color:#07101e;padding:11px 17px;border-radius:10px;font-weight:700;z-index:50;box-shadow:0 8px 30px #0006;max-width:calc(100% - 30px)}
+hr {border:0;border-top:1px solid var(--border);margin:18px 0}
+@media(max-width:750px) {
+ .span-8,.span-6,.span-4 {grid-column:span 12}
+ .topbar {min-height:62px}
+ .form-row {grid-template-columns:1fr}
+ .card {padding:16px}
+ .hero {padding:27px}
+ .stat {font-size:1.7rem}
 }
 </style>
 </head>
 <body>
 
+<section id="intro" class="wrap" style="padding-top:12vh;padding-bottom:60px">
+  <div class="hero">
+    <div class="brand" style="margin-bottom:40px"><div class="logo">R</div> Recall</div>
+    <span class="pill blue">YOUR PERSONAL LEARNING SYSTEM</span>
+    <h1 style="margin-top:22px">Learn it.<br><span class="accent">Connect it.</span><br>Recall it.</h1>
+    <p>Turn school subjects into a world of skills, flashcards, quests and progress. Build your own learning system, one concept at a time.</p>
+    <div class="hero-actions">
+      <button class="btn primary" onclick="enterRecall()">Start learning →</button>
+      <button class="btn" onclick="showIntroInfo()">How it works</button>
+    </div>
+    <div id="introInfo" class="hidden" style="margin-top:20px">
+      <div class="grid">
+        <div class="card span-4"><h3>01 · Build</h3><p>Create subjects and break them into individual skills.</p></div>
+        <div class="card span-4"><h3>02 · Practise</h3><p>Write your own flashcards and test yourself with quizzes.</p></div>
+        <div class="card span-4"><h3>03 · Progress</h3><p>Earn XP by studying and completing real activities.</p></div>
+      </div>
+    </div>
+  </div>
+  <p class="small" style="text-align:center">No account required. Your progress is saved in this browser.</p>
+</section>
+
+<div id="application" class="hidden">
 <header>
-  <div class="brand">
-    <svg class="logo" viewBox="0 0 48 48" aria-label="Recall R logo">
-      <path d="M5 6h19c8 0 13 4 13 11 0 5-3 9-8 10l13 15H27L5 17h19c2 0 3-1 3-3s-1-3-3-3H5z" fill="#e8efff"/>
-      <path d="M5 21h15l13 15H20z" fill="#8b9bff"/>
-    </svg>
-    Recall
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">R</div> Recall</div>
+      <div class="top-actions">
+        <span class="pill purple" id="headerLevel">Level 1</span>
+        <span class="pill blue" id="headerXP">0 XP</span>
+      </div>
+    </div>
+    <nav id="nav">
+      <button class="active" data-page="dashboard">Dashboard</button>
+      <button data-page="subjects">Subjects</button>
+      <button data-page="tree">Skill trees</button>
+      <button data-page="flashcards">Flashcards</button>
+      <button data-page="quizzes">Quizzes</button>
+      <button data-page="quests">Quests</button>
+      <button data-page="progress">Progress</button>
+      <button data-page="settings">Data & backup</button>
+    </nav>
   </div>
-  <div class="search">
-    <span class="search-icon">⌕</span>
-    <input id="search" placeholder="Search any topic or concept..." autocomplete="off" aria-label="Search topics">
-    <div class="search-results" id="searchResults"></div>
-  </div>
-  <button class="avatar" id="avatar" aria-label="Profile">A</button>
 </header>
 
-<div class="layout">
-<aside class="sidebar">
-  <button class="nav active" data-page="home"><span class="ico">⌂</span><span class="label">Home</span></button>
-  <button class="nav" data-page="study"><span class="ico">◇</span><span class="label">Study</span></button>
-  <button class="nav" data-page="flashcards"><span class="ico">▤</span><span class="label">Flashcards</span></button>
-  <button class="nav" data-page="quizzes"><span class="ico">ϟ</span><span class="label">Quizzes</span></button>
-  <button class="nav" data-page="skills"><span class="ico">♧</span><span class="label">Skill Tree</span></button>
-  <button class="nav" data-page="quests"><span class="ico">♜</span><span class="label">Quests</span></button>
-  <button class="nav" data-page="progress"><span class="ico">▥</span><span class="label">Progress</span></button>
-  <button class="nav" data-page="settings"><span class="ico">⚙</span><span class="label">Settings</span></button>
-  <div class="side-note"><strong>✦</strong><p>Small steps.<br>Big progress.</p><div class="progressbar"><span style="width:45%"></span></div></div>
-</aside>
-
-<main class="main">
-
-<!-- HOME -->
-<section class="page active" id="page-home">
-<div class="columns">
-<div class="primary">
-
-<section class="panel welcome">
-<div style="flex:1;min-width:0">
-  <h1 id="welcomeTitle">Welcome back, Alex</h1>
-  <p class="sub">Keep going — you're making progress.</p>
-  <div class="stats">
-    <div class="stat"><div class="leveltop"><span class="big">✦</span><div><strong>Level <span id="level">5</span></strong><small><span id="xp">420</span> XP total</small></div></div><div class="progressbar" style="margin-top:8px"><span id="levelbar" style="width:20%"></span></div></div>
-    <div class="stat"><span class="big">♨</span><strong>Study streak</strong><small>Build your routine</small></div>
-    <div class="stat"><span class="big">🏆</span><strong id="achievements">0</strong><small>Quests completed</small></div>
-  </div>
-</div>
-<svg class="mountain" viewBox="0 0 180 155" aria-hidden="true">
-  <defs><linearGradient id="peak"><stop stop-color="#8c8aff"/><stop offset="1" stop-color="#283c9e"/></linearGradient></defs>
-  <circle cx="96" cy="70" r="48" fill="#3744b8" opacity=".18"/>
-  <path d="M16 145L75 55 95 85 112 65 168 145Z" fill="#17285d"/>
-  <path d="M43 128L83 64 99 87 113 72 145 128Z" fill="url(#peak)"/>
-  <path d="M83 64L99 87 113 72 104 97 93 87 76 98Z" fill="#e4edff"/>
-  <path d="M109 20v38" stroke="#8ccaff" stroke-width="2"/>
-  <path d="M110 20h26l-7 8 7 8h-26z" fill="#7ad7ff"/>
-</svg>
-</section>
-
-<div class="twogrid">
-<section class="panel">
-  <div class="head"><h2><span class="hi">◎</span>Daily Quests</h2><span class="muted" id="questCount">0/4</span></div>
-  <div class="quests" id="questList"></div>
-</section>
-<section class="panel">
-  <div class="head"><h2><span class="hi">♧</span>Skill Tree</h2><button class="link" data-goto="skills">View all →</button></div>
-  <svg class="tree" viewBox="0 0 330 155" aria-label="Skill tree">
-    <g fill="none" stroke="#293d66" stroke-width="2"><path d="M36 60L92 112 151 53 224 25"/><path d="M151 53L225 111 300 54 300 126"/></g>
-    <path d="M36 60L92 112 151 53 224 25" fill="none" stroke="#65dfc5" stroke-width="2"/>
-    <g text-anchor="middle">
-      <circle cx="36" cy="60" r="17" fill="#103d43" stroke="#64ddc2" stroke-width="2"/><text x="36" y="65" fill="#8af2dc" font-size="15">✓</text>
-      <circle cx="92" cy="112" r="17" fill="#202b69" stroke="#748aff" stroke-width="2"/><text x="92" y="117" fill="#dce3ff" font-size="15">π</text>
-      <circle cx="151" cy="53" r="21" fill="#122c45" stroke="#6ee2ca" stroke-width="3"/><text x="151" y="60" fill="#fff1b4" font-size="22">★</text>
-      <circle cx="224" cy="25" r="16" fill="#103d43" stroke="#64ddc2" stroke-width="2"/><text x="224" y="30" fill="#8af2dc" font-size="13">✓</text>
-      <circle cx="225" cy="111" r="17" fill="#111e36" stroke="#35476b" stroke-width="2"/><text x="225" y="116" fill="#8094bb" font-size="14">▤</text>
-      <circle cx="300" cy="54" r="17" fill="#111e36" stroke="#35476b" stroke-width="2"/><text x="300" y="59" fill="#8094bb" font-size="14">♙</text>
-      <circle cx="300" cy="126" r="15" fill="#111e36" stroke="#35476b" stroke-width="2"/><text x="300" y="131" fill="#8094bb" font-size="14">π</text>
-    </g>
-  </svg>
-  <div class="legend"><span><i class="dot" style="background:#64ddc2"></i>Completed</span><span><i class="dot" style="background:#748aff"></i>Current</span><span><i class="dot" style="background:#35476b"></i>Locked</span></div>
-</section>
-</div>
-
-<div class="twogrid">
-<section class="panel">
-  <div class="head"><h2><span class="hi">▦</span>Upcoming Tests</h2></div>
-  <div class="test"><div class="testline"><span>Maths — Unit 2</span><span>12 days</span></div><div class="progressbar"><span style="width:58%"></span></div></div>
-  <div class="test"><div class="testline"><span>Physics — Mechanics</span><span>18 days</span></div><div class="progressbar"><span style="width:44%"></span></div></div>
-  <div class="test"><div class="testline"><span>English — Literature</span><span>24 days</span></div><div class="progressbar"><span style="width:26%"></span></div></div>
-</section>
-<section class="panel">
-  <div class="head"><h2><span class="hi">ϟ</span>Recent Activity</h2></div>
-  <div class="activitylist" id="activityList"><div class="activity"><span class="activityico">✦</span><span>Your learning journey starts here.</span></div></div>
-</section>
-</div>
-
-<section class="panel">
-  <div class="head"><h2><span class="hi">♧</span>Your Subjects</h2><button class="link" data-goto="study">View all →</button></div>
-  <div class="subjects" id="subjects">
-    <div class="subject" data-topic="Pythagoras theorem"><div class="subjecttop"><span class="subjectico">π</span><div class="subjectname">Mathematics<small>12 topics</small></div></div><div class="progressbar"><span style="width:32%"></span></div><div class="subjectfoot"><span>32%</span><span>Learning</span></div></div>
-    <div class="subject" data-topic="Forces and motion"><div class="subjecttop"><span class="subjectico">⚛</span><div class="subjectname">Physics<small>10 topics</small></div></div><div class="progressbar"><span style="width:45%"></span></div><div class="subjectfoot"><span>45%</span><span>Learning</span></div></div>
-    <div class="subject" data-topic="Literature analysis"><div class="subjecttop"><span class="subjectico">▤</span><div class="subjectname">English<small>8 topics</small></div></div><div class="progressbar"><span style="width:28%"></span></div><div class="subjectfoot"><span>28%</span><span>Learning</span></div></div>
-    <div class="subject" data-topic="Cell biology"><div class="subjecttop"><span class="subjectico">❧</span><div class="subjectname">Biology<small>6 topics</small></div></div><div class="progressbar"><span style="width:60%"></span></div><div class="subjectfoot"><span>60%</span><span>Learning</span></div></div>
-    <button class="add" id="addSubject"><span>＋</span>Add subject</button>
-  </div>
-</section>
-
-<section class="panel">
-  <div class="head"><h2><span class="hi">◇</span>Continue Studying</h2><button class="link" data-goto="study">All topics →</button></div>
-  <div class="continue">
-    <div class="studycard" data-topic="Pythagoras theorem"><div class="studyhead"><span class="subjectico">π</span><div><strong>Mathematics</strong><small>Pythagoras theorem</small></div></div><div class="cardbottom"><span>Flashcards · 5 min</span><span>→</span></div></div>
-    <div class="studycard" data-topic="Forces and motion"><div class="studyhead"><span class="subjectico">⚛</span><div><strong>Physics</strong><small>Forces and motion</small></div></div><div class="cardbottom"><span>Quiz · 5 min</span><span>→</span></div></div>
-    <div class="studycard" data-topic="Literature analysis"><div class="studyhead"><span class="subjectico">▤</span><div><strong>English</strong><small>Literature analysis</small></div></div><div class="cardbottom"><span>Flashcards · 5 min</span><span>→</span></div></div>
-  </div>
-</section>
-</div>
-
-<aside class="right">
-<section class="panel">
-  <div class="head"><h2><span class="hi">ϟ</span>Quick Actions</h2></div>
-  <div class="quicklist">
-    <button class="quick" data-action="quiz"><span class="quickico">♢</span><span><strong>Start a quiz</strong><small>Test your knowledge</small></span><span class="arrow">›</span></button>
-    <button class="quick" data-action="flashcards"><span class="quickico">▤</span><span><strong>Browse flashcards</strong><small>Review key concepts</small></span><span class="arrow">›</span></button>
-    <button class="quick" data-action="skills"><span class="quickico">♧</span><span><strong>Explore skill tree</strong><small>Unlock new topics</small></span><span class="arrow">›</span></button>
-    <button class="quick" data-action="quests"><span class="quickico">♜</span><span><strong>View quests</strong><small>Earn XP and rewards</small></span><span class="arrow">›</span></button>
-  </div>
-</section>
-<section class="panel">
-  <div class="head"><h2><span class="hi">▥</span>Your Progress</h2></div>
-  <div class="mastery"><div class="donut"><div class="donuttext"><strong id="mastery">0%</strong><small>Quests done</small></div></div><div class="subjectstats"><div class="subjectstat"><i style="background:#64ddc2"></i><span>Maths</span><b>82%</b></div><div class="subjectstat"><i style="background:#8175ff"></i><span>Physics</span><b>71%</b></div><div class="subjectstat"><i style="background:#ff8797"></i><span>English</span><b>56%</b></div><div class="subjectstat"><i style="background:#a7b6ff"></i><span>Biology</span><b>39%</b></div></div></div>
-</section>
-<section class="panel">
-  <div class="head"><h2><span class="hi">◆</span>Next Reward</h2></div>
-  <strong>100 XP</strong><p class="muted">Complete your daily quests to earn more XP.</p>
-  <div class="progressbar"><span id="rewardbar" style="width:0%"></span></div>
-  <p class="muted" id="rewardcount">0/4 quests</p>
-</section>
-<section class="panel">
-  <div class="head"><h2><span class="hi">“</span>Food for thought</h2></div>
-  <p style="color:#9ec5ff">“The beautiful thing about learning is that nobody can take it away from you.”</p><span class="muted">— B. B. King</span>
-</section>
-</aside>
-</div>
-</section>
-
-<!-- STUDY LIBRARY -->
-<section class="page" id="page-study">
-  <div class="intro"><h1>Study library</h1><p>Find a subject, explore a topic and practise exactly what you need.</p></div>
-  <div class="panel"><div class="head"><h2>Explore topics</h2><span class="muted">Choose a topic to begin</span></div><div class="topicgrid" id="topicGrid"></div></div>
-</section>
-
-<!-- FLASHCARDS -->
-<section class="page" id="page-flashcards">
-  <div class="intro"><h1>Flashcards</h1><p>Use active recall to strengthen your memory.</p></div>
-  <div class="panel">
-    <div class="head"><h2 id="flashTitle">Pythagoras theorem</h2><span class="muted" id="flashCount">Card 1 of 4</span></div>
-    <div class="flasharea"><div><div class="muted">QUESTION</div><h2 id="flashQuestion"></h2><p id="flashAnswer" class="answer" hidden></p></div></div>
-    <div class="modalfoot"><button class="primarybtn" id="prevFlash">← Previous</button><button class="primarybtn" id="flipFlash">Reveal answer</button><button class="primarybtn" id="nextFlash">Next →</button></div>
-  </div>
-</section>
-
-<!-- QUIZZES -->
-<section class="page" id="page-quizzes">
-  <div class="intro"><h1>Quizzes</h1><p>Test your knowledge and earn XP for correct answers.</p></div>
-  <div class="topicgrid" id="quizGrid"></div>
-</section>
-
-<!-- SKILL TREE -->
-<section class="page" id="page-skills">
-  <div class="intro"><h1>Skill tree</h1><p>Build knowledge step by step. You can search for advanced topics at any time.</p></div>
-  <div class="panel"><div class="head"><h2>Learning pathways</h2><span class="muted">Choose a node to explore</span></div><div class="topicgrid" id="skillGrid"></div></div>
-</section>
-
-<!-- QUESTS -->
-<section class="page" id="page-quests">
-  <div class="intro"><h1>Quests & rewards</h1><p>Small goals build consistent study habits.</p></div>
-  <div class="panel"><div class="head"><h2>Today's quests</h2><span class="muted" id="questPageCount">0/4 completed</span></div><div class="quests" id="questListPage"></div></div>
-  <div class="panel" style="margin-top:15px"><div class="head"><h2>Milestones</h2></div><div class="topicgrid">
-    <article class="topic"><h3>First steps</h3><p>Complete your first study session.</p><span class="muted">Reward: 50 XP</span></article>
-    <article class="topic"><h3>Consistent learner</h3><p>Complete all daily quests.</p><span class="muted">Reward: 150 XP</span></article>
-    <article class="topic"><h3>Topic explorer</h3><p>Practise five different topics.</p><span class="muted">Reward: 100 XP</span></article>
-  </div></div>
-</section>
-
-<!-- PROGRESS -->
-<section class="page" id="page-progress">
-  <div class="intro"><h1>Your progress</h1><p>Track your learning and celebrate your achievements.</p></div>
-  <div class="topicgrid">
-    <article class="topic"><h3>Total XP</h3><p id="totalXp" style="font-size:30px;color:#8dbfff">420</p></article>
-    <article class="topic"><h3>Current level</h3><p id="progressLevel" style="font-size:30px;color:#9d93ff">5</p></article>
-    <article class="topic"><h3>Quests completed</h3><p id="progressQuests" style="font-size:30px;color:#64ddc2">0/4</p></article>
-  </div>
-  <div class="panel" style="margin-top:15px"><div class="head"><h2>Subject mastery</h2></div><div id="progressSubjects"></div></div>
-</section>
-
-<!-- SETTINGS -->
-<section class="page" id="page-settings">
-  <div class="intro"><h1>Settings</h1><p>Make Recall your own learning space.</p></div>
-  <div class="panel">
-    <div class="head"><h2>Profile</h2></div>
-    <label for="displayName" class="muted">Display name</label>
-    <p><input id="displayName" class="setting-input" value="Alex"> <button class="primarybtn" id="saveName">Save name</button></p>
-    <p class="muted">This prototype saves progress in this browser only. Accounts and online syncing are not included yet.</p>
-    <button class="primarybtn" id="resetData">Reset demo progress</button>
-  </div>
-</section>
+<main class="wrap">
+  <div id="page"></div>
 </main>
+<footer><div class="wrap">Recall · Build knowledge that lasts.</div></footer>
 </div>
-
-<!-- QUIZ MODAL -->
-<div class="modalback" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <div class="modalhead"><h2 id="modalTitle">Quick quiz</h2><button class="close" id="closeModal" aria-label="Close">×</button></div>
-    <p id="modalDesc">Choose the best answer.</p>
-    <div id="quizBody"></div>
-    <div class="feedback" id="quizFeedback"></div>
-    <div class="modalfoot"><span class="muted" id="quizProgress"></span><button class="primarybtn" id="quizNext" disabled>Next question →</button></div>
-  </div>
-</div>
-<div class="toast" id="toast" role="status"></div>
+<div id="toast" class="hidden"></div>
 
 <script>
-const topics = [
-  {title:"Pythagoras theorem",subject:"Mathematics",desc:"Find missing sides in right-angled triangles.",level:"Core"},
-  {title:"Fractions and percentages",subject:"Mathematics",desc:"Convert and calculate with fractions and percentages.",level:"Core"},
-  {title:"Algebra basics",subject:"Mathematics",desc:"Simplify expressions and solve equations.",level:"Core"},
-  {title:"Linear equations",subject:"Mathematics",desc:"Solve equations and check your solutions.",level:"Building"},
-  {title:"Area and volume",subject:"Mathematics",desc:"Use formulas for common shapes.",level:"Building"},
-  {title:"Forces and motion",subject:"Physics",desc:"Explore forces, speed and acceleration.",level:"Core"},
-  {title:"Energy transfers",subject:"Physics",desc:"Understand energy stores and transfers.",level:"Building"},
-  {title:"Literature analysis",subject:"English",desc:"Explore themes, characters and evidence.",level:"Core"},
-  {title:"Cell biology",subject:"Biology",desc:"Learn the structures and roles of cells.",level:"Core"},
-  {title:"Geometry proofs",subject:"Mathematics",desc:"Explain why mathematical statements work.",level:"Advanced"},
-  {title:"Trigonometry",subject:"Mathematics",desc:"Use sine, cosine and tangent in triangles.",level:"Advanced"},
-  {title:"Quadratic equations",subject:"Mathematics",desc:"Explore factorising, roots and graphs.",level:"Advanced"}
-];
+"use strict";
 
-const bank = {
-"Pythagoras theorem":[
- {q:"A right-angled triangle has shorter sides of 3 cm and 4 cm. What is the hypotenuse?",a:["5 cm","6 cm","7 cm","12 cm"],c:0,e:"3² + 4² = 9 + 16 = 25. √25 = 5."},
- {q:"Which equation represents Pythagoras' theorem?",a:["a + b = c","a² + b² = c²","a² − b² = c²","2a + 2b = c"],c:1,e:"The squares of the two shorter sides add to the square of the hypotenuse."},
- {q:"The hypotenuse is 13 cm and one shorter side is 5 cm. Find the other side.",a:["8 cm","10 cm","12 cm","18 cm"],c:2,e:"13² − 5² = 169 − 25 = 144. √144 = 12."}
-],
-"Fractions and percentages":[
- {q:"What is 25% of 80?",a:["10","15","20","25"],c:2,e:"25% is one quarter. 80 ÷ 4 = 20."},
- {q:"Which fraction is equal to 0.5?",a:["1/4","1/2","1/3","3/4"],c:1,e:"One half is equal to 0.5."}
-],
-"Algebra basics":[
- {q:"Simplify 3x + 2x.",a:["5","5x","6x","x⁵"],c:1,e:"Like terms combine: 3x + 2x = 5x."},
- {q:"If x = 4, what is 2x + 3?",a:["8","9","11","14"],c:2,e:"Substitute 4: 2 × 4 + 3 = 11."}
-],
-"Forces and motion":[
- {q:"What is the unit of force?",a:["Joule","Watt","Newton","Metre"],c:2,e:"Force is measured in newtons (N)."},
- {q:"What is speed equal to?",a:["Time ÷ distance","Distance ÷ time","Force × time","Mass ÷ volume"],c:1,e:"Speed = distance divided by time."}
-],
-"Energy transfers":[
- {q:"Energy is measured in which unit?",a:["Newton","Joule","Pascal","Metre"],c:1,e:"The joule (J) is the unit of energy."}
-],
-"Literature analysis":[
- {q:"What is a theme in a story?",a:["The page number","A central idea or message","The author's name","A punctuation mark"],c:1,e:"A theme is a central idea explored through a story."}
-],
-"Cell biology":[
- {q:"Which structure contains genetic material and helps control an animal cell?",a:["Cell wall","Nucleus","Cell membrane only","Chloroplast"],c:1,e:"The nucleus contains genetic material and helps control cell activities."}
-]
-};
+const STORAGE_KEY = "recall_learning_data_v1";
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
 
-const quests = [
- {text:"Complete a quiz",xp:50},
- {text:"Study for 20 minutes",xp:30},
- {text:"Get 5 correct answers",xp:50},
- {text:"Learn a new concept",xp:75}
-];
+const makeId = () => "id_" + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+const escapeHTML = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({
+  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+}[ch]));
+const safeNumber = value => Number.isFinite(Number(value)) ? Number(value) : 0;
 
-const flashcards = [
- {q:"What does Pythagoras' theorem help you find?",a:"The length of a side in a right-angled triangle when the other two sides are known."},
- {q:"What is the hypotenuse?",a:"The longest side of a right-angled triangle, opposite the right angle."},
- {q:"What formula represents the theorem?",a:"a² + b² = c², where c is the hypotenuse."},
- {q:"A triangle has shorter sides of 6 and 8. What is the hypotenuse?",a:"10, because 6² + 8² = 36 + 64 = 100 and √100 = 10."}
-];
+function defaultData() {
+  return {
+    version:1,
+    subjects:[],
+    skills:[],
+    cards:[],
+    xp:0,
+    stats:{studied:0,correct:0,wrong:0,quizzes:0,quizCorrect:0,quizQuestions:0},
+    questClaims:[],
+    session:{}
+  };
+}
 
-let xp = Number(localStorage.getItem("recallXP") || 0);
-let name = localStorage.getItem("recallName") || "Alex";
-let done = JSON.parse(localStorage.getItem("recallQuests") || "[]");
-let quiz = [], qi = 0, score = 0, answered = false;
-let flashIndex = 0, flashTopic = "Pythagoras theorem";
-let recent = [];
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return defaultData();
+    const data = JSON.parse(saved);
+    const base = defaultData();
+    return {
+      ...base,...data,
+      subjects:Array.isArray(data.subjects)?data.subjects:[],
+      skills:Array.isArray(data.skills)?data.skills:[],
+      cards:Array.isArray(data.cards)?data.cards:[],
+      questClaims:Array.isArray(data.questClaims)?data.questClaims:[],
+      stats:{...base.stats,...(data.stats||{})},
+      session:{}
+    };
+  } catch (error) {
+    console.error("Could not load saved data:",error);
+    return defaultData();
+  }
+}
 
-function esc(s) {
- return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let data = loadData();
+let currentPage = "dashboard";
+let currentSubjectFilter = "all";
+let currentStudy = [];
+let studyIndex = 0;
+let showingAnswer = false;
+let quiz = null;
+let toastTimer = null;
+
+function saveData() {
+  try {
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+    updateHeader();
+  } catch (error) {
+    notify("Could not save. Your browser storage may be full.");
+    console.error(error);
+  }
 }
-function toast(message) {
- const el=document.getElementById("toast");
- el.textContent=message;el.classList.add("show");
- clearTimeout(window.toastTimer);
- window.toastTimer=setTimeout(()=>el.classList.remove("show"),2300);
+
+function notify(message) {
+  const el = $("#toast");
+  el.textContent = message;
+  el.classList.remove("hidden");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.add("hidden"),2600);
 }
-function save() {
- localStorage.setItem("recallXP",xp);
- localStorage.setItem("recallName",name);
- localStorage.setItem("recallQuests",JSON.stringify(done));
+
+function enterRecall() {
+  $("#intro").classList.add("hidden");
+  $("#application").classList.remove("hidden");
+  render();
 }
-function update() {
- const level=Math.floor(xp/100)+1;
- document.getElementById("xp").textContent=xp;
- document.getElementById("level").textContent=level;
- document.getElementById("levelbar").style.width=(xp%100)+"%";
- document.getElementById("totalXp").textContent=xp;
- document.getElementById("progressLevel").textContent=level;
- document.getElementById("questCount").textContent=done.length+"/4 completed";
- document.getElementById("questPageCount").textContent=done.length+"/4 completed";
- document.getElementById("progressQuests").textContent=done.length+"/4";
- document.getElementById("achievements").textContent=done.length;
- document.getElementById("mastery").textContent=Math.round(done.length/4*100)+"%";
- document.getElementById("rewardcount").textContent=done.length+"/4 quests";
- document.getElementById("rewardbar").style.width=(done.length/4*100)+"%";
- document.getElementById("welcomeTitle").textContent="Welcome back, "+name;
- document.getElementById("avatar").textContent=name.charAt(0).toUpperCase();
- document.getElementById("displayName").value=name;
- document.querySelectorAll(".quest input").forEach(c=>{
-   c.checked=done.includes(Number(c.dataset.index));
-   c.closest(".quest").classList.toggle("done",c.checked);
- });
+
+function showIntroInfo() {
+  $("#introInfo").classList.toggle("hidden");
 }
-function initQuests() {
- const draw=(targetId)=>{
-  const target=document.getElementById(targetId);
-  target.innerHTML="";
-  quests.forEach((q,i)=>{
-   const label=document.createElement("label");
-   label.className="quest";
-   label.innerHTML=`<input type="checkbox" data-index="${i}"><span class="qtext">${esc(q.text)}</span><span class="reward">+${q.xp} XP</span>`;
-   target.appendChild(label);
-  });
- };
- draw("questList");draw("questListPage");
- document.querySelectorAll(".quest input").forEach(c=>c.addEventListener("change",()=>{
-   const i=Number(c.dataset.index);
-   if(c.checked&&!done.includes(i)){done.push(i);xp+=quests[i].xp;toast("Quest completed · +"+quests[i].xp+" XP");}
-   else if(!c.checked&&done.includes(i)){done=done.filter(n=>n!==i);xp-=quests[i].xp;}
-   save();update();
- }));
- update();
+
+function levelFromXP(xp) {
+  return Math.floor(Math.max(0,xp)/100)+1;
 }
-function page(p) {
- document.querySelectorAll(".page").forEach(el=>el.classList.toggle("active",el.id==="page-"+p));
- document.querySelectorAll(".nav").forEach(el=>el.classList.toggle("active",el.dataset.page===p));
- document.getElementById("searchResults").style.display="none";
- if(p==="study")renderTopics(topics,"topicGrid");
- if(p==="skills")renderSkills();
- if(p==="quizzes")renderTopics(topics,"quizGrid",true);
- if(p==="progress")renderProgress();
- if(p==="flashcards")renderFlash();
- window.scrollTo({top:0,behavior:"smooth"});
+
+function updateHeader() {
+  $("#headerLevel").textContent = "Level " + levelFromXP(data.xp);
+  $("#headerXP").textContent = data.xp + " XP";
 }
-function renderTopics(list,id,asQuiz=false) {
- const el=document.getElementById(id);
- el.innerHTML=list.map(t=>`<article class="topic">
- <div class="muted">${esc(t.subject)} · ${esc(t.level)}</div>
- <h3>${esc(t.title)}</h3><p>${esc(t.desc)}</p>
- <button class="primarybtn" data-topic="${esc(t.title)}">${asQuiz?"Start quiz →":"Start learning →"}</button>
- </article>`).join("")||'<div class="empty">No matching topics. Try another search.</div>';
- el.querySelectorAll("[data-topic]").forEach(b=>b.onclick=()=>asQuiz?startQuiz(b.dataset.topic):openTopic(b.dataset.topic));
+
+function awardXP(amount,reason) {
+  data.xp += amount;
+  saveData();
+  if (reason) notify("+"+amount+" XP · "+reason);
 }
-function renderSkills() {
- const list=topics.filter(t=>t.subject==="Mathematics");
- const el=document.getElementById("skillGrid");
- el.innerHTML=list.map((t,i)=>`<article class="topic">
- <div class="muted">${i<2?"Foundation":i<5?"Building":"Advanced"} · ${t.level}</div>
- <h3>${esc(t.title)}</h3><p>${esc(t.desc)}</p>
- <button class="primarybtn" data-topic="${esc(t.title)}">Explore topic →</button></article>`).join("");
- el.querySelectorAll("[data-topic]").forEach(b=>b.onclick=()=>openTopic(b.dataset.topic));
+
+function getSubject(id) {
+  return data.subjects.find(s=>s.id===id);
 }
+
+function getSkill(id) {
+  return data.skills.find(s=>s.id===id);
+}
+
+function getCard(id) {
+  return data.cards.find(c=>c.id===id);
+}
+
+function subjectName(id) {
+  return getSubject(id)?.name || "Unknown subject";
+}
+
+function skillName(id) {
+  return getSkill(id)?.name || "No skill";
+}
+
+function cardsForSubject(subjectId) {
+  return data.cards.filter(c=>subjectId==="all"||c.subjectId===subjectId);
+}
+
+function isSkillUnlocked(skill) {
+  return (skill.prerequisites||[]).every(id=>data.skills.some(s=>s.id===id && s.mastered));
+}
+
+function getQuests() {
+  const today = new Date().toISOString().slice(0,10);
+  return [
+    {id:"study5",title:"Warm-up",description:"Study 5 flashcards.",target:5,progress:Math.min(5,data.stats.studied),reward:20},
+    {id:"study20",title:"Repetition pays",description:"Study 20 flashcards in total.",target:20,progress:Math.min(20,data.stats.studied),reward:50},
+    {id:"createSubject",title:"Build your world",description:"Create your first subject.",target:1,progress:Math.min(1,data.subjects.length),reward:25},
+    {id:"createSkill",title:"Think in concepts",description:"Create 3 skills across your subjects.",target:3,progress:Math.min(3,data.skills.length),reward:35},
+    {id:"createCards",title:"Make your own deck",description:"Create 5 flashcards.",target:5,progress:Math.min(5,data.cards.length),reward:30},
+    {id:"quiz1",title:"Test your knowledge",description:"Complete a quiz with at least 3 questions.",target:1,progress:Math.min(1,data.stats.quizzes),reward:35},
+    {id:"correct10",title:"Accuracy matters",description:"Answer 10 quiz questions correctly.",target:10,progress:Math.min(10,data.stats.quizCorrect),reward:50},
+    {id:"masterSkill",title:"Unlock the next level",description:"Mark a skill as mastered after practising it.",target:1,progress:Math.min(1,data.skills.filter(s=>s.mastered).length),reward:25}
+  ];
+}
+
+function claimCompletedQuests() {
+  const completed = getQuests().filter(q=>q.progress>=q.target&&!data.questClaims.includes(q.id));
+  if (!completed.length) return;
+  for (const q of completed) {
+    data.questClaims.push(q.id);
+    data.xp += q.reward;
+  }
+  saveData();
+  setTimeout(()=>notify("Quest completed: +"+completed.reduce((sum,q)=>sum+q.reward,0)+" bonus XP"),100);
+}
+
+function render() {
+  updateHeader();
+  $$("#nav button").forEach(button=>button.classList.toggle("active",button.dataset.page===currentPage));
+  const views = {
+    dashboard:renderDashboard,
+    subjects:renderSubjects,
+    tree:renderTree,
+    flashcards:renderFlashcards,
+    quizzes:renderQuizzes,
+    quests:renderQuests,
+    progress:renderProgress,
+    settings:renderSettings
+  };
+  $("#page").innerHTML = (views[currentPage]||renderDashboard)();
+  bindPageEvents();
+}
+
+$("#nav").addEventListener("click",event=>{
+  const button = event.target.closest("button[data-page]");
+  if (!button) return;
+  currentPage = button.dataset.page;
+  quiz = null;
+  render();
+});
+
+function pageTitle(title,description,action="") {
+  return `<div class="page-title"><div><h1>${title}</h1><p>${description}</p></div>${action}</div>`;
+}
+
+function subjectOptions(selected="") {
+  return data.subjects.map(s=>`<option value="${s.id}" ${s.id===selected?"selected":""}>${escapeHTML(s.name)}</option>`).join("");
+}
+
+function skillOptions(subjectId,selected="",includeNone=true) {
+  const skills = data.skills.filter(s=>!subjectId||s.subjectId===subjectId);
+  return (includeNone?`<option value="">No specific skill</option>`:"")+
+    skills.map(s=>`<option value="${s.id}" ${s.id===selected?"selected":""}>${escapeHTML(subjectName(s.subjectId))} · ${escapeHTML(s.name)}</option>`).join("");
+}
+
+function renderDashboard() {
+  const mastered=data.skills.filter(s=>s.mastered).length;
+  const skillPercent=data.skills.length?Math.round(mastered/data.skills.length*100):0;
+  const dueQuests=getQuests().filter(q=>q.progress>=q.target&&!data.questClaims.includes(q.id));
+  const recentCards=data.cards.slice(-4).reverse();
+  return `
+    <section class="hero">
+      <span class="pill blue">YOUR LEARNING SPACE</span>
+      <h1 style="margin-top:15px">Make progress<br><span class="accent">visible.</span></h1>
+      <p>Every concept you learn is another step forward. Add your subjects, build connections between skills, and practise what matters.</p>
+      <div class="hero-actions">
+        <button class="btn primary" data-go="flashcards">Study flashcards</button>
+        <button class="btn" data-go="subjects">Manage subjects</button>
+        <button class="btn" data-go="tree">Open skill trees</button>
+      </div>
+    </section>
+    <div class="grid">
+      <div class="card span-4"><div class="stat-label">Total XP</div><div class="stat">${data.xp}</div><div class="progress"><div style="width:${data.xp%100}%"></div></div><p class="small" style="margin:8px 0 0">Level ${levelFromXP(data.xp)} · ${100-data.xp%100} XP to next level</p></div>
+      <div class="card span-4"><div class="stat-label">Flashcards studied</div><div class="stat">${data.stats.studied}</div><p class="small">Keep revisiting what you've learned.</p></div>
+      <div class="card span-4"><div class="stat-label">Skills mastered</div><div class="stat">${mastered}/${data.skills.length}</div><div class="progress"><div style="width:${skillPercent}%"></div></div></div>
+      <div class="card span-6"><h2>Your subjects</h2>
+        ${data.subjects.length?`<div class="list">${data.subjects.slice(0,5).map(s=>`<div class="list-item"><div class="item-main"><strong><span class="subject-color" style="background:${escapeHTML(s.color||"#70b4ff")}"></span>${escapeHTML(s.name)}</strong><span class="muted">${data.skills.filter(sk=>sk.subjectId===s.id).length} skills · ${data.cards.filter(c=>c.subjectId===s.id).length} flashcards</span></div><button class="btn" data-open-subject="${s.id}">Open</button></div>`).join("")}</div>`:`<div class="empty">No subjects yet. Create your first subject to begin.</div>`}
+        <button class="btn" style="margin-top:13px" data-go="subjects">View all subjects</button>
+      </div>
+      <div class="card span-6"><h2>Quest board</h2>
+        ${dueQuests.length?`<div class="notice">You have ${dueQuests.length} quest${dueQuests.length===1?"":"s"} ready to claim. Open Quests to collect your XP.</div>`:""}
+        <div class="list">${getQuests().filter(q=>!data.questClaims.includes(q.id)).slice(0,4).map(q=>`<div><div style="display:flex;justify-content:space-between;gap:10px"><strong>${escapeHTML(q.title)}</strong><span class="pill purple">+${q.reward} XP</span></div><p class="small" style="margin:3px 0 7px">${escapeHTML(q.description)}</p><div class="progress"><div style="width:${Math.min(100,q.progress/q.target*100)}%"></div></div></div>`).join("")}</div>
+        <button class="btn" style="margin-top:13px" data-go="quests">Open quests</button>
+      </div>
+      <div class="card span-12"><h2>Recently added flashcards</h2>
+        ${recentCards.length?`<div class="list">${recentCards.map(c=>`<div class="list-item"><div class="item-main"><strong>${escapeHTML(c.front)}</strong><span class="muted">${escapeHTML(subjectName(c.subjectId))} · ${escapeHTML(c.back.slice(0,80))}</span></div></div>`).join("")}</div>`:`<div class="empty">Your flashcards will appear here. Add your own questions and answers.</div>`}
+      </div>
+    </div>`;
+}
+
+function renderSubjects() {
+  return pageTitle("Subjects","Organise your learning into subjects.")+`
+    <div class="grid">
+      <div class="card span-4"><h2>Create a subject</h2>
+        <form id="subjectForm">
+          <label>Subject name<input name="name" placeholder="e.g. Mathematics" required maxlength="70"></label>
+          <label>Colour<select name="color"><option value="#70b4ff">Blue</option><option value="#9b8cff">Purple</option><option value="#64ddc2">Mint</option><option value="#ffbf69">Orange</option><option value="#ff8585">Red</option></select></label>
+          <button class="btn primary">Create subject</button>
+        </form>
+      </div>
+      <div class="card span-8"><h2>Your subjects (${data.subjects.length})</h2>
+        ${data.subjects.length?`<div class="list">${data.subjects.map(s=>`<div class="list-item"><div class="item-main"><strong><span class="subject-color" style="background:${escapeHTML(s.color)}"></span>${escapeHTML(s.name)}</strong><span class="muted">${data.skills.filter(sk=>sk.subjectId===s.id).length} skills · ${data.cards.filter(c=>c.subjectId===s.id).length} flashcards</span></div><div class="item-actions"><button class="btn" data-view-tree="${s.id}">Skill tree</button><button class="btn danger" data-delete-subject="${s.id}">Delete</button></div></div>`).join("")}</div>`:`<div class="empty">Your subjects will appear here.</div>`}
+      </div>
+    </div>`;
+}
+
+function renderTree() {
+  const subjectGroups=data.subjects.map(subject=>{
+    const skills=data.skills.filter(s=>s.subjectId===subject.id);
+    const nodes=skills.map(skill=>{
+      const unlocked=isSkillUnlocked(skill);
+      const prereq=(skill.prerequisites||[]).map(id=>getSkill(id)?.name).filter(Boolean);
+      return `<div class="skill-node ${skill.mastered?"done":unlocked?"":"locked"}">
+        <div class="node-title">${skill.mastered?"✓ ":unlocked?"◇ ":"🔒 "}${escapeHTML(skill.name)}</div>
+        <div class="node-status">${skill.mastered?"Mastered":unlocked?"Available":"Prerequisites incomplete"}</div>
+        ${skill.description?`<p class="small" style="margin:7px 0 0">${escapeHTML(skill.description)}</p>`:""}
+        ${prereq.length?`<div class="node-prereq">Requires: ${escapeHTML(prereq.join(", "))}</div>`:""}
+        <div class="item-actions" style="margin-top:12px">
+          ${!skill.mastered?`<button class="btn" data-master="${skill.id}" ${unlocked?"":"disabled"}>Mark mastered</button>`:`<span class="pill mint">Completed</span>`}
+          <button class="btn danger" data-delete-skill="${skill.id}">Delete</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `<section class="tree-subject"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="margin:0"><span class="subject-color" style="background:${escapeHTML(subject.color)}"></span>${escapeHTML(subject.name)}</h2><span class="pill">${skills.filter(s=>s.mastered).length}/${skills.length} mastered</span></div>${skills.length?`<div class="tree-nodes">${nodes}</div>`:`<div class="empty" style="margin-top:12px">No skills yet. Add concepts below to build this skill tree.</div>`}</section>`;
+  }).join("");
+  return pageTitle("Skill trees","Break every subject into concepts. Add prerequisites to show which skills unlock others.")+`
+    <div class="grid">
+      <div class="card span-4"><h2>Add a skill</h2>
+        ${data.subjects.length?`<form id="skillForm">
+          <label>Subject<select name="subjectId" id="skillSubject" required>${subjectOptions()}</select></label>
+          <label>Skill name<input name="name" placeholder="e.g. Pythagoras' theorem" maxlength="90" required></label>
+          <label>Description (optional)<textarea name="description" placeholder="What should you know or be able to do?"></textarea></label>
+          <label>Prerequisite skills<select name="prerequisites" id="skillPrereqs" multiple size="5"></select><span class="small">Use Ctrl (Windows) or Cmd (Mac) to select multiple. Leave blank if this is a starting skill.</span></label>
+          <button class="btn primary">Add skill</button>
+        </form>`:`<div class="empty">Create a subject first.</div>`}
+        <hr><p class="small">A skill unlocks when every prerequisite has been marked as mastered. This lets you create learning paths in any subject.</p>
+      </div>
+      <div class="span-8"><div class="tree">${subjectGroups||`<div class="empty">Create a subject to start building your skill tree.</div>`}</div></div>
+    </div>`;
+}
+
+function refreshPrereqOptions() {
+  const subjectId=$("#skillSubject")?.value;
+  const select=$("#skillPrereqs");
+  if(!select)return;
+  select.innerHTML=data.skills.filter(s=>s.subjectId===subjectId).map(s=>`<option value="${s.id}" ${s.mastered?"":" "}>${escapeHTML(s.name)}${s.mastered?" ✓":""}</option>`).join("");
+}
+
+function renderFlashcards() {
+  if(currentStudy.length) return renderStudySession();
+  return pageTitle("Flashcards","Write your own questions and answers, then practise active recall.")+`
+    <div class="grid">
+      <div class="card span-4"><h2>Create a flashcard</h2>
+        ${data.subjects.length?`<form id="cardForm">
+          <label>Subject<select name="subjectId" id="cardSubject" required>${subjectOptions()}</select></label>
+          <label>Related skill (optional)<select name="skillId" id="cardSkill"><option value="">No specific skill</option>${skillOptions(data.subjects[0]?.id)}</select></label>
+          <label>Question / front<input name="front" placeholder="e.g. What is a² + b² = c²?" maxlength="500" required></label>
+          <label>Answer / back<textarea name="back" placeholder="Write the answer in your own words." maxlength="3000" required></textarea></label>
+          <button class="btn primary">Add flashcard</button>
+        </form>`:`<div class="empty">Create a subject before adding flashcards.</div>`}
+      </div>
+      <div class="card span-8"><h2>Study your cards</h2>
+        ${data.cards.length?`
+          <label>Filter by subject<select id="studyFilter"><option value="all">All subjects</option>${subjectOptions(currentSubjectFilter==="all"?"":currentSubjectFilter)}</select></label>
+          <div class="grid" style="margin-top:14px">
+            <div class="card span-4"><div class="stat">${cardsForSubject(currentSubjectFilter).length}</div><div class="stat-label">Cards in this deck</div></div>
+            <div class="card span-8"><p>Study cards one at a time. Try to answer before revealing the back.</p><button class="btn primary" id="startStudy">Start studying</button></div>
+          </div>
+          <hr>
+          <div class="list">${cardsForSubject(currentSubjectFilter).map(c=>`<div class="list-item"><div class="item-main"><strong>${escapeHTML(c.front)}</strong><span class="muted">${escapeHTML(subjectName(c.subjectId))} · ${escapeHTML(c.back.slice(0,90))}</span></div><div class="item-actions"><button class="btn danger" data-delete-card="${c.id}">Delete</button></div></div>`).join("")}</div>
+        `:`<div class="empty">No flashcards yet. Create some questions and answers to start practising.</div>`}
+      </div>
+    </div>`;
+}
+
+function renderStudySession() {
+  const card=currentStudy[studyIndex];
+  if(!card)return `<div class="card"><h2>Session complete</h2><p>You've reached the end of this deck.</p><button class="btn primary" id="finishStudy">Finish session</button></div>`;
+  return pageTitle("Study session",`Card ${studyIndex+1} of ${currentStudy.length} · ${escapeHTML(subjectName(card.subjectId))}`)+`
+    <div style="max-width:750px;margin:0 auto">
+      <div class="flashcard" id="flipCard" role="button" tabindex="0" aria-label="Reveal flashcard answer">
+        <div class="face-label">${showingAnswer?"Answer":"Question"}</div>
+        <div class="face-text">${escapeHTML(showingAnswer?card.back:card.front)}</div>
+        <div class="hint">${showingAnswer?"Did you remember it?":"Click or press Enter to reveal the answer."}</div>
+      </div>
+      ${showingAnswer?`<div class="grid" style="margin-top:14px">
+        <div class="span-6"><button class="btn" style="width:100%" id="studyAgain">Practise again</button></div>
+        <div class="span-6"><button class="btn primary" style="width:100%" id="studyKnown">I knew it →</button></div>
+      </div>`:`<button class="btn primary" style="width:100%;margin-top:14px" id="revealAnswer">Reveal answer</button>`}
+      <button class="btn" style="width:100%;margin-top:10px" id="exitStudy">End session</button>
+    </div>`;
+}
+
+function renderQuizzes() {
+  if(quiz) return renderActiveQuiz();
+  return pageTitle("Quizzes","Test yourself using the flashcards you've written.")+`
+    <div class="grid">
+      <div class="card span-6"><h2>Start a quiz</h2>
+        ${data.cards.length>=2?`<form id="quizForm">
+          <label>Subject<select name="subjectId"><option value="all">All subjects</option>${subjectOptions()}</select></label>
+          <label>Number of questions<select name="count"><option value="5">5 questions</option><option value="10">10 questions</option><option value="15">15 questions</option><option value="all">All available cards</option></select></label>
+          <p class="small">Questions use your own flashcards. Each question asks for the answer to a card's front.</p>
+          <button class="btn primary">Start quiz</button>
+        </form>`:`<div class="empty">Add at least 2 flashcards to start a quiz. Four or more cards make better multiple-choice questions.</div>`}
+      </div>
+      <div class="card span-6"><h2>Your results</h2>
+        <div class="grid">
+          <div class="card span-6"><div class="stat">${data.stats.quizzes}</div><div class="stat-label">Quizzes completed</div></div>
+          <div class="card span-6"><div class="stat">${data.stats.quizQuestions?Math.round(data.stats.quizCorrect/data.stats.quizQuestions*100):0}%</div><div class="stat-label">Correct answers</div></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderActiveQuiz() {
+  if(quiz.finished) {
+    const pct=quiz.total?Math.round(quiz.score/quiz.total*100):0;
+    return `<div class="card" style="max-width:760px;margin:auto;text-align:center;padding:35px">
+      <span class="pill mint">QUIZ COMPLETE</span><h1 style="margin-top:15px">${pct}%</h1>
+      <p>You answered ${quiz.score} out of ${quiz.total} questions correctly.</p>
+      <div class="progress" style="margin:20px 0"><div style="width:${pct}%"></div></div>
+      <p class="small">+${quiz.xpEarned} XP earned from correct answers.</p>
+      <button class="btn primary" id="finishQuiz">Back to quizzes</button>
+    </div>`;
+  }
+  const q=quiz.questions[quiz.index];
+  return pageTitle("Quiz",`Question ${quiz.index+1} of ${quiz.questions.length}`)+`
+    <div class="card" style="max-width:760px;margin:auto">
+      <div class="progress" style="margin-bottom:20px"><div style="width:${quiz.index/quiz.questions.length*100}%"></div></div>
+      <span class="pill blue">${escapeHTML(subjectName(q.subjectId))}</span>
+      <h2 style="font-size:1.6rem;margin-top:18px">${escapeHTML(q.front)}</h2>
+      <p>Choose the correct answer.</p>
+      <div id="quizOptions">${q.options.map((option,i)=>`<button class="quiz-option" data-option="${i}">${escapeHTML(option.text)}</button>`).join("")}</div>
+      <div id="quizFeedback" class="hidden notice" style="margin-top:14px"></div>
+      <button class="btn primary hidden" id="nextQuestion" style="margin-top:12px">${quiz.index===quiz.questions.length-1?"See results":"Next question →"}</button>
+    </div>`;
+}
+
+function renderQuests() {
+  const quests=getQuests();
+  const claimed=data.questClaims;
+  return pageTitle("Quest board","Complete learning activities to earn bonus XP.")+`
+    <div class="grid">
+      <div class="card span-4"><div class="stat">${claimed.length}/${quests.length}</div><div class="stat-label">Quests claimed</div></div>
+      <div class="card span-4"><div class="stat">${quests.filter(q=>q.progress>=q.target&&!claimed.includes(q.id)).reduce((n,q)=>n+q.reward,0)}</div><div class="stat-label">XP ready to claim</div></div>
+      <div class="card span-4"><div class="stat">${quests.filter(q=>q.progress>=q.target).length}</div><div class="stat-label">Quests completed</div></div>
+      <div class="card span-12"><div class="list">
+        ${quests.map(q=>{
+          const done=claimed.includes(q.id);
+          const ready=q.progress>=q.target&&!done;
+          return `<div class="list-item quest">
+            <div class="quest-icon">${done?"✓":ready?"★":"◇"}</div>
+            <div class="item-main" style="flex:1">
+              <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><strong>${escapeHTML(q.title)}</strong><span class="pill purple">+${q.reward} XP</span></div>
+              <p class="small" style="margin:4px 0 9px">${escapeHTML(q.description)}</p>
+              <div class="progress"><div style="width:${Math.min(100,q.progress/q.target*100)}%"></div></div>
+              <span class="small muted">${q.progress}/${q.target} · ${done?"Claimed":ready?"Complete!":"In progress"}</span>
+            </div>
+            <div class="item-actions">${ready?`<button class="btn primary" data-claim="${q.id}">Claim XP</button>`:done?`<span class="pill mint">Claimed</span>`:""}</div>
+          </div>`;
+        }).join("")}
+      </div></div>
+    </div>`;
+}
+
 function renderProgress() {
- document.getElementById("progressSubjects").innerHTML=[
- ["Mathematics",82],["Physics",71],["English",56],["Biology",39]
- ].map(([s,n])=>`<div class="test"><div class="testline"><span>${s}</span><span>${n}% mastery</span></div><div class="progressbar"><span style="width:${n}%"></span></div></div>`).join("");
-}
-function openTopic(title) {
- const t=topics.find(t=>t.title.toLowerCase()===title.toLowerCase())||
-         topics.find(t=>t.title.toLowerCase().includes(title.toLowerCase()));
- if(!t){toast("No matching topic found.");return;}
- flashTopic=t.title;flashIndex=0;
- if(!bank[t.title])bank[t.title]=[
-  {q:`Which statement best describes ${t.title.toLowerCase()}?`,
-   a:["A concept to practise and understand","A type of punctuation","A unit of time","None of these"],
-   c:0,e:`This is a starter question. Add more topic-specific questions as you develop Recall.`}
- ];
- page("flashcards");renderFlash();
- recent.unshift("Opened "+t.title);recent=recent.slice(0,4);renderActivity();
-}
-function renderActivity() {
- document.getElementById("activityList").innerHTML=recent.length?
- recent.map(x=>`<div class="activity"><span class="activityico">✦</span><span>${esc(x)}</span></div>`).join("")
- :'<div class="activity"><span class="activityico">✦</span><span>Your learning journey starts here.</span></div>';
-}
-function renderFlash() {
- const cards=flashTopic==="Pythagoras theorem"?flashcards:[
-  {q:`What is one key idea to remember about ${flashTopic}?`,a:`Review the core definition and practise applying ${flashTopic} to examples.`},
-  {q:`Why is it useful to practise ${flashTopic}?`,a:"Practice helps you check your understanding and remember key ideas."},
-  {q:`How could you revise ${flashTopic}?`,a:"Review the key concepts, explain them in your own words and practise questions."}
- ];
- flashIndex=(flashIndex+cards.length)%cards.length;
- document.getElementById("flashTitle").textContent=flashTopic;
- document.getElementById("flashCount").textContent=`Card ${flashIndex+1} of ${cards.length}`;
- document.getElementById("flashQuestion").textContent=cards[flashIndex].q;
- document.getElementById("flashAnswer").textContent=cards[flashIndex].a;
- document.getElementById("flashAnswer").hidden=true;
- document.getElementById("flipFlash").textContent="Reveal answer";
-}
-function startQuiz(topic="Pythagoras theorem") {
- const t=topics.find(t=>t.title.toLowerCase()===topic.toLowerCase())||topics[0];
- quiz=(bank[t.title]||bank["Pythagoras theorem"]).map(q=>({...q}));
- qi=0;score=0;
- document.getElementById("modalTitle").textContent=t.title+" quiz";
- document.getElementById("modalDesc").textContent="Choose the best answer. An explanation follows each question.";
- document.getElementById("modalBack").classList.add("open");
- document.getElementById("quizNext").onclick=nextQuestion;
- renderQuestion();
-}
-function renderQuestion() {
- answered=false;
- const q=quiz[qi];
- document.getElementById("quizProgress").textContent=`Question ${qi+1} of ${quiz.length}`;
- document.getElementById("quizFeedback").textContent="";
- document.getElementById("quizNext").disabled=true;
- document.getElementById("quizNext").textContent=qi===quiz.length-1?"Finish quiz":"Next question →";
- document.getElementById("quizBody").innerHTML=`<h3>${esc(q.q)}</h3><div class="answers">${q.a.map((a,i)=>`<button class="answerbtn" data-answer="${i}">${String.fromCharCode(65+i)}. ${esc(a)}</button>`).join("")}</div>`;
- document.querySelectorAll("[data-answer]").forEach(b=>b.onclick=()=>answer(Number(b.dataset.answer)));
-}
-function answer(i) {
- if(answered)return;
- answered=true;
- const q=quiz[qi],correct=i===q.c;
- if(correct)score++;
- document.querySelectorAll("[data-answer]").forEach((b,j)=>{
-  b.disabled=true;
-  if(j===q.c)b.classList.add("correct");
-  else if(j===i)b.classList.add("wrong");
- });
- document.getElementById("quizFeedback").textContent=(correct?"Correct. ":"Not quite. ")+q.e;
- document.getElementById("quizNext").disabled=false;
-}
-function nextQuestion() {
- if(!answered)return;
- if(qi<quiz.length-1){qi++;renderQuestion();return;}
- const earned=score*25;
- xp+=earned;save();update();
- document.getElementById("modalTitle").textContent="Quiz complete";
- document.getElementById("modalDesc").textContent=`You scored ${score} out of ${quiz.length}.`;
- document.getElementById("quizBody").innerHTML=`<div style="padding:22px;text-align:center"><div style="font-size:40px;color:#8ebdff">✦</div><h2>${Math.round(score/quiz.length*100)}%</h2><p>You earned <strong style="color:#64ddc2">+${earned} XP</strong></p></div>`;
- document.getElementById("quizFeedback").textContent="Keep practising to build mastery.";
- document.getElementById("quizProgress").textContent="Finished";
- document.getElementById("quizNext").textContent="Done";
- document.getElementById("quizNext").onclick=closeQuiz;
- recent.unshift(`Completed a quiz · ${score}/${quiz.length}`);recent=recent.slice(0,4);renderActivity();
-}
-function closeQuiz(){document.getElementById("modalBack").classList.remove("open");}
-function searchTopics(value) {
- const el=document.getElementById("searchResults"),q=value.trim().toLowerCase();
- if(!q){el.style.display="none";return;}
- const found=topics.filter(t=>(t.title+" "+t.subject+" "+t.desc).toLowerCase().includes(q)).slice(0,7);
- el.innerHTML=found.map(t=>`<button data-topic="${esc(t.title)}">⌕ ${esc(t.title)}<small>${esc(t.subject)} · ${esc(t.desc)}</small></button>`).join("")||'<div class="empty">No exact match. Press Enter to search the library.</div>';
- el.style.display="block";
- el.querySelectorAll("[data-topic]").forEach(b=>b.onclick=()=>{
-  document.getElementById("search").value="";openTopic(b.dataset.topic);
- });
+  const mastered=data.skills.filter(s=>s.mastered).length;
+  const accuracy=data.stats.quizQuestions?Math.round(data.stats.quizCorrect/data.stats.quizQuestions*100):0;
+  return pageTitle("Your progress","Track the work you've put into learning.")+`
+    <div class="grid">
+      <div class="card span-4"><div class="stat">${data.xp}</div><div class="stat-label">Total XP</div><p class="small">Level ${levelFromXP(data.xp)}</p><div class="progress"><div style="width:${data.xp%100}%"></div></div><p class="small">${data.xp%100}/100 XP towards the next level</p></div>
+      <div class="card span-4"><div class="stat">${data.stats.studied}</div><div class="stat-label">Cards studied</div></div>
+      <div class="card span-4"><div class="stat">${accuracy}%</div><div class="stat-label">Quiz accuracy</div></div>
+      <div class="card span-6"><h2>Skill mastery</h2><div class="stat">${mastered}/${data.skills.length}</div><div class="progress"><div style="width:${data.skills.length?mastered/data.skills.length*100:0}%"></div></div><p class="small">${data.skills.length?Math.round(mastered/data.skills.length*100):0}% of your skills marked as mastered</p></div>
+      <div class="card span-6"><h2>Quiz performance</h2><div class="grid"><div class="span-6"><div class="stat">${data.stats.quizCorrect}</div><div class="stat-label">Correct</div></div><div class="span-6"><div class="stat">${data.stats.wrong}</div><div class="stat-label">Incorrect</div></div></div></div>
+      <div class="card span-12"><h2>Subject overview</h2>
+        ${data.subjects.length?`<div class="list">${data.subjects.map(s=>{
+          const skills=data.skills.filter(sk=>sk.subjectId===s.id);
+          const cards=data.cards.filter(c=>c.subjectId===s.id);
+          const done=skills.filter(sk=>sk.mastered).length;
+          return `<div><div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:7px"><strong><span class="subject-color" style="background:${escapeHTML(s.color)}"></span>${escapeHTML(s.name)}</strong><span class="small muted">${done}/${skills.length} skills · ${cards.length} cards</span></div><div class="progress"><div style="width:${skills.length?done/skills.length*100:0}%;background:${escapeHTML(s.color)}"></div></div></div>`;
+        }).join("")}</div>`:`<div class="empty">Create a subject to start tracking your progress.</div>`}
+      </div>
+    </div>`;
 }
 
-document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>page(b.dataset.page));
-document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>page(b.dataset.goto));
-document.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>{
- const a=b.dataset.action;
- if(a==="quiz")startQuiz();
- else page(a);
-});
-document.querySelectorAll(".studycard,.subject").forEach(b=>b.onclick=()=>{
- if(b.dataset.topic)openTopic(b.dataset.topic);
-});
-document.getElementById("search").addEventListener("input",e=>searchTopics(e.target.value));
-document.getElementById("search").addEventListener("keydown",e=>{
- if(e.key==="Enter"){
-  const q=e.target.value.trim().toLowerCase();
-  const found=topics.find(t=>t.title.toLowerCase()===q)||
-    topics.find(t=>(t.title+" "+t.subject).toLowerCase().includes(q));
-  document.getElementById("searchResults").style.display="none";
-  if(found)openTopic(found.title);
-  else if(q){page("study");renderTopics(topics.filter(t=>(t.title+" "+t.subject+" "+t.desc).toLowerCase().includes(q)),"topicGrid");}
- }
- if(e.key==="Escape")document.getElementById("searchResults").style.display="none";
-});
-document.addEventListener("keydown",e=>{
- if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();document.getElementById("search").focus();}
- if(e.key==="Escape")closeQuiz();
-});
-document.getElementById("closeModal").onclick=closeQuiz;
-document.getElementById("modalBack").onclick=e=>{if(e.target.id==="modalBack")closeQuiz();};
-document.getElementById("flipFlash").onclick=()=>{
- const a=document.getElementById("flashAnswer");a.hidden=!a.hidden;
- document.getElementById("flipFlash").textContent=a.hidden?"Reveal answer":"Hide answer";
-};
-document.getElementById("prevFlash").onclick=()=>{
- flashIndex--;renderFlash();
-};
-document.getElementById("nextFlash").onclick=()=>{
- flashIndex++;renderFlash();
-};
-document.getElementById("addSubject").onclick=()=>{
- const s=prompt("What subject would you like to add?");
- if(!s||!s.trim())return;
- const card=document.createElement("div");
- card.className="subject";
- card.innerHTML=`<div class="subjecttop"><span class="subjectico">＋</span><div class="subjectname">${esc(s.trim())}<small>New subject</small></div></div><div class="progressbar"><span style="width:5%"></span></div><div class="subjectfoot"><span>5%</span><span>New</span></div>`;
- document.getElementById("subjects").insertBefore(card,document.getElementById("addSubject"));
- toast("Subject added to this view.");
-};
-document.getElementById("saveName").onclick=()=>{
- name=document.getElementById("displayName").value.trim()||"Learner";
- save();update();toast("Profile name saved.");
-};
-document.getElementById("resetData").onclick=()=>{
- if(confirm("Reset XP and quests?")){
-  xp=0;done=[];recent=[];save();initQuests();update();renderActivity();toast("Progress reset.");
- }
+function renderSettings() {
+  return pageTitle("Data & backup","Your learning data is stored in this browser. Export a backup before changing devices.")+`
+    <div class="grid">
+      <div class="card span-6"><h2>Export your progress</h2><p>Download your subjects, skills, flashcards, XP and progress as a JSON backup file.</p><button class="btn primary" id="exportData">Export backup</button></div>
+      <div class="card span-6"><h2>Import a backup</h2><p>Restore a previously exported Recall JSON file. This replaces the current data.</p><label>Select backup file<input type="file" id="importFile" accept=".json,application/json"></label></div>
+      <div class="card span-12"><h2>Where is my progress saved?</h2><p>Recall automatically saves to your browser using local storage. It stays on this device and browser; it does not sync to other devices or browsers. Clearing browser data may erase your progress, so export backups regularly.</p><hr><h2>Reset all data</h2><p>This permanently deletes your saved Recall data from this browser. Export a backup first if you want to keep it.</p><button class="btn danger" id="resetData">Reset all data</button></div>
+    </div>`;
+}
+
+function bindPageEvents() {
+  $$("[data-go]").forEach(button=>button.addEventListener("click",()=>{currentPage=button.dataset.go;currentStudy=[];quiz=null;render();}));
+  $$("[data-open-subject]").forEach(button=>button.addEventListener("click",()=>{currentPage="tree";render();}));
+  $$("[data-view-tree]").forEach(button=>button.addEventListener("click",()=>{currentPage="tree";render();}));
+
+  $("#subjectForm")?.addEventListener("submit",event=>{
+    event.preventDefault();
+    const form=new FormData(event.currentTarget);
+    const name=String(form.get("name")||"").trim();
+    if(!name)return;
+    if(data.subjects.some(s=>s.name.toLowerCase()===name.toLowerCase())){notify("That subject already exists.");return;}
+    data.subjects.push({id:makeId(),name,color:String(form.get("color")||"#70b4ff"),createdAt:Date.now()});
+    saveData();claimCompletedQuests();render();notify("Subject created.");
+  });
+
+  $("#skillSubject")?.addEventListener("change",refreshPrereqOptions);
+  $("#skillForm")?.addEventListener("submit",event=>{
+    event.preventDefault();
+    const form=new FormData(event.currentTarget);
+    const subjectId=String(form.get("subjectId")||"");
+    const name=String(form.get("name")||"").trim();
+    if(!getSubject(subjectId)||!name)return;
+    const prerequisites=$$("#skillPrereqs option:checked").map(option=>option.value);
+    if(prerequisites.some(id=>getSkill(id)?.subjectId!==subjectId)){notify("Prerequisites must belong to the same subject.");return;}
+    data.skills.push({id:makeId(),subjectId,name,description:String(form.get("description")||"").trim(),prerequisites,mastered:false,createdAt:Date.now()});
+    saveData();claimCompletedQuests();render();notify("Skill added to your tree.");
+  });
+
+  $$("[data-master]").forEach(button=>button.addEventListener("click",()=>{
+    const skill=getSkill(button.dataset.master);
+    if(!skill||!isSkillUnlocked(skill)||skill.mastered)return;
+    skill.mastered=true;
+    awardXP(15,"Skill mastered");
+    claimCompletedQuests();
+    render();
+  }));
+
+  $$("[data-delete-skill]").forEach(button=>button.addEventListener("click",()=>{
+    const skill=getSkill(button.dataset.deleteSkill);
+    if(!skill)return;
+    if(!confirm(`Delete "${skill.name}"? Prerequisite links to this skill will also be removed.`))return;
+    data.skills=data.skills.filter(s=>s.id!==skill.id);
+    data.skills.forEach(s=>s.prerequisites=(s.prerequisites||[]).filter(id=>id!==skill.id));
+    data.cards.forEach(c=>{if(c.skillId===skill.id)c.skillId="";});
+    saveData();render();notify("Skill deleted.");
+  }));
+
+  $$("[data-delete-subject]").forEach(button=>button.addEventListener("click",()=>{
+    const subject=getSubject(button.dataset.deleteSubject);
+    if(!subject)return;
+    if(!confirm(`Delete "${subject.name}" and its skills and flashcards?`))return;
+    const skillIds=data.skills.filter(s=>s.subjectId===subject.id).map(s=>s.id);
+    data.subjects=data.subjects.filter(s=>s.id!==subject.id);
+    data.skills=data.skills.filter(s=>s.subjectId!==subject.id);
+    data.skills.forEach(s=>s.prerequisites=(s.prerequisites||[]).filter(id=>!skillIds.includes(id)));
+    data.cards=data.cards.filter(c=>c.subjectId!==subject.id);
+    currentStudy=[];currentSubjectFilter="all";
+    saveData();render();notify("Subject deleted.");
+  }));
+
+  $("#cardSubject")?.addEventListener("change",()=>{
+    const select=$("#cardSkill");
+    if(select)select.innerHTML=skillOptions($("#cardSubject").value);
+  });
+  $("#cardForm")?.addEventListener("submit",event=>{
+    event.preventDefault();
+    const form=new FormData(event.currentTarget);
+    const subjectId=String(form.get("subjectId")||"");
+    const front=String(form.get("front")||"").trim();
+    const back=String(form.get("back")||"").trim();
+    if(!getSubject(subjectId)||!front||!back)return;
+    data.cards.push({id:makeId(),subjectId,skillId:String(form.get("skillId")||""),front,back,createdAt:Date.now()});
+    awardXP(3,"Flashcard created");
+    claimCompletedQuests();render();
+  });
+
+  $("#studyFilter")?.addEventListener("change",event=>{currentSubjectFilter=event.target.value;render();});
+  $("#startStudy")?.addEventListener("click",()=>{
+    currentStudy=cardsForSubject(currentSubjectFilter).slice().sort(()=>Math.random()-.5);
+    studyIndex=0;showingAnswer=false;render();
+  });
+  $("#flipCard")?.addEventListener("click",()=>{showingAnswer=!showingAnswer;render();});
+  $("#flipCard")?.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();showingAnswer=!showingAnswer;render();}});
+  $("#revealAnswer")?.addEventListener("click",()=>{showingAnswer=true;render();});
+  $("#studyAgain")?.addEventListener("click",()=>advanceStudy(false));
+  $("#studyKnown")?.addEventListener("click",()=>advanceStudy(true));
+  $("#finishStudy")?.addEventListener("click",()=>{currentStudy=[];studyIndex=0;render();});
+  $("#exitStudy")?.addEventListener("click",()=>{currentStudy=[];studyIndex=0;render();});
+
+  $$("[data-delete-card]").forEach(button=>button.addEventListener("click",()=>{
+    const card=getCard(button.dataset.deleteCard);
+    if(!card)return;
+    if(!confirm("Delete this flashcard?"))return;
+    data.cards=data.cards.filter(c=>c.id!==card.id);
+    saveData();render();notify("Flashcard deleted.");
+  }));
+
+  $("#quizForm")?.addEventListener("submit",event=>{
+    event.preventDefault();
+    const form=new FormData(event.currentTarget);
+    const subjectId=String(form.get("subjectId")||"all");
+    let pool=cardsForSubject(subjectId).slice().sort(()=>Math.random()-.5);
+    const count=form.get("count")==="all"?pool.length:Number(form.get("count"));
+    pool=pool.slice(0,count);
+    if(pool.length<2){notify("Add at least 2 cards to this deck.");return;}
+    quiz={questions:pool.map(card=>{
+      const distractors=data.cards.filter(c=>c.id!==card.id&&c.back.trim()!==card.back.trim()).sort(()=>Math.random()-.5).slice(0,3);
+      const answers=[{text:card.back,correct:true},...distractors.map(c=>({text:c.back,correct:false}))].sort(()=>Math.random()-.5);
+      return {...card,options:answers};
+    }),index:0,score:0,total:pool.length,answered:false,finished:false,xpEarned:0};
+    render();
+  });
+
+  $$("#quizOptions button").forEach(button=>button.addEventListener("click",()=>{
+    if(!quiz||quiz.answered)return;
+    quiz.answered=true;
+    const q=quiz.questions[quiz.index];
+    const option=q.options[Number(button.dataset.option)];
+    const correct=q.options.findIndex(o=>o.correct);
+    $$("#quizOptions button").forEach((el,index)=>{
+      el.disabled=true;
+      if(index===correct)el.classList.add("correct");
+      else if(index===Number(button.dataset.option))el.classList.add("wrong");
+    });
+    const feedback=$("#quizFeedback");
+    feedback.classList.remove("hidden");
+    if(option.correct){
+      quiz.score++;quiz.xpEarned+=5;
+      data.stats.quizCorrect++;data.stats.correct++;
+      feedback.textContent="Correct. +5 XP";
+    } else {
+      data.stats.wrong++;
+      feedback.textContent="Not quite. Correct answer: "+q.back;
+    }
+    data.stats.quizQuestions++;
+    data.xp+=option.correct?5:0;
+    saveData();
+    $("#nextQuestion").classList.remove("hidden");
+  }));
+
+  $("#nextQuestion")?.addEventListener("click",()=>{
+    if(quiz.index<quiz.questions.length-1){quiz.index++;quiz.answered=false;render();}
+    else {
+      quiz.finished=true;
+      data.stats.quizzes++;
+      saveData();claimCompletedQuests();render();
+    }
+  });
+  $("#finishQuiz")?.addEventListener("click",()=>{quiz=null;currentPage="quizzes";render();});
+
+  $$("[data-claim]").forEach(button=>button.addEventListener("click",()=>{
+    const quest=getQuests().find(q=>q.id===button.dataset.claim);
+    if(!quest||quest.progress<quest.target||data.questClaims.includes(quest.id))return;
+    data.questClaims.push(quest.id);
+    awardXP(quest.reward,"Quest reward");
+    render();
+  }));
+
+  $("#exportData")?.addEventListener("click",exportData);
+  $("#importFile")?.addEventListener("change",importData);
+  $("#resetData")?.addEventListener("click",()=>{
+    if(!confirm("This will permanently delete all Recall data saved in this browser. Continue?"))return;
+    if(!confirm("Are you sure? Export a backup first if you want to keep your progress."))return;
+    localStorage.removeItem(STORAGE_KEY);
+    data=defaultData();currentStudy=[];quiz=null;currentSubjectFilter="all";
+    render();notify("All Recall data has been reset.");
+  });
+}
+
+function advanceStudy(known) {
+  if(!currentStudy[studyIndex])return;
+  data.stats.studied++;
+  awardXP(known?5:2,known?"Card recalled":"Card practised");
+  claimCompletedQuests();
+  studyIndex++;
+  showingAnswer=false;
+  render();
+}
+
+function exportData() {
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="recall-backup-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a);a.click();a.remove();
+  URL.revokeObjectURL(url);
+  notify("Backup exported.");
+}
+
+function importData(event) {
+  const file=event.target.files?.[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try {
+      const imported=JSON.parse(String(reader.result));
+      if(!imported||!Array.isArray(imported.subjects)||!Array.isArray(imported.skills)||!Array.isArray(imported.cards)||!imported.stats)throw new Error("This doesn't look like a Recall backup.");
+      if(!confirm("Import this backup? It will replace your current Recall data."))return;
+      const base=defaultData();
+      data={
+        ...base,...imported,
+        subjects:imported.subjects,
+        skills:imported.skills,
+        cards:imported.cards,
+        questClaims:Array.isArray(imported.questClaims)?imported.questClaims:[],
+        stats:{...base.stats,...imported.stats},
+        session:{}
+      };
+      saveData();currentStudy=[];quiz=null;render();notify("Backup imported.");
+    } catch(error) {
+      alert("Could not import backup: "+error.message);
+    } finally {
+      event.target.value="";
+    }
+  };
+  reader.readAsText(file);
+}
+
+// Keep quest progress and XP updates tied to actual activities.
+function claimCompletedQuestsSilently() {
+  const completed=getQuests().filter(q=>q.progress>=q.target&&!data.questClaims.includes(q.id));
+  if(!completed.length)return;
+  for(const q of completed){data.questClaims.push(q.id);data.xp+=q.reward;}
+  saveData();
+}
+
+// Ensure new activity can unlock quest rewards without a manual free-completion button.
+const originalAwardXP=awardXP;
+awardXP=function(amount,reason) {
+  data.xp+=amount;
+  saveData();
+  if(reason)notify("+"+amount+" XP · "+reason);
+  claimCompletedQuestsSilently();
 };
 
-initQuests();
-renderTopics(topics,"topicGrid");
-renderTopics(topics,"quizGrid",true);
-renderSkills();
-renderProgress();
-renderFlash();
-update();
+updateHeader();
 </script>
 </body>
 </html>
