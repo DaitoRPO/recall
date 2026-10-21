@@ -368,7 +368,7 @@
     </section>
 
     <section class="page" id="page-progress">
-      <div class="page-toolbar"><div><h2>Your progress</h2><p>Consistency beats cramming. Keep building your knowledge.</p></div><button class="btn secondary" data-action="export-data">Export my data</button></div>
+      <div class="page-toolbar"><div><h2>Your progress</h2><p>Consistency beats cramming. Keep building your knowledge.</p></div><div class="row"><button class="btn secondary" data-action="export-data">Export my data</button><button class="btn danger" data-action="reset-progress">Reset progress</button></div></div>
       <div class="grid stats-grid">
         <article class="card"><div class="stat-top">Total XP<span class="stat-icon">✦</span></div><div class="stat-value" id="progress-xp">0</div><div class="stat-foot">Earned through study</div></article>
         <article class="card"><div class="stat-top">Quizzes completed<span class="stat-icon">◎</span></div><div class="stat-value" id="progress-quizzes">0</div><div class="stat-foot">Questions answered</div></article>
@@ -438,6 +438,7 @@
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     state = saved ? {...initialState(), ...JSON.parse(saved)} : initialState();
+    if (!Array.isArray(state.subjects) || !state.subjects.length) state.subjects = starterSubjects.map(s=>({...s}));
     if (!Array.isArray(state.cards)) state.cards = [];
     if (!Array.isArray(state.questions)) state.questions = [];
     if (!Array.isArray(state.tests)) state.tests = [];
@@ -748,6 +749,26 @@
     a.href=url; a.download=`recall-backup-${todayKey()}.json`; a.click(); URL.revokeObjectURL(url);
     showToast("Your backup has been prepared.");
   }
+  function resetProgress() {
+    if (!confirm("Reset all learning progress? This will erase XP, streaks, review and quiz statistics, achievements progress, and activity history. Your subjects, flashcards, quiz questions, test dates, and profile will stay. This cannot be undone.")) return;
+    state.xp = 0;
+    state.streak = 0;
+    state.lastActive = null;
+    state.cardsReviewed = 0;
+    state.questionsAnswered = 0;
+    state.correctAnswers = 0;
+    state.activity = [];
+    state.completedQuests = {};
+    state.dailyStats = {};
+    state.cardStats = {};
+    state.questionStats = {};
+    flashIndex = 0;
+    flashFlipped = false;
+    activeQuiz = null;
+    save();
+    renderAll();
+    showToast("Learning progress has been reset.");
+  }
   function importNameModal() {
     openModal("Your profile",`<form id="profile-form"><div class="field"><label for="profile-name">What should Recall call you?</label><input id="profile-name" name="name" required maxlength="35" value="${escapeHTML(state.profile.name||"Learner")}"></div><div class="form-actions"><button type="button" class="btn ghost" data-close-modal>Cancel</button><button type="submit" class="btn">Save name</button></div></form><div class="notice">This name is only stored in this browser. Recall does not have accounts in this version.</div>`);
   }
@@ -770,6 +791,7 @@
         case "manage-cards": manageCardsModal(); break;
         case "quick-study": startQuickStudy(); break;
         case "export-data": exportData(); break;
+        case "reset-progress": resetProgress(); break;
         case "skip-question": nextQuestion(); break;
         case "next-question": nextQuestion(); break;
       }
