@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recall — Learn. Improve. Level up.</title>
+<style>
+:root {
+  --bg:#07101e;
+  --panel:#0b172a;
+  --panel2:#101f36;
+  --line:#203451;
+  --text:#edf3ff;
+  --muted:#91a5c8;
+  --blue:#70b4ff;
+  --purple:#8275ff;
+  --mint:#64ddc2;
+  --gold:#ffc96b;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:radial-gradient(ellipse at top,#17294b,transparent 45%),var(--bg);
+  color:var(--text);
+  font:14px/1.5 Inter,system-ui,sans-serif;
+}
+button,input {font:inherit}
+button {cursor:pointer;color:inherit}
+button:focus-visible,input:focus-visible {
+  outline:2px solid var(--blue);outline-offset:3px
+}
+header {
+  height:72px;display:flex;align-items:center;gap:22px;
+  padding:0 25px;background:#07101ef2;
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:5
+}
+.brand {display:flex;align-items:center;gap:10px;font-size:25px;font-weight:700;letter-spacing:-1px}
+.logo {width:39px;height:39px}
+.search {flex:1;position:relative;max-width:720px}
+.search input {
+  width:100%;padding:12px 15px 12px 40px;
+  background:var(--panel2);border:1px solid #29405f;
+  border-radius:10px;color:white
+}
+.search-icon {position:absolute;left:13px;top:9px;font-size:21px;color:var(--blue)}
+.search-results {
+  display:none;position:absolute;top:48px;left:0;right:0;
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:10px;padding:7px;z-index:10
+}
+.search-results button {
+  width:100%;display:block;text-align:left;background:none;
+  border:0;padding:11px;border-radius:7px
+}
+.search-results button:hover {background:#172b49}
+.search-results small {display:block;color:var(--muted)}
+.avatar {margin-left:auto;background:#203657;border:0;border-radius:50%;width:36px;height:36px;font-weight:bold}
+.layout {display:grid;grid-template-columns:195px 1fr;min-height:calc(100vh - 72px)}
+.sidebar {padding:20px 12px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:5px}
+.nav {
+  background:transparent;border:1px solid transparent;color:#afc0df;
+  text-align:left;padding:11px 12px;border-radius:9px;display:flex;gap:13px
+}
+.nav:hover,.nav.active {background:#142a50;border-color:#294b7b;color:var(--blue)}
+.nav .ico {width:22px;text-align:center;font-size:18px}
+.side-note {margin-top:auto;padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;color:var(--muted)}
+.side-note strong {font-size:24px;color:var(--blue)}
+.main {padding:22px;min-width:0}
+.page {display:none;max-width:1500px;margin:auto}
+.page.active {display:block}
+.columns {display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:15px}
+.primary,.right {display:flex;flex-direction:column;gap:15px;min-width:0}
+.panel {
+  background:linear-gradient(145deg,#0b192d,#081324);
+  border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0
+}
+.welcome {display:flex;justify-content:space-between;gap:15px;padding:23px}
+h1 {font-size:24px;letter-spacing:-.5px;margin:0 0 5px}
+h2 {font-size:15px;margin:0;font-weight:650}
+.sub,.muted {color:var(--muted)}
+.sub {margin:0 0 18px}
+.muted {font-size:12px}
+.stats {display:flex;flex-wrap:wrap;gap:9px}
+.stat {background:#0e1d33;border:1px solid var(--line);border-radius:10px;padding:10px;min-width:105px;flex:1}
+.stat strong,.stat small {display:block}
+.stat strong {font-size:12px}
+.stat small {color:var(--muted);font-size:10px}
+.big {font-size:22px}
+.leveltop {display:flex;align-items:center;gap:8px}
+.progressbar {height:6px;background:#20314d;border-radius:9px;overflow:hidden}
+.progressbar span {height:100%;display:block;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:9px}
+.level .progressbar {margin-top:8px}
+.mountain {width:125px;align-self:center;flex-shrink:0}
+.head {display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}
+.head h2 {display:flex;gap:9px;align-items:center}
+.hi {font-size:19px;color:var(--blue)}
+.link {border:0;background:none;color:var(--blue);font-size:12px}
+.twogrid {display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.quests {display:flex;flex-direction:column;gap:13px}
+.quest {display:flex;align-items:center;gap:10px;cursor:pointer}
+.quest input {accent-color:var(--mint);width:18px;height:18px}
+.quest .reward {margin-left:auto;color:var(--mint);font-size:12px;white-space:nowrap}
+.quest.done .qtext {text-decoration:line-through;color:var(--muted)}
+.tree {width:100%;height:150px}
+.legend {display:flex;justify-content:center;gap:12px;color:var(--muted);font-size:10px}
+.dot {display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.test {margin-bottom:14px}
+.testline {display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+.testline span:last-child {color:var(--muted)}
+.activitylist {display:flex;flex-direction:column;gap:12px}
+.activity {display:flex;align-items:center;gap:8px;font-size:11px}
+.activityico {padding:4px 7px;border-radius:6px;background:#172d4e;color:var(--blue)}
+.points {color:var(--mint);margin-left:auto;white-space:nowrap}
+.subjects {display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) 55px;gap:9px}
+.subject {
+  background:#0e1d33;border:1px solid var(--line);border-radius:10px;
+  padding:11px;min-width:0;cursor:pointer;transition:.15s
+}
+.subject:hover,.studycard:hover,.topic:hover,.quick:hover {border-color:#5278ad;transform:translateY(-1px)}
+.subjecttop {display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.subjectico {width:32px;height:32px;border-radius:50%;background:#143d6b;color:#8fcaff;display:grid;place-items:center;flex-shrink:0;font-size:17px}
+.subjectname {font-size:11px;overflow:hidden;text-overflow:ellipsis}
+.subject small {display:block;color:var(--muted);font-size:10px}
+.subject .progressbar {margin:10px 0 7px;height:5px}
+.subjectfoot {display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
+.add {background:transparent;border:1px dashed #344a6b;border-radius:10px;color:var(--muted);font-size:11px}
+.add span {display:block;font-size:25px}
+.continue {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.studycard {padding:12px;border:1px solid #344b79;border-radius:10px;background:linear-gradient(130deg,#162b54,#101b35);cursor:pointer;transition:.15s}
+.studycard:nth-child(2) {background:linear-gradient(130deg,#29245b,#171b3c)}
+.studycard:nth-child(3) {background:linear-gradient(130deg,#123a3b,#10262e)}
+.studyhead {display:flex;align-items:center;gap:9px}
+.studyhead strong,.studyhead small {display:block}
+.studyhead strong {font-size:12px}
+.studyhead small {font-size:10px;color:#b7c7e6}
+.cardbottom {display:flex;justify-content:space-between;margin-top:13px;color:#a6b9df;font-size:10px}
+.quicklist {display:flex;flex-direction:column;gap:8px}
+.quick {display:flex;align-items:center;gap:10px;text-align:left;width:100%;border:1px solid var(--line);background:#0e1d33;border-radius:10px;padding:10px;transition:.15s}
+.quickico {width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#143d6b;color:var(--blue);font-size:18px}
+.quick strong,.quick small {display:block}
+.quick strong {font-size:12px}
+.quick small {font-size:10px;color:var(--muted);margin-top:3px}
+.arrow {margin-left:auto;color:var(--blue);font-size:20px}
+.mastery {display:flex;align-items:center;gap:15px}
+.donut {width:105px;height:105px;border-radius:50%;background:conic-gradient(#58caff 0 35%,#8175ff 35% 68%,#203251 68%);display:grid;place-items:center;position:relative;flex-shrink:0}
+.donut:before {content:"";position:absolute;inset:9px;border-radius:50%;background:#091426}
+.donuttext {position:relative;text-align:center}
+.donuttext strong {font-size:20px;display:block}
+.donuttext small {font-size:9px;color:var(--muted)}
+.subjectstats {display:flex;flex-direction:column;gap:10px;flex:1}
+.subjectstat {display:flex;align-items:center;gap:7px;font-size:11px}
+.subjectstat i {width:8px;height:8px;border-radius:50%}
+.subjectstat span:nth-child(2) {flex:1}
+.subjectstat b {font-size:10px;font-weight:500}
+.intro {margin:5px 0 20px}
+.intro p {color:var(--muted);margin:0}
+.topicgrid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.topic {padding:16px;background:#0e1d33;border:1px solid var(--line);border-radius:12px;transition:.15s}
+.topic h3 {font-size:14px;margin:8px 0}
+.topic p {font-size:12px;color:var(--muted);min-height:35px}
+.primarybtn {background:#193b6c;border:1px solid #31538a;color:#e2edff;border-radius:8px;padding:9px 12px;font-size:12px}
+.primarybtn:hover {background:#244d84}
+.empty {padding:25px;text-align:center;color:var(--muted)}
+.flasharea {min-height:210px;display:grid;place-items:center;text-align:center;padding:20px}
+.flasharea h2 {font-size:22px;margin:12px 0}
+.answer {color:var(--mint)}
+.modalback {display:none;position:fixed;inset:0;background:#020611cc;z-index:30;align-items:center;justify-content:center;padding:18px}
+.modalback.open {display:flex}
+.modal {width:min(520px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid #2a4267;border-radius:16px;padding:23px}
+.modalhead,.modalfoot {display:flex;justify-content:space-between;align-items:center;gap:12px}
+.modalhead h2 {font-size:19px}
+.close {background:none;border:0;color:var(--muted);font-size:24px}
+.modal p {color:#a6b8d7}
+.answers {display:grid;gap:9px;margin:18px 0}
+.answerbtn {padding:12px;text-align:left;background:var(--panel2);border:1px solid #273b5b;border-radius:9px}
+.answerbtn.correct {border-color:var(--mint);background:#10352f}
+.answerbtn.wrong {border-color:#ff8797;background:#351c2a}
+.feedback {min-height:25px;color:var(--mint);font-size:12px}
+.setting-input {padding:11px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:white}
+.toast {position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#142743;border:1px solid #355781;border-radius:10px;padding:12px 18px;z-index:50;display:none}
+.toast.show {display:block}
+@media(max-width:1200px) {
+  .columns {grid-template-columns:minmax(0,1fr) 260px}
+  .subjects {grid-template-columns:repeat(2,minmax(0,1fr)) 50px}
+  .subject:nth-child(3),.subject:nth-child(4) {display:none}
+}
+@media(max-width:950px) {
+  .columns {grid-template-columns:1fr}
+  .right {display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .layout {grid-template-columns:65px minmax(0,1fr)}
+  .sidebar {padding:15px 6px}
+  .nav {justify-content:center;padding:12px 4px}
+  .nav .label,.side-note {display:none}
+  .main {padding:15px}
+}
+@media(max-width:650px) {
+  header {height:62px;padding:0 10px;gap:10px}
+  .brand {font-size:20px;gap:6px}
+  .logo {width:31px;height:31px}
+  .layout {display:block}
+  .sidebar {
+    position:fixed;bottom:0;left:0;right:0;height:62px;z-index:20;
+    flex-direction:row;justify-content:space-around;padding:5px;
+    background:#07101ef7;border-top:1px solid var(--line);border-right:0
+  }
+  .nav {flex:1;display:flex;flex-direction:column;align-items:center;gap:0;padding:3px}
+  .nav .label {display:block;font-size:9px}
+  .nav .ico {font-size:17px}
+  .nav:nth-child(n+6) {display:none}
+  .main {padding:12px 10px 80px}
+  .welcome {padding:15px}
+  .welcome h1 {font-size:19px}
+  .mountain {display:none}
+  .stat {min-width:40%;padding:9px}
+  .twogrid,.right {grid-template-columns:1fr}
+  .continue {grid-template-columns:1fr}
+  .topicgrid {grid-template-columns:1fr}
+  .subjects {grid-template-columns:repeat(2,minmax(0,1fr)) 45px}
+  .subject:nth-child(3) {display:block}
+  .subject:nth-child(4) {display:none}
+  .panel {padding:14px}
+  .search input {font-size:11px;padding:10px 7px 10px 30px}
+  .search-icon {left:8px;top:7px}
+  .avatar {width:30px;height:30px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 48 48" aria-label="Recall R logo">
+      <path d="M5 6h19c8 0 13 4 13 11 0 5-3 9-8 10l13 15H27L5 17h19c2 0 3-1 3-3s-1-3-3-3H5z" fill="#e8efff"/>
+      <path d="M5 21h15l13 15H20z" fill="#8b9bff"/>
+    </svg>
+    Recall
+  </div>
+  <div class="search">
+    <span class="search-icon">⌕</span>
+    <input id="search" placeholder="Search any topic or concept..." autocomplete="off" aria-label="Search topics">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+  <button class="avatar" id="avatar" aria-label="Profile">A</button>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <button class="nav active" data-page="home"><span class="ico">⌂</span><span class="label">Home</span></button>
+  <button class="nav" data-page="study"><span class="ico">◇</span><span class="label">Study</span></button>
+  <button class="nav" data-page="flashcards"><span class="ico">▤</span><span class="label">Flashcards</span></button>
+  <button class="nav" data-page="quizzes"><span class="ico">ϟ</span><span class="label">Quizzes</span></button>
+  <button class="nav" data-page="skills"><span class="ico">♧</span><span class="label">Skill Tree</span></button>
+  <button class="nav" data-page="quests"><span class="ico">♜</span><span class="label">Quests</span></button>
+  <button class="nav" data-page="progress"><span class="ico">▥</span><span class="label">Progress</span></button>
+  <button class="nav" data-page="settings"><span class="ico">⚙</span><span class="label">Settings</span></button>
+  <div class="side-note"><strong>✦</strong><p>Small steps.<br>Big progress.</p><div class="progressbar"><span style="width:45%"></span></div></div>
+</aside>
+
+<main class="main">
+
+<!-- HOME -->
+<section class="page active" id="page-home">
+<div class="columns">
+<div class="primary">
+
+<section class="panel welcome">
+<div style="flex:1;min-width:0">
+  <h1 id="welcomeTitle">Welcome back, Alex</h1>
+  <p class="sub">Keep going — you're making progress.</p>
+  <div class="stats">
+    <div class="stat"><div class="leveltop"><span class="big">✦</span><div><strong>Level <span id="level">5</span></strong><small><span id="xp">420</span> XP total</small></div></div><div class="progressbar" style="margin-top:8px"><span id="levelbar" style="width:20%"></span></div></div>
+    <div class="stat"><span class="big">♨</span><strong>Study streak</strong><small>Build your routine</small></div>
+    <div class="stat"><span class="big">🏆</span><strong id="achievements">0</strong><small>Quests completed</small></div>
+  </div>
+</div>
+<svg class="mountain" viewBox="0 0 180 155" aria-hidden="true">
+  <defs><linearGradient id="peak"><stop stop-color="#8c8aff"/><stop offset="1" stop-color="#283c9e"/></linearGradient></defs>
+  <circle cx="96" cy="70" r="48" fill="#3744b8" opacity=".18"/>
+  <path d="M16 145L75 55 95 85 112 65 168 145Z" fill="#17285d"/>
+  <path d="M43 128L83 64 99 87 113 72 145 128Z" fill="url(#peak)"/>
+  <path d="M83 64L99 87 113 72 104 97 93 87 76 98Z" fill="#e4edff"/>
+  <path d="M109 20v38" stroke="#8ccaff" stroke-width="2"/>
+  <path d="M110 20h26l-7 8 7 8h-26z" fill="#7ad7ff"/>
+</svg>
+</section>
+
+<div class="twogrid">
+<section class="panel">
+  <div class="head"><h2><span class="hi">◎</span>Daily Quests</h2><span class="muted" id="questCount">0/4</span></div>
+  <div class="quests" id="questList"></div>
+</section>
+<section class="panel">
+  <div class="head"><h2><span class="hi">♧</span>Skill Tree</h2><button class="link" data-goto="skills">View all →</button></div>
+  <svg class="tree" viewBox="0 0 330 155" aria-label="Skill tree">
+    <g fill="none" stroke="#293d66" stroke-width="2"><path d="M36 60L92 112 151 53 224 25"/><path d="M151 53L225 111 300 54 300 126"/></g>
+    <path d="M36 60L92 112 151 53 224 25" fill="none" stroke="#65dfc5" stroke-width="2"/>
+    <g text-anchor="middle">
+      <circle cx="36" cy="60" r="17" fill="#103d43" stroke="#64ddc2" stroke-width="2"/><text x="36" y="65" fill="#8af2dc" font-size="15">✓</text>
+      <circle cx="92" cy="112" r="17" fill="#202b69" stroke="#748aff" stroke-width="2"/><text x="92" y="117" fill="#dce3ff" font-size="15">π</text>
+      <circle cx="151" cy="53" r="21" fill="#122c45" stroke="#6ee2ca" stroke-width="3"/><text x="151" y="60" fill="#fff1b4" font-size="22">★</text>
+      <circle cx="224" cy="25" r="16" fill="#103d43" stroke="#64ddc2" stroke-width="2"/><text x="224" y="30" fill="#8af2dc" font-size="13">✓</text>
+      <circle cx="225" cy="111" r="17" fill="#111e36" stroke="#35476b" stroke-width="2"/><text x="225" y="116" fill="#8094bb" font-size="14">▤</text>
+      <circle cx="300" cy="54" r="17" fill="#111e36" stroke="#35476b" stroke-width="2"/><text x="300" y="59" fill="#8094bb" font-size="14">♙</text>
+      <circle cx="300" cy="126" r="15" fill="#111e36" stroke="#35476b" stroke-width="2"/><text x="300" y="131" fill="#8094bb" font-size="14">π</text>
+    </g>
+  </svg>
+  <div class="legend"><span><i class="dot" style="background:#64ddc2"></i>Completed</span><span><i class="dot" style="background:#748aff"></i>Current</span><span><i class="dot" style="background:#35476b"></i>Locked</span></div>
+</section>
+</div>
+
+<div class="twogrid">
+<section class="panel">
+  <div class="head"><h2><span class="hi">▦</span>Upcoming Tests</h2></div>
+  <div class="test"><div class="testline"><span>Maths — Unit 2</span><span>12 days</span></div><div class="progressbar"><span style="width:58%"></span></div></div>
+  <div class="test"><div class="testline"><span>Physics — Mechanics</span><span>18 days</span></div><div class="progressbar"><span style="width:44%"></span></div></div>
+  <div class="test"><div class="testline"><span>English — Literature</span><span>24 days</span></div><div class="progressbar"><span style="width:26%"></span></div></div>
+</section>
+<section class="panel">
+  <div class="head"><h2><span class="hi">ϟ</span>Recent Activity</h2></div>
+  <div class="activitylist" id="activityList"><div class="activity"><span class="activityico">✦</span><span>Your learning journey starts here.</span></div></div>
+</section>
+</div>
+
+<section class="panel">
+  <div class="head"><h2><span class="hi">♧</span>Your Subjects</h2><button class="link" data-goto="study">View all →</button></div>
+  <div class="subjects" id="subjects">
+    <div class="subject" data-topic="Pythagoras theorem"><div class="subjecttop"><span class="subjectico">π</span><div class="subjectname">Mathematics<small>12 topics</small></div></div><div class="progressbar"><span style="width:32%"></span></div><div class="subjectfoot"><span>32%</span><span>Learning</span></div></div>
+    <div class="subject" data-topic="Forces and motion"><div class="subjecttop"><span class="subjectico">⚛</span><div class="subjectname">Physics<small>10 topics</small></div></div><div class="progressbar"><span style="width:45%"></span></div><div class="subjectfoot"><span>45%</span><span>Learning</span></div></div>
+    <div class="subject" data-topic="Literature analysis"><div class="subjecttop"><span class="subjectico">▤</span><div class="subjectname">English<small>8 topics</small></div></div><div class="progressbar"><span style="width:28%"></span></div><div class="subjectfoot"><span>28%</span><span>Learning</span></div></div>
+    <div class="subject" data-topic="Cell biology"><div class="subjecttop"><span class="subjectico">❧</span><div class="subjectname">Biology<small>6 topics</small></div></div><div class="progressbar"><span style="width:60%"></span></div><div class="subjectfoot"><span>60%</span><span>Learning</span></div></div>
+    <button class="add" id="addSubject"><span>＋</span>Add subject</button>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="head"><h2><span class="hi">◇</span>Continue Studying</h2><button class="link" data-goto="study">All topics →</button></div>
+  <div class="continue">
+    <div class="studycard" data-topic="Pythagoras theorem"><div class="studyhead"><span class="subjectico">π</span><div><strong>Mathematics</strong><small>Pythagoras theorem</small></div></div><div class="cardbottom"><span>Flashcards · 5 min</span><span>→</span></div></div>
+    <div class="studycard" data-topic="Forces and motion"><div class="studyhead"><span class="subjectico">⚛</span><div><strong>Physics</strong><small>Forces and motion</small></div></div><div class="cardbottom"><span>Quiz · 5 min</span><span>→</span></div></div>
+    <div class="studycard" data-topic="Literature analysis"><div class="studyhead"><span class="subjectico">▤</span><div><strong>English</strong><small>Literature analysis</small></div></div><div class="cardbottom"><span>Flashcards · 5 min</span><span>→</span></div></div>
+  </div>
+</section>
+</div>
+
+<aside class="right">
+<section class="panel">
+  <div class="head"><h2><span class="hi">ϟ</span>Quick Actions</h2></div>
+  <div class="quicklist">
+    <button class="quick" data-action="quiz"><span class="quickico">♢</span><span><strong>Start a quiz</strong><small>Test your knowledge</small></span><span class="arrow">›</span></button>
+    <button class="quick" data-action="flashcards"><span class="quickico">▤</span><span><strong>Browse flashcards</strong><small>Review key concepts</small></span><span class="arrow">›</span></button>
+    <button class="quick" data-action="skills"><span class="quickico">♧</span><span><strong>Explore skill tree</strong><small>Unlock new topics</small></span><span class="arrow">›</span></button>
+    <button class="quick" data-action="quests"><span class="quickico">♜</span><span><strong>View quests</strong><small>Earn XP and rewards</small></span><span class="arrow">›</span></button>
+  </div>
+</section>
+<section class="panel">
+  <div class="head"><h2><span class="hi">▥</span>Your Progress</h2></div>
+  <div class="mastery"><div class="donut"><div class="donuttext"><strong id="mastery">0%</strong><small>Quests done</small></div></div><div class="subjectstats"><div class="subjectstat"><i style="background:#64ddc2"></i><span>Maths</span><b>82%</b></div><div class="subjectstat"><i style="background:#8175ff"></i><span>Physics</span><b>71%</b></div><div class="subjectstat"><i style="background:#ff8797"></i><span>English</span><b>56%</b></div><div class="subjectstat"><i style="background:#a7b6ff"></i><span>Biology</span><b>39%</b></div></div></div>
+</section>
+<section class="panel">
+  <div class="head"><h2><span class="hi">◆</span>Next Reward</h2></div>
+  <strong>100 XP</strong><p class="muted">Complete your daily quests to earn more XP.</p>
+  <div class="progressbar"><span id="rewardbar" style="width:0%"></span></div>
+  <p class="muted" id="rewardcount">0/4 quests</p>
+</section>
+<section class="panel">
+  <div class="head"><h2><span class="hi">“</span>Food for thought</h2></div>
+  <p style="color:#9ec5ff">“The beautiful thing about learning is that nobody can take it away from you.”</p><span class="muted">— B. B. King</span>
+</section>
+</aside>
+</div>
+</section>
+
+<!-- STUDY LIBRARY -->
+<section class="page" id="page-study">
+  <div class="intro"><h1>Study library</h1><p>Find a subject, explore a topic and practise exactly what you need.</p></div>
+  <div class="panel"><div class="head"><h2>Explore topics</h2><span class="muted">Choose a topic to begin</span></div><div class="topicgrid" id="topicGrid"></div></div>
+</section>
+
+<!-- FLASHCARDS -->
+<section class="page" id="page-flashcards">
+  <div class="intro"><h1>Flashcards</h1><p>Use active recall to strengthen your memory.</p></div>
+  <div class="panel">
+    <div class="head"><h2 id="flashTitle">Pythagoras theorem</h2><span class="muted" id="flashCount">Card 1 of 4</span></div>
+    <div class="flasharea"><div><div class="muted">QUESTION</div><h2 id="flashQuestion"></h2><p id="flashAnswer" class="answer" hidden></p></div></div>
+    <div class="modalfoot"><button class="primarybtn" id="prevFlash">← Previous</button><button class="primarybtn" id="flipFlash">Reveal answer</button><button class="primarybtn" id="nextFlash">Next →</button></div>
+  </div>
+</section>
+
+<!-- QUIZZES -->
+<section class="page" id="page-quizzes">
+  <div class="intro"><h1>Quizzes</h1><p>Test your knowledge and earn XP for correct answers.</p></div>
+  <div class="topicgrid" id="quizGrid"></div>
+</section>
+
+<!-- SKILL TREE -->
+<section class="page" id="page-skills">
+  <div class="intro"><h1>Skill tree</h1><p>Build knowledge step by step. You can search for advanced topics at any time.</p></div>
+  <div class="panel"><div class="head"><h2>Learning pathways</h2><span class="muted">Choose a node to explore</span></div><div class="topicgrid" id="skillGrid"></div></div>
+</section>
+
+<!-- QUESTS -->
+<section class="page" id="page-quests">
+  <div class="intro"><h1>Quests & rewards</h1><p>Small goals build consistent study habits.</p></div>
+  <div class="panel"><div class="head"><h2>Today's quests</h2><span class="muted" id="questPageCount">0/4 completed</span></div><div class="quests" id="questListPage"></div></div>
+  <div class="panel" style="margin-top:15px"><div class="head"><h2>Milestones</h2></div><div class="topicgrid">
+    <article class="topic"><h3>First steps</h3><p>Complete your first study session.</p><span class="muted">Reward: 50 XP</span></article>
+    <article class="topic"><h3>Consistent learner</h3><p>Complete all daily quests.</p><span class="muted">Reward: 150 XP</span></article>
+    <article class="topic"><h3>Topic explorer</h3><p>Practise five different topics.</p><span class="muted">Reward: 100 XP</span></article>
+  </div></div>
+</section>
+
+<!-- PROGRESS -->
+<section class="page" id="page-progress">
+  <div class="intro"><h1>Your progress</h1><p>Track your learning and celebrate your achievements.</p></div>
+  <div class="topicgrid">
+    <article class="topic"><h3>Total XP</h3><p id="totalXp" style="font-size:30px;color:#8dbfff">420</p></article>
+    <article class="topic"><h3>Current level</h3><p id="progressLevel" style="font-size:30px;color:#9d93ff">5</p></article>
+    <article class="topic"><h3>Quests completed</h3><p id="progressQuests" style="font-size:30px;color:#64ddc2">0/4</p></article>
+  </div>
+  <div class="panel" style="margin-top:15px"><div class="head"><h2>Subject mastery</h2></div><div id="progressSubjects"></div></div>
+</section>
+
+<!-- SETTINGS -->
+<section class="page" id="page-settings">
+  <div class="intro"><h1>Settings</h1><p>Make Recall your own learning space.</p></div>
+  <div class="panel">
+    <div class="head"><h2>Profile</h2></div>
+    <label for="displayName" class="muted">Display name</label>
+    <p><input id="displayName" class="setting-input" value="Alex"> <button class="primarybtn" id="saveName">Save name</button></p>
+    <p class="muted">This prototype saves progress in this browser only. Accounts and online syncing are not included yet.</p>
+    <button class="primarybtn" id="resetData">Reset demo progress</button>
+  </div>
+</section>
+</main>
+</div>
+
+<!-- QUIZ MODAL -->
+<div class="modalback" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modalhead"><h2 id="modalTitle">Quick quiz</h2><button class="close" id="closeModal" aria-label="Close">×</button></div>
+    <p id="modalDesc">Choose the best answer.</p>
+    <div id="quizBody"></div>
+    <div class="feedback" id="quizFeedback"></div>
+    <div class="modalfoot"><span class="muted" id="quizProgress"></span><button class="primarybtn" id="quizNext" disabled>Next question →</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const topics = [
+  {title:"Pythagoras theorem",subject:"Mathematics",desc:"Find missing sides in right-angled triangles.",level:"Core"},
+  {title:"Fractions and percentages",subject:"Mathematics",desc:"Convert and calculate with fractions and percentages.",level:"Core"},
+  {title:"Algebra basics",subject:"Mathematics",desc:"Simplify expressions and solve equations.",level:"Core"},
+  {title:"Linear equations",subject:"Mathematics",desc:"Solve equations and check your solutions.",level:"Building"},
+  {title:"Area and volume",subject:"Mathematics",desc:"Use formulas for common shapes.",level:"Building"},
+  {title:"Forces and motion",subject:"Physics",desc:"Explore forces, speed and acceleration.",level:"Core"},
+  {title:"Energy transfers",subject:"Physics",desc:"Understand energy stores and transfers.",level:"Building"},
+  {title:"Literature analysis",subject:"English",desc:"Explore themes, characters and evidence.",level:"Core"},
+  {title:"Cell biology",subject:"Biology",desc:"Learn the structures and roles of cells.",level:"Core"},
+  {title:"Geometry proofs",subject:"Mathematics",desc:"Explain why mathematical statements work.",level:"Advanced"},
+  {title:"Trigonometry",subject:"Mathematics",desc:"Use sine, cosine and tangent in triangles.",level:"Advanced"},
+  {title:"Quadratic equations",subject:"Mathematics",desc:"Explore factorising, roots and graphs.",level:"Advanced"}
+];
+
+const bank = {
+"Pythagoras theorem":[
+ {q:"A right-angled triangle has shorter sides of 3 cm and 4 cm. What is the hypotenuse?",a:["5 cm","6 cm","7 cm","12 cm"],c:0,e:"3² + 4² = 9 + 16 = 25. √25 = 5."},
+ {q:"Which equation represents Pythagoras' theorem?",a:["a + b = c","a² + b² = c²","a² − b² = c²","2a + 2b = c"],c:1,e:"The squares of the two shorter sides add to the square of the hypotenuse."},
+ {q:"The hypotenuse is 13 cm and one shorter side is 5 cm. Find the other side.",a:["8 cm","10 cm","12 cm","18 cm"],c:2,e:"13² − 5² = 169 − 25 = 144. √144 = 12."}
+],
+"Fractions and percentages":[
+ {q:"What is 25% of 80?",a:["10","15","20","25"],c:2,e:"25% is one quarter. 80 ÷ 4 = 20."},
+ {q:"Which fraction is equal to 0.5?",a:["1/4","1/2","1/3","3/4"],c:1,e:"One half is equal to 0.5."}
+],
+"Algebra basics":[
+ {q:"Simplify 3x + 2x.",a:["5","5x","6x","x⁵"],c:1,e:"Like terms combine: 3x + 2x = 5x."},
+ {q:"If x = 4, what is 2x + 3?",a:["8","9","11","14"],c:2,e:"Substitute 4: 2 × 4 + 3 = 11."}
+],
+"Forces and motion":[
+ {q:"What is the unit of force?",a:["Joule","Watt","Newton","Metre"],c:2,e:"Force is measured in newtons (N)."},
+ {q:"What is speed equal to?",a:["Time ÷ distance","Distance ÷ time","Force × time","Mass ÷ volume"],c:1,e:"Speed = distance divided by time."}
+],
+"Energy transfers":[
+ {q:"Energy is measured in which unit?",a:["Newton","Joule","Pascal","Metre"],c:1,e:"The joule (J) is the unit of energy."}
+],
+"Literature analysis":[
+ {q:"What is a theme in a story?",a:["The page number","A central idea or message","The author's name","A punctuation mark"],c:1,e:"A theme is a central idea explored through a story."}
+],
+"Cell biology":[
+ {q:"Which structure contains genetic material and helps control an animal cell?",a:["Cell wall","Nucleus","Cell membrane only","Chloroplast"],c:1,e:"The nucleus contains genetic material and helps control cell activities."}
+]
+};
+
+const quests = [
+ {text:"Complete a quiz",xp:50},
+ {text:"Study for 20 minutes",xp:30},
+ {text:"Get 5 correct answers",xp:50},
+ {text:"Learn a new concept",xp:75}
+];
+
+const flashcards = [
+ {q:"What does Pythagoras' theorem help you find?",a:"The length of a side in a right-angled triangle when the other two sides are known."},
+ {q:"What is the hypotenuse?",a:"The longest side of a right-angled triangle, opposite the right angle."},
+ {q:"What formula represents the theorem?",a:"a² + b² = c², where c is the hypotenuse."},
+ {q:"A triangle has shorter sides of 6 and 8. What is the hypotenuse?",a:"10, because 6² + 8² = 36 + 64 = 100 and √100 = 10."}
+];
+
+let xp = Number(localStorage.getItem("recallXP") || 0);
+let name = localStorage.getItem("recallName") || "Alex";
+let done = JSON.parse(localStorage.getItem("recallQuests") || "[]");
+let quiz = [], qi = 0, score = 0, answered = false;
+let flashIndex = 0, flashTopic = "Pythagoras theorem";
+let recent = [];
+
+function esc(s) {
+ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function toast(message) {
+ const el=document.getElementById("toast");
+ el.textContent=message;el.classList.add("show");
+ clearTimeout(window.toastTimer);
+ window.toastTimer=setTimeout(()=>el.classList.remove("show"),2300);
+}
+function save() {
+ localStorage.setItem("recallXP",xp);
+ localStorage.setItem("recallName",name);
+ localStorage.setItem("recallQuests",JSON.stringify(done));
+}
+function update() {
+ const level=Math.floor(xp/100)+1;
+ document.getElementById("xp").textContent=xp;
+ document.getElementById("level").textContent=level;
+ document.getElementById("levelbar").style.width=(xp%100)+"%";
+ document.getElementById("totalXp").textContent=xp;
+ document.getElementById("progressLevel").textContent=level;
+ document.getElementById("questCount").textContent=done.length+"/4 completed";
+ document.getElementById("questPageCount").textContent=done.length+"/4 completed";
+ document.getElementById("progressQuests").textContent=done.length+"/4";
+ document.getElementById("achievements").textContent=done.length;
+ document.getElementById("mastery").textContent=Math.round(done.length/4*100)+"%";
+ document.getElementById("rewardcount").textContent=done.length+"/4 quests";
+ document.getElementById("rewardbar").style.width=(done.length/4*100)+"%";
+ document.getElementById("welcomeTitle").textContent="Welcome back, "+name;
+ document.getElementById("avatar").textContent=name.charAt(0).toUpperCase();
+ document.getElementById("displayName").value=name;
+ document.querySelectorAll(".quest input").forEach(c=>{
+   c.checked=done.includes(Number(c.dataset.index));
+   c.closest(".quest").classList.toggle("done",c.checked);
+ });
+}
+function initQuests() {
+ const draw=(targetId)=>{
+  const target=document.getElementById(targetId);
+  target.innerHTML="";
+  quests.forEach((q,i)=>{
+   const label=document.createElement("label");
+   label.className="quest";
+   label.innerHTML=`<input type="checkbox" data-index="${i}"><span class="qtext">${esc(q.text)}</span><span class="reward">+${q.xp} XP</span>`;
+   target.appendChild(label);
+  });
+ };
+ draw("questList");draw("questListPage");
+ document.querySelectorAll(".quest input").forEach(c=>c.addEventListener("change",()=>{
+   const i=Number(c.dataset.index);
+   if(c.checked&&!done.includes(i)){done.push(i);xp+=quests[i].xp;toast("Quest completed · +"+quests[i].xp+" XP");}
+   else if(!c.checked&&done.includes(i)){done=done.filter(n=>n!==i);xp-=quests[i].xp;}
+   save();update();
+ }));
+ update();
+}
+function page(p) {
+ document.querySelectorAll(".page").forEach(el=>el.classList.toggle("active",el.id==="page-"+p));
+ document.querySelectorAll(".nav").forEach(el=>el.classList.toggle("active",el.dataset.page===p));
+ document.getElementById("searchResults").style.display="none";
+ if(p==="study")renderTopics(topics,"topicGrid");
+ if(p==="skills")renderSkills();
+ if(p==="quizzes")renderTopics(topics,"quizGrid",true);
+ if(p==="progress")renderProgress();
+ if(p==="flashcards")renderFlash();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderTopics(list,id,asQuiz=false) {
+ const el=document.getElementById(id);
+ el.innerHTML=list.map(t=>`<article class="topic">
+ <div class="muted">${esc(t.subject)} · ${esc(t.level)}</div>
+ <h3>${esc(t.title)}</h3><p>${esc(t.desc)}</p>
+ <button class="primarybtn" data-topic="${esc(t.title)}">${asQuiz?"Start quiz →":"Start learning →"}</button>
+ </article>`).join("")||'<div class="empty">No matching topics. Try another search.</div>';
+ el.querySelectorAll("[data-topic]").forEach(b=>b.onclick=()=>asQuiz?startQuiz(b.dataset.topic):openTopic(b.dataset.topic));
+}
+function renderSkills() {
+ const list=topics.filter(t=>t.subject==="Mathematics");
+ const el=document.getElementById("skillGrid");
+ el.innerHTML=list.map((t,i)=>`<article class="topic">
+ <div class="muted">${i<2?"Foundation":i<5?"Building":"Advanced"} · ${t.level}</div>
+ <h3>${esc(t.title)}</h3><p>${esc(t.desc)}</p>
+ <button class="primarybtn" data-topic="${esc(t.title)}">Explore topic →</button></article>`).join("");
+ el.querySelectorAll("[data-topic]").forEach(b=>b.onclick=()=>openTopic(b.dataset.topic));
+}
+function renderProgress() {
+ document.getElementById("progressSubjects").innerHTML=[
+ ["Mathematics",82],["Physics",71],["English",56],["Biology",39]
+ ].map(([s,n])=>`<div class="test"><div class="testline"><span>${s}</span><span>${n}% mastery</span></div><div class="progressbar"><span style="width:${n}%"></span></div></div>`).join("");
+}
+function openTopic(title) {
+ const t=topics.find(t=>t.title.toLowerCase()===title.toLowerCase())||
+         topics.find(t=>t.title.toLowerCase().includes(title.toLowerCase()));
+ if(!t){toast("No matching topic found.");return;}
+ flashTopic=t.title;flashIndex=0;
+ if(!bank[t.title])bank[t.title]=[
+  {q:`Which statement best describes ${t.title.toLowerCase()}?`,
+   a:["A concept to practise and understand","A type of punctuation","A unit of time","None of these"],
+   c:0,e:`This is a starter question. Add more topic-specific questions as you develop Recall.`}
+ ];
+ page("flashcards");renderFlash();
+ recent.unshift("Opened "+t.title);recent=recent.slice(0,4);renderActivity();
+}
+function renderActivity() {
+ document.getElementById("activityList").innerHTML=recent.length?
+ recent.map(x=>`<div class="activity"><span class="activityico">✦</span><span>${esc(x)}</span></div>`).join("")
+ :'<div class="activity"><span class="activityico">✦</span><span>Your learning journey starts here.</span></div>';
+}
+function renderFlash() {
+ const cards=flashTopic==="Pythagoras theorem"?flashcards:[
+  {q:`What is one key idea to remember about ${flashTopic}?`,a:`Review the core definition and practise applying ${flashTopic} to examples.`},
+  {q:`Why is it useful to practise ${flashTopic}?`,a:"Practice helps you check your understanding and remember key ideas."},
+  {q:`How could you revise ${flashTopic}?`,a:"Review the key concepts, explain them in your own words and practise questions."}
+ ];
+ flashIndex=(flashIndex+cards.length)%cards.length;
+ document.getElementById("flashTitle").textContent=flashTopic;
+ document.getElementById("flashCount").textContent=`Card ${flashIndex+1} of ${cards.length}`;
+ document.getElementById("flashQuestion").textContent=cards[flashIndex].q;
+ document.getElementById("flashAnswer").textContent=cards[flashIndex].a;
+ document.getElementById("flashAnswer").hidden=true;
+ document.getElementById("flipFlash").textContent="Reveal answer";
+}
+function startQuiz(topic="Pythagoras theorem") {
+ const t=topics.find(t=>t.title.toLowerCase()===topic.toLowerCase())||topics[0];
+ quiz=(bank[t.title]||bank["Pythagoras theorem"]).map(q=>({...q}));
+ qi=0;score=0;
+ document.getElementById("modalTitle").textContent=t.title+" quiz";
+ document.getElementById("modalDesc").textContent="Choose the best answer. An explanation follows each question.";
+ document.getElementById("modalBack").classList.add("open");
+ document.getElementById("quizNext").onclick=nextQuestion;
+ renderQuestion();
+}
+function renderQuestion() {
+ answered=false;
+ const q=quiz[qi];
+ document.getElementById("quizProgress").textContent=`Question ${qi+1} of ${quiz.length}`;
+ document.getElementById("quizFeedback").textContent="";
+ document.getElementById("quizNext").disabled=true;
+ document.getElementById("quizNext").textContent=qi===quiz.length-1?"Finish quiz":"Next question →";
+ document.getElementById("quizBody").innerHTML=`<h3>${esc(q.q)}</h3><div class="answers">${q.a.map((a,i)=>`<button class="answerbtn" data-answer="${i}">${String.fromCharCode(65+i)}. ${esc(a)}</button>`).join("")}</div>`;
+ document.querySelectorAll("[data-answer]").forEach(b=>b.onclick=()=>answer(Number(b.dataset.answer)));
+}
+function answer(i) {
+ if(answered)return;
+ answered=true;
+ const q=quiz[qi],correct=i===q.c;
+ if(correct)score++;
+ document.querySelectorAll("[data-answer]").forEach((b,j)=>{
+  b.disabled=true;
+  if(j===q.c)b.classList.add("correct");
+  else if(j===i)b.classList.add("wrong");
+ });
+ document.getElementById("quizFeedback").textContent=(correct?"Correct. ":"Not quite. ")+q.e;
+ document.getElementById("quizNext").disabled=false;
+}
+function nextQuestion() {
+ if(!answered)return;
+ if(qi<quiz.length-1){qi++;renderQuestion();return;}
+ const earned=score*25;
+ xp+=earned;save();update();
+ document.getElementById("modalTitle").textContent="Quiz complete";
+ document.getElementById("modalDesc").textContent=`You scored ${score} out of ${quiz.length}.`;
+ document.getElementById("quizBody").innerHTML=`<div style="padding:22px;text-align:center"><div style="font-size:40px;color:#8ebdff">✦</div><h2>${Math.round(score/quiz.length*100)}%</h2><p>You earned <strong style="color:#64ddc2">+${earned} XP</strong></p></div>`;
+ document.getElementById("quizFeedback").textContent="Keep practising to build mastery.";
+ document.getElementById("quizProgress").textContent="Finished";
+ document.getElementById("quizNext").textContent="Done";
+ document.getElementById("quizNext").onclick=closeQuiz;
+ recent.unshift(`Completed a quiz · ${score}/${quiz.length}`);recent=recent.slice(0,4);renderActivity();
+}
+function closeQuiz(){document.getElementById("modalBack").classList.remove("open");}
+function searchTopics(value) {
+ const el=document.getElementById("searchResults"),q=value.trim().toLowerCase();
+ if(!q){el.style.display="none";return;}
+ const found=topics.filter(t=>(t.title+" "+t.subject+" "+t.desc).toLowerCase().includes(q)).slice(0,7);
+ el.innerHTML=found.map(t=>`<button data-topic="${esc(t.title)}">⌕ ${esc(t.title)}<small>${esc(t.subject)} · ${esc(t.desc)}</small></button>`).join("")||'<div class="empty">No exact match. Press Enter to search the library.</div>';
+ el.style.display="block";
+ el.querySelectorAll("[data-topic]").forEach(b=>b.onclick=()=>{
+  document.getElementById("search").value="";openTopic(b.dataset.topic);
+ });
+}
+
+document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>page(b.dataset.page));
+document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>page(b.dataset.goto));
+document.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>{
+ const a=b.dataset.action;
+ if(a==="quiz")startQuiz();
+ else page(a);
+});
+document.querySelectorAll(".studycard,.subject").forEach(b=>b.onclick=()=>{
+ if(b.dataset.topic)openTopic(b.dataset.topic);
+});
+document.getElementById("search").addEventListener("input",e=>searchTopics(e.target.value));
+document.getElementById("search").addEventListener("keydown",e=>{
+ if(e.key==="Enter"){
+  const q=e.target.value.trim().toLowerCase();
+  const found=topics.find(t=>t.title.toLowerCase()===q)||
+    topics.find(t=>(t.title+" "+t.subject).toLowerCase().includes(q));
+  document.getElementById("searchResults").style.display="none";
+  if(found)openTopic(found.title);
+  else if(q){page("study");renderTopics(topics.filter(t=>(t.title+" "+t.subject+" "+t.desc).toLowerCase().includes(q)),"topicGrid");}
+ }
+ if(e.key==="Escape")document.getElementById("searchResults").style.display="none";
+});
+document.addEventListener("keydown",e=>{
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();document.getElementById("search").focus();}
+ if(e.key==="Escape")closeQuiz();
+});
+document.getElementById("closeModal").onclick=closeQuiz;
+document.getElementById("modalBack").onclick=e=>{if(e.target.id==="modalBack")closeQuiz();};
+document.getElementById("flipFlash").onclick=()=>{
+ const a=document.getElementById("flashAnswer");a.hidden=!a.hidden;
+ document.getElementById("flipFlash").textContent=a.hidden?"Reveal answer":"Hide answer";
+};
+document.getElementById("prevFlash").onclick=()=>{
+ flashIndex--;renderFlash();
+};
+document.getElementById("nextFlash").onclick=()=>{
+ flashIndex++;renderFlash();
+};
+document.getElementById("addSubject").onclick=()=>{
+ const s=prompt("What subject would you like to add?");
+ if(!s||!s.trim())return;
+ const card=document.createElement("div");
+ card.className="subject";
+ card.innerHTML=`<div class="subjecttop"><span class="subjectico">＋</span><div class="subjectname">${esc(s.trim())}<small>New subject</small></div></div><div class="progressbar"><span style="width:5%"></span></div><div class="subjectfoot"><span>5%</span><span>New</span></div>`;
+ document.getElementById("subjects").insertBefore(card,document.getElementById("addSubject"));
+ toast("Subject added to this view.");
+};
+document.getElementById("saveName").onclick=()=>{
+ name=document.getElementById("displayName").value.trim()||"Learner";
+ save();update();toast("Profile name saved.");
+};
+document.getElementById("resetData").onclick=()=>{
+ if(confirm("Reset XP and quests?")){
+  xp=0;done=[];recent=[];save();initQuests();update();renderActivity();toast("Progress reset.");
+ }
+};
+
+initQuests();
+renderTopics(topics,"topicGrid");
+renderTopics(topics,"quizGrid",true);
+renderSkills();
+renderProgress();
+renderFlash();
+update();
+</script>
+</body>
+</html>
