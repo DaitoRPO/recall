@@ -438,7 +438,6 @@
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     state = saved ? {...initialState(), ...JSON.parse(saved)} : initialState();
-    if (!Array.isArray(state.subjects) || !state.subjects.length) state.subjects = starterSubjects.map(s=>({...s}));
     if (!Array.isArray(state.cards)) state.cards = [];
     if (!Array.isArray(state.questions)) state.questions = [];
     if (!Array.isArray(state.tests)) state.tests = [];
